@@ -10,6 +10,8 @@ Python stubs were generated with mypy via:
 - stubgen -m zonoopt._core -o python/
 - stubgen -m zonoopt -o python/
 
+![image](examples/mhe/mhe-example.png)
+
 ## Classes
 
 ### AbstractZono
