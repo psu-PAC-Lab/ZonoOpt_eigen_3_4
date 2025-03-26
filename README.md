@@ -11,6 +11,7 @@ Python stubs were generated with mypy via:
 - stubgen -m zonoopt -o python/
 
 ![image](examples/mhe/mhe-example.png)
+![image](examples/reachability/reachability-traj.png)
 
 ## Classes
 
