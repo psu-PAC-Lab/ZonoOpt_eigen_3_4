@@ -10,7 +10,7 @@ Python stubs were generated with mypy via:
 - stubgen -m zonoopt._core -o python/
 - stubgen -m zonoopt -o python/
 
-![image](examples/mhe/mhe-example.png)
+![image](examples/mhe/mhe-traj.svg)
 ![image](examples/reachability/reachability-traj.svg)
 
 ## Classes
