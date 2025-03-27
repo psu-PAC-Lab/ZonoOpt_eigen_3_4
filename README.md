@@ -4,10 +4,6 @@ This C++ header library provides classes for zonotopes, constrained zonotopes, a
 
 Python bindings for the library can be built and installed using `pip install .`. The resulting python module is named `zonoopt`. To test that the module is working as intended, from the `test/unit-tests` directory, run `python3 unit_tests.py`. Note that a C++ compiler is required to build the module, and the Eigen submodule must be checked out (can be accomplished by running `python3 update_submodules.py`).
 
-Python stubs were generated with mypy via:
-- stubgen -m zonoopt._core -o python/
-- stubgen -m zonoopt -o python/
-
 ![image](examples/mhe/mhe-traj.svg)
 ![image](examples/reachability/reachability-traj.svg)
 
