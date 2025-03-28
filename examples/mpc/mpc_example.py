@@ -18,7 +18,7 @@ do_method_comparison = False
 
 if solver_flag=='osqp' or do_method_comparison:
     try:
-        import osqp
+        import osqp # used version 0.6.7.post3 in paper
         
     except ImportError:
         print('OSQP not found')
@@ -26,7 +26,7 @@ if solver_flag=='osqp' or do_method_comparison:
 
 if solver_flag=='gurobi' or do_method_comparison:
     try:
-        import gurobipy as gp
+        import gurobipy as gp # used version 12.0.1 in paper
     except ImportError:
         print('Gurobi not found')
         exit()
