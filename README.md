@@ -1,6 +1,6 @@
 # ZonoOpt
 
-This C++ header library provides classes for zonotopes, constrained zonotopes, and hybrid zonotopes. To use, `#include "ZonoOpt.hpp"`. All classes and methods are implemented using sparse linear algebra via the Eigen library. Generators may optionally have range [0,1] instead of [-1,1]. Templates are used to allow for either double or float data types.
+This C++ header library provides classes and tailored optimization routines for zonotopes, constrained zonotopes, and hybrid zonotopes [not yet implemented]. To use, `#include "ZonoOpt.hpp"`. All classes and methods are implemented using sparse linear algebra via the Eigen library. Generators may optionally have range [0,1] instead of [-1,1]. Templates are used to allow for either double or float data types.
 
 Python bindings for the library can be built and installed using `pip install .`. The resulting python module is named `zonoopt`. To test that the module is working as intended, from the `test/unit-tests` directory, run `python3 unit_tests.py`. Note that a C++ compiler is required to build the module, and the Eigen submodule must be checked out (can be accomplished by running `python3 update_submodules.py`).
 
