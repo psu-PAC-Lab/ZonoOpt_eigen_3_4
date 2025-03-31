@@ -274,7 +274,6 @@ class ADMM_solver
             run_time = 1e-6 * std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::high_resolution_clock::now() - start).count();
             bool converged = false, infeasible = false;
-            int num_rho_updates = 0;
 
             // log startup time
             float_type startup_time = run_time;
