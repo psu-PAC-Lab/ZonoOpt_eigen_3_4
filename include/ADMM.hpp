@@ -113,7 +113,7 @@ class ADMM_solver
 
             // settings
             this->settings = settings;
-            this->rho = settings.rho;
+            this->settings.rho = settings.rho;
 
             // flags
             this->is_warmstarted = false;
@@ -281,7 +281,7 @@ class ADMM_solver
             while ((k < this->settings.k_max) && (run_time < this->settings.t_max) && !converged && !infeasible)
             {
                 // x update
-                rhs.segment(0, this->n_x) = -this->q + this->rho*(zk - uk);
+                rhs.segment(0, this->n_x) = -this->q + this->settings.rho*(zk - uk);
                 x_nu = solve_LDLT<float_type>(this->ldlt_data_system, rhs);
                 xk = x_nu.segment(0, this->n_x);
 
@@ -307,13 +307,13 @@ class ADMM_solver
                 if (this->settings.inf_norm_conv)
                 {
                     rp_k = (xk - zk).cwiseAbs().maxCoeff();
-                    rd_k = this->rho*(zk - zkm1).cwiseAbs().maxCoeff();
+                    rd_k = this->settings.rho*(zk - zkm1).cwiseAbs().maxCoeff();
                     converged = (rp_k < this->settings.eps_prim && rd_k < this->settings.eps_dual);
                 }
                 else
                 {
                     rp_k = (xk - zk).norm();
-                    rd_k = this->rho*(zk - zkm1).norm();
+                    rd_k = this->settings.rho*(zk - zkm1).norm();
                     converged = (rp_k < this->sqrt_n_x*this->settings.eps_prim && rd_k < this->sqrt_n_x*this->settings.eps_dual);
                 }
 
@@ -384,7 +384,6 @@ class ADMM_solver
         int n_x, n_cons;
         float_type sqrt_n_x;
         Box<float_type> x_box;
-        float_type rho;
 
         // warm start
         Eigen::Vector<float_type, -1> x0, u0;
