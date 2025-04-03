@@ -50,19 +50,15 @@ def mhe(X_Nm1, W, V, A, B, u_vec, y_vec, Qinv, Rinv, S, settings=zono.ADMM_setti
         u = zono.Point(u_vec[k])
         mBu = zono.affine_map(u, -B)
 
-        # noise and feasible state set
-        Z = zono.cartesian_product(zono.cartesian_product(Z, W), S)
+        # feasible set of states from S and measurement
+        mV = zono.affine_map(V, -sp.eye(V.get_n()))
+        y_mV = zono.minkowski_sum(zono.Point(y_vec[k]), mV)
+        Sy = zono.intersection(S, y_mV)
 
-        # enforce dynamics
+        # propagate state and enforce constraints
+        Z = zono.cartesian_product(zono.cartesian_product(Z, W), Sy)
         AImI = sp.hstack((sp.csc_matrix((nx, Z.get_n()-3*nx)), A, sp.eye(nx), -sp.eye(nx)))
         Z = zono.intersection(Z, mBu, AImI)
-
-        # measurement update
-        y = zono.Point(y_vec[k])
-        mV = zono.affine_map(V, -sp.eye(nx))
-        y_mV = zono.minkowski_sum(y, mV)
-        C_lifted = sp.hstack((sp.csc_matrix((nx, Z.get_n()-nx)), sp.eye(nx)))
-        Z = zono.intersection(Z, y_mV, C_lifted)
 
         # cost
         P = sp.block_diag((P, Qinv, Rinv))
@@ -106,15 +102,15 @@ def state_update(X, A, B, W, V, u, y, S):
     # control input
     mBu = zono.affine_map(zono.Point(u), -B)
 
-    # propagate state and enforce constraints
-    Z = zono.cartesian_product(zono.cartesian_product(X, W), S)
-    AImI = sp.hstack((A, sp.eye(nx), -sp.eye(nx)))
-    X_kp1 = zono.project_onto_dims(zono.intersection(Z, mBu, AImI), [i for i in range(2*nx, 3*nx)])
-
-    # measurement update
+    # feasible set of states from S and measurement
     mV = zono.affine_map(V, -sp.eye(V.get_n()))
     y_mV = zono.minkowski_sum(zono.Point(y), mV)
-    X_kp1 = zono.intersection(X_kp1, y_mV)
+    Sy = zono.intersection(S, y_mV)
+
+    # propagate state and enforce constraints
+    Z = zono.cartesian_product(zono.cartesian_product(X, W), Sy)
+    AImI = sp.hstack((A, sp.eye(nx), -sp.eye(nx)))
+    X_kp1 = zono.project_onto_dims(zono.intersection(Z, mBu, AImI), [i for i in range(2*nx, 3*nx)])
 
     return X_kp1
 
