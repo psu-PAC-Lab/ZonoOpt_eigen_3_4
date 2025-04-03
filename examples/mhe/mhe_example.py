@@ -396,8 +396,8 @@ with plt.rc_context(rc_context):
         ax2.plot(y_sim[k-1][2], y_sim[k-1][3], '.g')
         ax2.plot(xhat_sim[k-1][2], xhat_sim[k-1][3], '.r')
 
-    ax2.set_xlabel(r'$\dot{x}$ [m/s]')
-    ax2.set_ylabel(r'$\dot{y}$ [m/s]') 
+    ax2.set_xlabel(r'$v_x$ [m/s]')
+    ax2.set_ylabel(r'$v_y$ [m/s]') 
     ax2.axis('equal')
     ax2.grid(alpha=0.2)
     ax2.set_title(r'Velocity', fontsize=textwidth_pt)

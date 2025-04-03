@@ -160,7 +160,7 @@ with plt.rc_context(rc_context):
         zono.plot(X_arr[i], ax, color='b', alpha=0.1)
     zono.plot(XN, ax, color='k', alpha=0.2)
     ax.set_xlabel(r'$x$')
-    ax.set_ylabel(r'$\dot{x}$')
+    ax.set_ylabel(r'$v$')
 
     if is_latex_installed():
         plt.savefig('reachability_reach_sets.pgf')
