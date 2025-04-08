@@ -4,6 +4,9 @@ This C++ header library provides classes and tailored optimization routines for 
 
 Python bindings for the library can be built and installed using `pip install .`. The resulting python module is named `zonoopt`. To test that the module is working as intended, from the `test/unit-tests` directory, run `python3 unit_tests.py`. Note that a C++ compiler is required to build the module, and the Eigen submodule must be checked out (can be accomplished by running `python3 update_submodules.py`).
 
+More information about ZonoOpt can be found in the the following publication. Please cite this if you publish work based on ZonoOpt: 
+**Robbins, J.A., Siefert, J.A., and Pangborn, H.C., "Sparsity-Promoting Reachability Analysis and Optimization of Constrained Zonotopes," 2025. [https://arxiv.org/abs/2504.03885](https://doi.org/10.48550/arXiv.2504.03885).**
+
 ![image](examples/mhe/mhe-traj.svg)
 ![image](examples/reachability/reachability-traj.svg)
 
