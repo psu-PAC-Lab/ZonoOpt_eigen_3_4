@@ -450,7 +450,7 @@ class ADMM_solver
             // check if this is an infeasibility certificate
             float_type e_x = ek_proj.dot(xk);
             Interval<float_type> e_box = this->x_box.dot(ek_proj);
-            return !e_box.contains(e_x);
+            return !e_box.contains(e_x, Eigen::NumTraits<float_type>::dummy_precision());
         }
 
         // check settings are valid

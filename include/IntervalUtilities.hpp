@@ -80,9 +80,9 @@ class Interval
             return y_min > y_max;
         }
 
-        bool contains(float_type y) const
+        bool contains(float_type y, float_type eps=0) const
         {
-            return (y >= y_min) && (y <= y_max);
+            return (y >= y_min-eps) && (y <= y_max+eps);
         }
 
         std::string print() const
