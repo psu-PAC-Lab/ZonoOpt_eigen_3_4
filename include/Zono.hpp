@@ -146,7 +146,7 @@ class Zono : public AbstractZono<float_type>
 
 };
 
-// setup function
+// setup functions
 template<typename float_type>
 std::unique_ptr<Zono<float_type>> make_regular_zono_2D(float_type radius, int n_sides, bool outer_approx=false, Eigen::Vector<float_type, 2>& c=Eigen::Vector<float_type, 2>::Zero())
 {
@@ -183,7 +183,30 @@ std::unique_ptr<Zono<float_type>> make_regular_zono_2D(float_type radius, int n_
     return std::make_unique<Zono<float_type>>(0.5*G.sparseView(), c, false);
 }
 
+template <typename float_type>
+std::unique_ptr<Zono<float_type>> interval_2_zono(const Eigen::Vector<float_type, -1>& a, const Eigen::Vector<float_type, -1>& b)
+{
+    // check dimensions
+    if (a.size() != b.size())
+    {
+        throw std::invalid_argument("Interval to zonotope: inconsistent dimensions.");
+    }
 
+    // generator matrix
+    std::vector<Eigen::Triplet<float_type>> triplets;
+    Eigen::SparseMatrix<float_type> G (a.size(), a.size());
+    for (int i=0; i<a.size(); i++)
+    {
+        triplets.push_back(Eigen::Triplet<float_type>(i, i, (b(i)-a(i))/2));
+    }
+    G.setFromSortedTriplets(triplets.begin(), triplets.end());
+
+    // center
+    Eigen::Vector<float_type, -1> c  = (a+b)/2;
+
+    // return zonotope
+    return std::make_unique<Zono<float_type>>(G, c, false);
+}
 
 } // namespace ZonoOpt
 
