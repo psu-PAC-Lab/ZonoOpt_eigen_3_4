@@ -52,7 +52,7 @@ class AbstractZono
         friend std::unique_ptr<AbstractZono<T>> minkowski_sum(const AbstractZono<T>& Z1, AbstractZono<T>& Z2);
 
         template <typename T>
-        friend std::unique_ptr<AbstractZono<T>> pontry_diff(const AbstractZono<T>& Z1, AbstractZono<T>& Z2);
+        friend std::unique_ptr<AbstractZono<T>> pontry_diff(AbstractZono<T>& Z1, AbstractZono<T>& Z2);
 
         template <typename T>
         friend std::unique_ptr<AbstractZono<T>> intersection(const AbstractZono<T>& Z1, AbstractZono<T>& Z2, 
