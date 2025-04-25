@@ -138,7 +138,7 @@ std::unique_ptr<AbstractZono<float_type>> minkowski_sum(const AbstractZono<float
 
 // pontryagin difference
 template<typename float_type>
-std::unique_ptr<AbstractZono<float_type>> pontry_diff(const AbstractZono<float_type>& Z1, AbstractZono<float_type>& Z2)
+std::unique_ptr<AbstractZono<float_type>> pontry_diff(AbstractZono<float_type>& Z1, AbstractZono<float_type>& Z2)
 {
     // check dimensions
     if (Z1.n != Z2.n)
@@ -152,22 +152,20 @@ std::unique_ptr<AbstractZono<float_type>> pontry_diff(const AbstractZono<float_t
         throw std::invalid_argument("Pontryagin difference: Z2 must be a zonotope or point.");
     }
 
-    // make sure Z1 and Z2 both using same generator range
-    if (Z1.zero_one_form != Z2.zero_one_form)
-    {
-        Z2.convert_form();
-    }
+    // require Z1 and Z2 to be in [-1,1] form
+    if (Z1.zero_one_form) Z1.convert_form();
+    if (Z2.zero_one_form) Z2.convert_form();
 
     // init Zout
     std::unique_ptr<AbstractZono<float_type>> Z_out;
     if (Z1.is_point())
         Z_out = std::make_unique<Point<float_type>>(Z1.c);
     else if (Z1.is_zono())
-        Z_out = std::make_unique<Zono<float_type>>(Z1.G, Z1.c, Z1.zero_one_form);
+        Z_out = std::make_unique<Zono<float_type>>(Z1.G, Z1.c);
     else if (Z1.is_conzono())
-        Z_out = std::make_unique<ConZono<float_type>>(Z1.G, Z1.c, Z1.A, Z1.b, Z1.zero_one_form);
+        Z_out = std::make_unique<ConZono<float_type>>(Z1.G, Z1.c, Z1.A, Z1.b);
     else if (Z1.is_hybzono())
-        Z_out = std::make_unique<HybZono<float_type>>(Z1.Gc, Z1.Gb, Z1.c, Z1.Ac, Z1.Ab, Z1.b, Z1.zero_one_form);
+        Z_out = std::make_unique<HybZono<float_type>>(Z1.Gc, Z1.Gb, Z1.c, Z1.Ac, Z1.Ab, Z1.b);
     else
         throw std::invalid_argument("Pontryagin difference: unknown Z1 type.");
 
@@ -190,18 +188,18 @@ std::unique_ptr<AbstractZono<float_type>> pontry_diff(const AbstractZono<float_t
         }
         else if (Z_out->is_zono())
         {
-            Z_plus = std::make_unique<Zono<float_type>>(Z_out->G, c_plus, Z_out->zero_one_form);
-            Z_minus = std::make_unique<Zono<float_type>>(Z_out->G, c_minus, Z_out->zero_one_form);
+            Z_plus = std::make_unique<Zono<float_type>>(Z_out->G, c_plus);
+            Z_minus = std::make_unique<Zono<float_type>>(Z_out->G, c_minus);
         }
         else if (Z_out->is_conzono())
         {
-            Z_plus = std::make_unique<ConZono<float_type>>(Z_out->G, c_plus, Z_out->A, Z_out->b, Z_out->zero_one_form);
-            Z_minus = std::make_unique<ConZono<float_type>>(Z_out->G, c_minus, Z_out->A, Z_out->b, Z_out->zero_one_form);
+            Z_plus = std::make_unique<ConZono<float_type>>(Z_out->G, c_plus, Z_out->A, Z_out->b);
+            Z_minus = std::make_unique<ConZono<float_type>>(Z_out->G, c_minus, Z_out->A, Z_out->b);
         }
         else if (Z_out->is_hybzono())
         {
-            Z_plus = std::make_unique<HybZono<float_type>>(Z_out->Gc, Z_out->Gb, c_plus, Z_out->Ac, Z_out->Ab, Z_out->b, Z_out->zero_one_form);
-            Z_minus = std::make_unique<HybZono<float_type>>(Z_out->Gc, Z_out->Gb, c_minus, Z_out->Ac, Z_out->Ab, Z_out->b, Z_out->zero_one_form);
+            Z_plus = std::make_unique<HybZono<float_type>>(Z_out->Gc, Z_out->Gb, c_plus, Z_out->Ac, Z_out->Ab, Z_out->b);
+            Z_minus = std::make_unique<HybZono<float_type>>(Z_out->Gc, Z_out->Gb, c_minus, Z_out->Ac, Z_out->Ab, Z_out->b);
         }
         else
         {
