@@ -163,3 +163,4 @@ Solution struct for ADMM_solver
 - `Zh = vrep_2_hybzono({V1, V2, ..., Vn})`: `Vi` are `nV x n` `Eigen::Matrix<float_type,-1,-1>` where `n` is the polytope dimension.
 - `Zh = zono_union_2_hybzono({Z1, Z2, ..., Zn})`: `Zi` are zonotopes
 - `Z = make_regular_zono_2D(radius, num_sides, outer_approx, c)`: makes a regular zonotope with specified radius and number of sides centered at `c`. If `outer_approx` is `true`, then Z_o contains the circle of specified radius centered at `c`. Otherwise, the circle contains `Z_o`.  Optional arguments: `outer_approx` [default false], `c`.
+- `Z = interval_2_zono(a, b)`: `a` and `b` are `Eigen::Vector<float_type, -1>` that correspond to the interval vector `[a,b]`

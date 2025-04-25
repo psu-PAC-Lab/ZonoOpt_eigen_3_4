@@ -183,4 +183,5 @@ PYBIND11_MODULE(_core, handle)
     handle.def("zono_union_2_hybzono", &zono_union_2_hybzono<double>, py::arg("Zs"), "Zs is list of zonotopes");
     handle.def("make_regular_zono_2D", &make_regular_zono_2D<double>, py::arg("radius"), py::arg("n_sides"), py::arg("outer_approx")=false, py::arg("c")=Eigen::Vector<double, 2>::Zero(),
         "makes a regular zonotope with specified radius and number of sides centered at c. If outer_approx is true, then Z_o contains the circle of specified radius centered at c. Otherwise, the circle contains Z_o.");
+    handle.def("interval_2_zono", &interval_2_zono<double>, py::arg("a"), py::arg("b"), "converts the interval [a,b] to a zonotope");
 }
