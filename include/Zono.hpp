@@ -148,7 +148,7 @@ class Zono : public AbstractZono<float_type>
 
 // setup functions
 template<typename float_type>
-std::unique_ptr<Zono<float_type>> make_regular_zono_2D(float_type radius, int n_sides, bool outer_approx=false, Eigen::Vector<float_type, 2>& c=Eigen::Vector<float_type, 2>::Zero())
+std::unique_ptr<Zono<float_type>> make_regular_zono_2D(float_type radius, int n_sides, bool outer_approx=false, const Eigen::Vector<float_type, 2>& c=Eigen::Vector<float_type, 2>::Zero())
 {
     // check number of sides
     if (n_sides % 2 != 0 || n_sides < 4)

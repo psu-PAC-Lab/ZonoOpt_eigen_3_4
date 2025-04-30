@@ -80,5 +80,9 @@ int main()
     
     std::cout << "Zh: " << Zh << std::endl;
 
+    // make a regular zonotope
+    std::unique_ptr<Zono<float>> Zr = make_regular_zono_2D<float>(1, 10);
+    std::cout << "Zr: " << *Zr << std::endl;
+
     return 0;
 }
