@@ -418,7 +418,8 @@ HybZono<float_type> zono_union_2_hybzono(std::vector<AbstractZono<float_type>*> 
     // initialize S and M matrices as std::vectors
     // each entry is a row
     int n_gens;
-    std::vector<Eigen::Matrix<float_type, 1, -1>> S_vec, M_vec;
+    std::vector<Eigen::Matrix<float_type, 1, -1>> M_vec;
+    std::vector<Eigen::Matrix<float_type, -1, 1>> S_vec;
     Eigen::Matrix<float_type, 1, -1> M_row (n_zonos);
     Eigen::Matrix<float_type, -1, -1> Gd;
 
