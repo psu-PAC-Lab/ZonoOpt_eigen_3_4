@@ -451,7 +451,7 @@ HybZono<float_type> zono_union_2_hybzono(std::vector<AbstractZono<float_type>*> 
     // convert to Eigen matrices
     Eigen::Matrix<float_type, -1, -1> S (n_dims, nG);
     Eigen::Matrix<float_type, -1, -1> M (nG, n_zonos);
-    for (int i=0; i<S_vec.size(); i++)
+    for (int i=0; i<nG; i++)
     {
         S.col(i) = S_vec[i];
         M.row(i) = M_vec[i];
@@ -478,15 +478,11 @@ HybZono<float_type> zono_union_2_hybzono(std::vector<AbstractZono<float_type>*> 
     Eigen::Vector<float_type, -1> c (n_dims);
     c.setZero();
 
-    // Ac = [1^T, 0^T;
+    // Ac = [0^T, 0^T;
     //       I, diag[sum(M, 2)]]
     Eigen::SparseMatrix<float_type> Ac (1+nG, 2*nG);
     Eigen::SparseMatrix<float_type> I_ng (nG, nG);
     I_ng.setIdentity();
-    for (int i=0; i<nG; i++)
-    {
-        tripvec.push_back(Eigen::Triplet<float_type>(0, i, 1));
-    }
     get_triplets_offset(I_ng, tripvec, 1, 0);
     Eigen::Vector<float_type, -1> sum_M = M.rowwise().sum();
     for (int i=0; i<nG; i++)
@@ -495,10 +491,14 @@ HybZono<float_type> zono_union_2_hybzono(std::vector<AbstractZono<float_type>*> 
     }
     Ac.setFromTriplets(tripvec.begin(), tripvec.end()); 
 
-    // Ab = [0^T;
+    // Ab = [1^T;
     //       -M]
     Eigen::SparseMatrix<float_type> Ab (1+nG, n_zonos);
     tripvec.clear();
+    for (int i=0; i<n_zonos; i++)
+    {
+        tripvec.push_back(Eigen::Triplet<float_type>(0, i, 1));
+    }
     Eigen::SparseMatrix<float_type> mM_sp = -M.sparseView();
     get_triplets_offset(mM_sp, tripvec, 1, 0);
     Ab.setFromTriplets(tripvec.begin(), tripvec.end());
