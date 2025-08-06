@@ -197,7 +197,7 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
         prob.addConstr(A_gurobi.dot(x_gurobi) == b_gurobi)
 
         # add objective
-        prob.setMObjective(P_tilde, q_tilde, 0.0, sense=gp.GRB.MINIMIZE)
+        prob.setMObjective(0.5*P_tilde, q_tilde, 0.0, sense=gp.GRB.MINIMIZE)
 
         # optimize
         prob.optimize()
