@@ -113,17 +113,17 @@ for k in range(n_time):
     X_arr.append(X)
 
 ### Check for safety of reachable sets ###
-sol = zono.ADMM_solution()
-settings = zono.ADMM_settings()
+sol = zono.OptSolution()
+settings = zono.OptSettings()
 settings.k_inf_check = 1
 iter_arr = []
 soltime_arr = []
 for X in X_arr:
     if zono.intersection_over_dims(X, O, [0,1]).is_empty(solution=sol, settings=settings):
-        print(f'Safe: iter = {sol.k}, sol time = {sol.run_time}')
+        print(f'Safe: iter = {sol.iter}, sol time = {sol.run_time}')
     else:
-        print(f'Unsafe: iter = {sol.k}, sol time = {sol.run_time}')
-    iter_arr.append(sol.k)
+        print(f'Unsafe: iter = {sol.iter}, sol time = {sol.run_time}')
+    iter_arr.append(sol.iter)
     soltime_arr.append(sol.run_time)
 iter_arr = np.array(iter_arr)
 soltime_arr = np.array(soltime_arr)

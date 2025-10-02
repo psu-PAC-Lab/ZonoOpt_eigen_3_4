@@ -7,7 +7,7 @@ import subprocess
 # when approximating a circle as a regular zonotope, use this many sides
 n_sides_circle_approx = 6
 
-def mhe(X_Nm1, W, V, A, B, u_vec, y_vec, Qinv, Rinv, S, settings=zono.ADMM_settings()):
+def mhe(X_Nm1, W, V, A, B, u_vec, y_vec, Qinv, Rinv, S, settings=zono.OptSettings()):
     """Solves constrained zonotope representation of the MHE optimization problem.
     X_Nm1: set of all possible states at time N-1.
     W: disturbance set.
@@ -73,7 +73,7 @@ def mhe(X_Nm1, W, V, A, B, u_vec, y_vec, Qinv, Rinv, S, settings=zono.ADMM_setti
     X0 = zono.project_onto_dims(Z, idx_x[N])
 
     # solve
-    sol = zono.ADMM_solution() # pass by reference
+    sol = zono.OptSolution() # pass by reference
     xopt = Z.optimize_over(P, q, solution=sol, settings=settings)
 
     # check that solution is feasible
@@ -252,8 +252,8 @@ for k in range(1, N):
     xhat_sim.append(xhat)
     sol_times.append(sol.run_time)
     startup_times.append(sol.startup_time)
-    iters.append(sol.k)
-    print(f'k = {k}, sol_time = {sol.run_time}, iter = {sol.k}, |x-xhat|_2 = {np.linalg.norm(x-xhat)}')
+    iters.append(sol.iter)
+    print(f'k = {k}, sol_time = {sol.run_time}, iter = {sol.iter}, |x-xhat|_2 = {np.linalg.norm(x-xhat)}')
 
     # control input
     if k < u_data.shape[0]:
@@ -295,8 +295,8 @@ for k in range(N, n_sim):
     xhat_sim.append(xhat)
     sol_times.append(sol.run_time)
     startup_times.append(sol.startup_time)
-    iters.append(sol.k)
-    print(f'k = {k}, sol_time = {sol.run_time}, iter = {sol.k}, |x-xhat|_2 = {np.linalg.norm(x-xhat)}')
+    iters.append(sol.iter)
+    print(f'k = {k}, sol_time = {sol.run_time}, iter = {sol.iter}, |x-xhat|_2 = {np.linalg.norm(x-xhat)}')
 
     # control input
     if k < u_data.shape[0]:

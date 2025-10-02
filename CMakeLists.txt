@@ -28,6 +28,10 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 endif()
 
+if (MSVC)
+    add_compile_options(/bigobj)
+endif()
+
 # include path
 include_directories(
     include

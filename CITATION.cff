@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "More information about ZonoOpt can be found in the the following publication. Please cite this if you publish work based on ZonoOpt."
+
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Robbins"
+    given-names: "Joshua A."
+  - family-names: "Siefert"
+    given-names: "Jacob A."
+  - family-names: "Pangborn"
+    given-names: "Herschel C."  
+  title: "Sparsity-Promoting Reachability Analysis and Optimization of Constrained Zonotopes"
+  doi: 10.48550/arXiv.2504.03885
+  year: 2025

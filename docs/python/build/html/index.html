@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zonoopt documentation &mdash; zonoopt 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ZonoOpt Module" href="zonoopt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            zonoopt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zonoopt.html">ZonoOpt Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">zonoopt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">zonoopt documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="zonoopt-documentation">
+<h1>zonoopt documentation<a class="headerlink" href="#zonoopt-documentation" title="Link to this heading"></a></h1>
+<section id="zonoopt">
+<h2>ZonoOpt<a class="headerlink" href="#zonoopt" title="Link to this heading"></a></h2>
+<p>This C++ header library provides classes and tailored optimization routines for zonotopes, constrained zonotopes, and hybrid zonotopes. To use, <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;ZonoOpt.hpp&quot;</span></code>. All classes and methods are implemented using sparse linear algebra via the Eigen library. Generators may optionally have range [0,1] instead of [-1,1].</p>
+<p>Python bindings for the library can be built and installed using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code>. The resulting python module is named <code class="docutils literal notranslate"><span class="pre">zonoopt</span></code>. To test that the module is working as intended, from the <code class="docutils literal notranslate"><span class="pre">test/unit-tests</span></code> directory, run <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">unit_tests.py</span></code>. Note that a C++ compiler is required to build the module, and the Eigen submodule must be checked out (can be accomplished by running <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">update_submodules.py</span></code>).</p>
+<p>More information about ZonoOpt can be found in the the following publication. Please cite this if you publish work based on ZonoOpt:
+<strong>Robbins, J.A., Siefert, J.A., and Pangborn, H.C., “Sparsity-Promoting Reachability Analysis and Optimization of Constrained Zonotopes,” 2025. <a class="reference external" href="https://doi.org/10.48550/arXiv.2504.03885">https://arxiv.org/abs/2504.03885</a>.</strong></p>
+<p>Auto-generated API documentation is available below.</p>
+<p><a class="reference external" href="https://psu-PAC-Lab.github.io/ZonoOpt/C++/html/index.html">C++ API</a></p>
+<p><a class="reference external" href="https://psu-PAC-Lab.github.io/ZonoOpt/python/build/html/index.html">Python API</a></p>
+<p><img alt="image" src="_static/mhe-traj.svg" />
+<img alt="image" src="_static/reachability-traj.svg" /></p>
+</section>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zonoopt.html">ZonoOpt Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.Box"><code class="docutils literal notranslate"><span class="pre">Box</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.ConZono"><code class="docutils literal notranslate"><span class="pre">ConZono</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.EmptySet"><code class="docutils literal notranslate"><span class="pre">EmptySet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.HybZono"><code class="docutils literal notranslate"><span class="pre">HybZono</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.IneqTerm"><code class="docutils literal notranslate"><span class="pre">IneqTerm</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.IneqType"><code class="docutils literal notranslate"><span class="pre">IneqType</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.Inequality"><code class="docutils literal notranslate"><span class="pre">Inequality</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.Interval"><code class="docutils literal notranslate"><span class="pre">Interval</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.OptSettings"><code class="docutils literal notranslate"><span class="pre">OptSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.OptSolution"><code class="docutils literal notranslate"><span class="pre">OptSolution</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.Zono"><code class="docutils literal notranslate"><span class="pre">Zono</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.affine_map"><code class="docutils literal notranslate"><span class="pre">affine_map()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.cartesian_product"><code class="docutils literal notranslate"><span class="pre">cartesian_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.constrain"><code class="docutils literal notranslate"><span class="pre">constrain()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.get_vertices"><code class="docutils literal notranslate"><span class="pre">get_vertices()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.halfspace_intersection"><code class="docutils literal notranslate"><span class="pre">halfspace_intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.intersection"><code class="docutils literal notranslate"><span class="pre">intersection()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.intersection_over_dims"><code class="docutils literal notranslate"><span class="pre">intersection_over_dims()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.interval_2_zono"><code class="docutils literal notranslate"><span class="pre">interval_2_zono()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.make_regular_zono_2D"><code class="docutils literal notranslate"><span class="pre">make_regular_zono_2D()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.minkowski_sum"><code class="docutils literal notranslate"><span class="pre">minkowski_sum()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.pontry_diff"><code class="docutils literal notranslate"><span class="pre">pontry_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.project_onto_dims"><code class="docutils literal notranslate"><span class="pre">project_onto_dims()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.set_diff"><code class="docutils literal notranslate"><span class="pre">set_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.union_of_many"><code class="docutils literal notranslate"><span class="pre">union_of_many()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.vrep_2_conzono"><code class="docutils literal notranslate"><span class="pre">vrep_2_conzono()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.vrep_2_hybzono"><code class="docutils literal notranslate"><span class="pre">vrep_2_hybzono()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="zonoopt.html#zonoopt.zono_union_2_hybzono"><code class="docutils literal notranslate"><span class="pre">zono_union_2_hybzono()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zonoopt.html" class="btn btn-neutral float-right" title="ZonoOpt Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Robbins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

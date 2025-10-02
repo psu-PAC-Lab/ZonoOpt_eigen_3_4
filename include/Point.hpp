@@ -1,135 +1,166 @@
-#ifndef __ZONOOPT_POINT_HPP__
-#define __ZONOOPT_POINT_HPP__
+#ifndef ZONOOPT_POINT_HPP_
+#define ZONOOPT_POINT_HPP_
 
-#include "AbstractZono.hpp"
+/**
+ * @file Point.hpp
+ * @author Josh Robbins (jrobbins@psu.edu)
+ * @brief Point class for ZonoOpt library.
+ * @version 1.0
+ * @date 2025-06-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
+#include "Zono.hpp"
 
 namespace ZonoOpt
 {
 
-template<typename float_type>
-class Point : public AbstractZono<float_type>
+using namespace detail;
+
+/**
+ * @brief Point class.
+ *
+ * A point is defined entirely by the center vector c.
+ */
+class Point final : public Zono
 {
     public:
 
         // constructor
-        Point() = default;
+        /**
+         * @brief Default constructor for Point class
+         *
+         */
+        Point() { sharp = true; }
 
-        Point(const Eigen::Vector<float_type, -1>& c)
+        /**
+         * @brief Point constructor
+         *
+         * @param c center
+         */
+        explicit Point(const Eigen::Vector<zono_float, -1>& c)
         {
             set(c);
+            sharp = true;
         }
 
         // set method
-        void set(const Eigen::Vector<float_type, -1>& c)
+        /**
+         * @brief Reset point object with the given parameters.
+         * 
+         * @param c center
+         */
+        void set(const Eigen::Vector<zono_float, -1>& c);
+
+        HybZono* clone() const override
         {
-            // point parameters
-            this->c = c;
-            this->n = this->c.size();
-
-            // abstract zono parameters
-            this->G.resize(this->n,0);
-            this->nG = 0;
-            this->nGc = this->nG;
-            this->nGb = 0;
-            this->nC = 0;
-            this->Gc = this->G;
-            this->Gb.resize(this->n, 0);
-            this->A.resize(0, this->nG);
-            this->Ac = this->A;
-            this->Ab.resize(0, 0);
-            this->b.resize(0);
-            this->zero_one_form = false;
+            return new Point(*this);
         }
-
-        // get methods
-        int get_n() const { return this->n; }
-        Eigen::Vector<float_type, -1> get_c() const { return this->c; }
-
-        virtual void convert_form(){ /* do nothing */ }
 
         // display methods
-        std::string print() const
-        {
-            std::stringstream ss;
-            ss << "Point: " << std::endl;
-            ss << "n: " << this->n << std::endl;
-            ss << "c: " << this->c << std::endl;
-            return ss.str();
-        }
+        std::string print() const override;
 
-        // remove redundancy
-        void remove_redundancy()
-        {
-            // do nothing
-        }
+        // do nothing methods
+        void remove_redundancy(int interval_contractor) override { /* do nothing */ }
+        void convert_form() override { /* do nothing */ }
 
-        // optimization
-        Eigen::Vector<float_type, -1> optimize_over( 
-            const Eigen::SparseMatrix<float_type> &P, const Eigen::Vector<float_type, -1> &q, float_type c=0,
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(), 
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            throw std::invalid_argument("Optimize over: cannot optimize over point.");
-        }
+    protected:
 
-        Eigen::Vector<float_type, -1> project_point(const Eigen::Vector<float_type, -1>& x, 
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(), 
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            // check dimensions
-            if (this->n != x.size())
-            {
-                throw std::invalid_argument("Point projection: inconsistent dimensions.");
-            }
+        Eigen::Vector<zono_float, -1> do_optimize_over(
+            const Eigen::SparseMatrix<zono_float> &P, const Eigen::Vector<zono_float, -1> &q, zono_float c,
+            const OptSettings &settings, OptSolution* solution) const override;
 
-            return this->c;
-        }
+        Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>& x,
+            const OptSettings &settings, OptSolution* solution) const override;
 
-        bool is_empty(const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            if (this->n == 0)
-                return true;
-            else
-                return false;
-        }
+        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
+            OptSolution* solution) override;
 
-        float_type support(const Eigen::Vector<float_type, -1>& d, 
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            // check dimensions
-            if (this->n != d.size())
-            {
-                throw std::invalid_argument("Support: inconsistent dimensions.");
-            }
+        bool do_contains_point(const Eigen::Vector<zono_float, -1>& x, const OptSettings &settings,
+            OptSolution* solution) const override;
 
-            return this->c.dot(d);
-        }
-
-        bool contains_point(const Eigen::Vector<float_type, -1>& x,
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            if (this->n != x.size())
-                throw std::invalid_argument("Contains point: inconsistent dimensions");
-            
-            for (int i=0; i<this->n; i++)
-            {
-                if (x(i) != this->c(i))
-                    return false;
-            }
-            return true;
-        }
-
-        std::unique_ptr<AbstractZono<float_type>> bounding_box(
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return std::make_unique<Point<float_type>>(this->c);
-        }
-
+        Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override;
 };
+
+// implementation
+inline void Point::set(const Eigen::Vector<zono_float, -1>& c)
+{
+    // point parameters
+    this->c = c;
+    this->n = static_cast<int>(this->c.size());
+
+    // hybzono parameters
+    this->G.resize(this->n,0);
+    this->nG = 0;
+    this->nGc = this->nG;
+    this->nGb = 0;
+    this->nC = 0;
+    this->Gc = this->G;
+    this->Gb.resize(this->n, 0);
+    this->A.resize(0, this->nG);
+    this->Ac = this->A;
+    this->Ab.resize(0, 0);
+    this->b.resize(0);
+    this->zero_one_form = false;
+}
+
+inline std::string Point::print() const
+{
+    std::stringstream ss;
+    ss << "Point: " << std::endl;
+    ss << "n: " << this->n << std::endl;
+    ss << "c: " << this->c;
+    return ss.str();
+}
+
+inline Eigen::Vector<zono_float, -1> Point::do_optimize_over(
+    const Eigen::SparseMatrix<zono_float> &P, const Eigen::Vector<zono_float, -1> &q, zono_float c,
+    const OptSettings &settings, OptSolution* solution) const
+{
+    return this->c;
+}
+
+inline Eigen::Vector<zono_float, -1> Point::do_project_point(const Eigen::Vector<zono_float, -1>& x,
+    const OptSettings &settings, OptSolution* solution) const
+{
+    // check dimensions
+    if (this->n != x.size())
+    {
+        throw std::invalid_argument("Point projection: inconsistent dimensions.");
+    }
+
+    return this->c;
+}
+
+inline zono_float Point::do_support(const Eigen::Vector<zono_float, -1>& d,
+    const OptSettings &settings, OptSolution* solution)
+{
+    // check dimensions
+    if (this->n != d.size())
+    {
+        throw std::invalid_argument("Support: inconsistent dimensions.");
+    }
+
+    return this->c.dot(d);
+}
+
+
+inline bool Point::do_contains_point(const Eigen::Vector<zono_float, -1>& x,
+    const OptSettings &settings, OptSolution* solution) const
+{
+    if (this->n != x.size())
+        throw std::invalid_argument("Contains point: inconsistent dimensions");
+    
+    const zono_float dist = (x - this->c).norm();
+    return dist < zono_eps;
+}
+
+inline Box Point::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+{
+    return {this->c, this->c};
+}
 
 } // namespace ZonoOpt
 

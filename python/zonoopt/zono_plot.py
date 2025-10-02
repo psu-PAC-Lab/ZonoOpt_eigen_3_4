@@ -26,7 +26,10 @@ def find_vertex(Z, d):
     else:
         raise ValueError('find_vertex unsupported data type')
 
-    return Z.get_G()*res.x + Z.get_c()
+    if res.success:
+        return Z.get_G()*res.x + Z.get_c()
+    else:
+        return None
 
 def get_conzono_vertices(Z, t_max=60.0):
     """Get vertices of Z"""
@@ -50,6 +53,8 @@ def get_conzono_vertices(Z, t_max=60.0):
 
         # get vertex
         vd = find_vertex(Z, d)
+        if vd is None: # infeasible, not detected during get_leaves
+            return []
 
         # check if vertex is new
         if not any(np.allclose(vd, v) for v in verts):
@@ -65,8 +70,8 @@ def get_conzono_vertices(Z, t_max=60.0):
 
     # exit if time limit was reached
     if (time.time()-t0) > t_max:
-        warnings.warn('get_vertices time limit reached, terminating early.')
-        return verts
+        warnings.warn('get_vertices time limit reached, terminating early. Set is likely not full-dimensional')
+        return np.array(verts)
 
     # search for additional vertices along the directions of the facet normals
     converged = False
@@ -114,7 +119,7 @@ def get_conzono_vertices(Z, t_max=60.0):
 
     # throw warning if time limit was reached
     if (time.time()-t0) > t_max:
-        warnings.warn('get_vertices time limit reached, terminating early.')
+        warnings.warn('get_vertices time limit reached, terminating early. Set is full-dimensional.')
 
     V = np.array(verts)
     hull = ConvexHull(V)
@@ -123,23 +128,58 @@ def get_conzono_vertices(Z, t_max=60.0):
     return V
 
 def get_vertices(Z, t_max=60.0):
-    """Wrapper for calls to get vertices of zono object"""
+    """
+    Get vertices of zonotopic set using scipy linprog.
     
-    if Z.is_point():
+    Args:
+        Z (HybZono): Zonotopic set.
+        t_max (float, optional): Maximum time to spend on finding vertices. Defaults to 60.0 seconds.
+    
+    Returns:
+        numpy.ndarray: Vertices of the zonotopic set. If Z is a point, returns its coordinates.
+    """
+    
+    if Z.is_empty_set():
+        return None
+    elif Z.is_point():
         return Z.get_c().reshape(1,-1)
     elif Z.is_zono() or Z.is_conzono():
         return get_conzono_vertices(Z, t_max=t_max)
     elif Z.is_hybzono():
         raise ValueError('get_vertices not implemented for HybZono')
 
-def plot(Z, ax=None, **kwargs):
-    """Plots Point, Zono, or ConZono object. HybZono not yet implemented. Only 2D plotting
-    implemented currently. The **kwargs are those of matplotlib.pyplot.fill"""
+def plot(Z, ax=None, settings=OptSettings(), t_max=60.0, **kwargs):
+    """
+    Plots zonotopic set using matplotlib.
+
+    Args:
+        Z (HybZono): zonotopic set to be plotted
+        ax (matplotlib.axes.Axes, optional): Axes to plot on. If None, current axes are used.
+        settings (OptSettings, optional): Settings for the optimization. Defaults to OptSettings().
+        t_max (float, optional): Maximum time to spend on finding vertices. Defaults to 60.0 seconds.
+        **kwargs: Additional keyword arguments passed to the plotting function (e.g., color, alpha).
+
+    Returns:
+        list: List of matplotlib objects representing the plotted zonotope.
+    """
 
     if Z.get_n() < 2 or Z.get_n() > 3:
         raise ValueError("Plot only implemented in 2D or 3D")
+    
+    # hybzono -> get leaves
+    if Z.is_hybzono():
+        leaves = Z.get_leaves(settings=settings)
+        if len(leaves) > 0:
+            time_per_leaf = t_max / len(leaves)
+        else:
+            warnings.warn('No leaves found in HybZono, returning empty plot')
+            return []
+        objs = []
+        for leaf in leaves:
+            objs.append(plot(leaf, ax=ax, t_max=time_per_leaf, **kwargs)[0])
+        return objs
 
-    V = get_vertices(Z)
+    V = get_vertices(Z, t_max=t_max)
 
     # 2D
     if Z.get_n() == 2:
@@ -149,8 +189,16 @@ def plot(Z, ax=None, **kwargs):
             ax = plt.gca()
 
         # plot
-        if Z.is_point():
-            return ax.plot(V[0,0], V[0,1], **kwargs)
+        if V is None or len(V) == 0:
+            warnings.warn("No vertices found, returning empty plot")
+            return ax.plot([], [])
+        elif Z.is_point() or len(V) < Z.get_n()+1:
+            try:
+                return ax.plot(V[:,0], V[:,1], **kwargs)
+            except Exception as e:
+                print(V)
+                warnings.warn(f"Error plotting point / line: {e}")
+                return ax.plot([], [])
         else:
             return ax.fill(V[:,0], V[:,1], **kwargs)
 
@@ -161,14 +209,22 @@ def plot(Z, ax=None, **kwargs):
             raise ValueError("3D plotting requires an Axes3D object")
         
         # plot
-        if Z.is_point():
+        if V is None or len(V) == 0:
+            warnings.warn("No vertices found, returning empty plot")
+            obj = ax.scatter([], [], [])
+        elif Z.is_point():
             obj = ax.scatter(V[0,0], V[0,1], V[0,2], **kwargs)
         else:
             hull = ConvexHull(V)
             obj = ax.add_collection3d(Poly3DCollection([[V[vertex] for vertex in face] for face in hull.simplices], **kwargs))
+            xmin, xmax = ax.get_xlim()
+            ymin, ymax = ax.get_ylim()
+            zmin, zmax = ax.get_zlim()
+            ax.auto_scale_xyz(np.hstack([V[:,0].flatten(), [xmin, xmax]]),
+                            np.hstack([V[:,1].flatten(), [ymin, ymax]]),
+                            np.hstack([V[:,2].flatten(), [zmin, zmax]]))
 
         # adjust scaling
-        ax.auto_scale_xyz(V[:,0], V[:,1], V[:,2])
         return obj
 
         
