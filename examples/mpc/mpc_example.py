@@ -90,7 +90,7 @@ def is_latex_installed():
         return False
                 
 
-def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol=zono.ADMM_solution()):
+def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.OptSettings(), sol=zono.OptSolution()):
     """Build and solve MPC problem using zonoopt set operations.
     x0 = initial state
     xr = reference trajectory (N+1 x n numpy array)
@@ -101,8 +101,8 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
     N = prediction horizon
     X_arr = array of state constraints
     U = control constraint set
-    settings = zonoopt.ADMM_settings object
-    sol = zonoopt.ADMM_solution object
+    settings = zonoopt.OptSettings object
+    sol = zonoopt.OptSolution object
     """
 
     # dims
@@ -172,7 +172,7 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
         
         # logging
         sol.run_time = osqp_sol.info.run_time
-        sol.k = osqp_sol.info.iter
+        sol.iter = osqp_sol.info.iter
         sol.startup_time = osqp_sol.info.setup_time
         sol.infeasible = osqp_sol.info.status_val != 1
 
@@ -197,7 +197,7 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
         prob.addConstr(A_gurobi.dot(x_gurobi) == b_gurobi)
 
         # add objective
-        prob.setMObjective(0.5*P_tilde, q_tilde, 0.0, sense=gp.GRB.MINIMIZE)
+        prob.setMObjective(P_tilde, q_tilde, 0.0, sense=gp.GRB.MINIMIZE)
 
         # optimize
         prob.optimize()
@@ -206,7 +206,7 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
 
         # logging
         sol.run_time = prob.Runtime
-        sol.k = prob.BarIterCount
+        sol.iter = prob.BarIterCount
         sol.startup_time = 0.0
         sol.infeasible = prob.Status != 2
 
@@ -224,7 +224,7 @@ def zono_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
     # return
     return x_traj, u_traj, Z
 
-def hrep_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol=zono.ADMM_solution()):
+def hrep_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.OptSettings(), sol=zono.OptSolution()):
     """Build and solve MPC problem in H-rep form.
     x0 = initial state
     xr = reference trajectory (N+1 x n numpy array)
@@ -235,8 +235,8 @@ def hrep_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
     N = prediction horizon
     X_arr = array of Hrep polytopes
     U = control constraint set as a polytope
-    settings = zonoopt.ADMM_settings object
-    sol = zonoopt.ADMM_solution object
+    settings = zonoopt.OptSettings object
+    sol = zonoopt.OptSolution object
     """
 
     # problem dimensions
@@ -329,7 +329,7 @@ def hrep_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
         
         # logging
         sol.run_time = osqp_sol.info.run_time
-        sol.k = osqp_sol.info.iter
+        sol.iter = osqp_sol.info.iter
         sol.startup_time = osqp_sol.info.setup_time
         sol.infeasible = osqp_sol.info.status_val != 1
 
@@ -355,7 +355,7 @@ def hrep_mpc(x0, xr, A, B, Q, R, N, X_arr, U, settings=zono.ADMM_settings(), sol
 
         # logging
         sol.run_time = prob.Runtime
-        sol.k = prob.BarIterCount
+        sol.iter = prob.BarIterCount
         sol.startup_time = 0.0
         sol.infeasible = prob.Status != 2
 
@@ -484,7 +484,7 @@ def solve_example(make_plot=False):
     R = 10*sp.eye(2)
 
     # solver settings
-    settings = zono.ADMM_settings()
+    settings = zono.OptSettings()
     settings.inf_norm_conv = True
 
     ### Solve example ###
@@ -517,7 +517,7 @@ def solve_example(make_plot=False):
             X_arr.append(zono.cartesian_product(Z_cons_arr[i], Xv))
 
     # build and solve MPC
-    sol = zono.ADMM_solution()
+    sol = zono.OptSolution()
     if use_hrep:
         
         # build constraint sets in H-rep
@@ -542,7 +542,7 @@ def solve_example(make_plot=False):
 
 
     # display
-    print(f'iter: {sol.k}, run time: {sol.run_time}, startup time = {sol.startup_time}')
+    print(f'iter: {sol.iter}, run time: {sol.run_time}, startup time = {sol.startup_time}')
 
     ### make plot ###
     if make_plot:

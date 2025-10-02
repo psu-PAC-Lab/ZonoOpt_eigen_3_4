@@ -212,47 +212,6 @@ def test_intersection():
         else:
             print('FAILED: Intersection')
 
-def test_halfspace_intersection():
-
-    # folder where unit test data resides
-    test_folder = unit_test_folder + 'halfspace_intersection/'
-
-    # zonotope
-    G = 0.5*np.array([[np.sqrt(3), 1, np.sqrt(3)],
-                        [0.5, 0, -0.5]])
-    c = np.array([-2.0, 1.0])
-    Z = zono.Zono(sp.csc_matrix(G), c)
-
-    # halfspace
-    H = sp.csc_matrix(np.array([[-1.1, 0.1]]))
-    f = np.array([1.0])
-
-    # halfspace intersection
-    Z = zono.halfspace_intersection(Z, H, f)
-    if Z.is_0_1_form():
-        Z.convert_form()
-
-    # expected result
-    G_expected = np.loadtxt(test_folder + 'G.txt', delimiter=' ')
-    c_expected = np.loadtxt(test_folder + 'c.txt', delimiter=' ')
-    A_expected = np.loadtxt(test_folder + 'A.txt', delimiter=' ')
-    b_expected = np.loadtxt(test_folder + 'b.txt', delimiter=' ')
-
-    # compare results
-    success = True # init
-    try:
-        assert np.allclose(Z.get_G().toarray(), G_expected)
-        assert np.allclose(Z.get_c(), c_expected)
-        assert np.allclose(Z.get_A().toarray(), A_expected)
-        assert np.allclose(Z.get_b(), b_expected)
-    except AssertionError:
-        success = False
-    finally:
-        if success:
-            print('Passed: Halfspace Intersection')
-        else:
-            print('FAILED: Halfspace Intersection')
-
 def test_is_empty():
 
     # folder where unit test data resides
@@ -358,7 +317,6 @@ def test_point_contain():
 test_vrep_2_hz()
 test_minkowski_sum()
 test_intersection()
-test_halfspace_intersection()
 test_is_empty()
 test_support()
 test_point_contain()

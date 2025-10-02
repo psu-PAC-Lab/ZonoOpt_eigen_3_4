@@ -1,211 +1,300 @@
-#ifndef __ZONOOPT_ZONO_HPP__
-#define __ZONOOPT_ZONO_HPP__
+#ifndef ZONOOPT_ZONO_HPP_
+#define ZONOOPT_ZONO_HPP_
 
-#include "AbstractZono.hpp"
-#include <exception>
-#include <cmath>
+/**
+ * @file Zono.hpp
+ * @author Josh Robbins (jrobbins@psu.edu)
+ * @brief Zonotope class for ZonoOpt library.
+ * @version 1.0
+ * @date 2025-06-04
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
+#include "ConZono.hpp"
 
 namespace ZonoOpt
 {
 
-template<typename float_type>
-class Zono : public AbstractZono<float_type>
+using namespace detail;
+
+/**
+ * @brief Zonotope class.
+ *
+ * A zonotope is defined as:
+ * Z = {G * xi + c | xi in [-1, 1]^nG}.
+ * Equivalently, the following shorthand can be used: Z = <G, c>.
+ * Optionally, in 0-1 form, the factors are xi in [0, 1]^nG.
+ * The set dimension is n, and the number of equality constraints is nC.
+ * 
+ */
+class Zono : public ConZono
 {
     public:
 
-        // constructor
-        Zono() = default;
+        // constructors
+        /**
+         * @brief Default constructor for Zono class
+         *
+         */
+        Zono() { sharp = true; }
 
-        Zono(const Eigen::SparseMatrix<float_type>& G, const Eigen::Vector<float_type, -1>& c,
-            bool zero_one_form=false)
+        /**
+         * @brief Zono constructor
+         *
+         * @param G generator matrix
+         * @param c center
+         * @param zero_one_form true if set is in 0-1 form
+         */
+        Zono(const Eigen::SparseMatrix<zono_float>& G, const Eigen::Vector<zono_float, -1>& c,
+            const bool zero_one_form=false)
         {
             set(G, c, zero_one_form);
+            sharp = true;
         }
+
+        // virtual destructor
+        ~Zono() override = default;
 
         // set method
-        void set(const Eigen::SparseMatrix<float_type>& G, const Eigen::Vector<float_type, -1>& c,
-            bool zero_one_form=false)
+        /**
+         * @brief Reset zonotope object with the given parameters.
+         * 
+         * @param G generator matrix
+         * @param c center
+         * @param zero_one_form true if set is in 0-1 form
+         */
+        void set(const Eigen::SparseMatrix<zono_float>& G, const Eigen::Vector<zono_float, -1>& c,
+            bool zero_one_form=false);
+
+        /**
+         * @brief Clone method for polymorphic behavior.
+         */
+        HybZono* clone() const override
         {
-            // check dimensions
-            if (G.rows() != c.size())
-            {
-                throw std::invalid_argument("Zono: inconsistent dimensions.");
-            }
-
-            // zonotope parameters
-            this->G = G;
-            this->c = c;
-            this->nG = this->G.cols();
-            this->n = this->G.rows();
-            this->zero_one_form = zero_one_form;
-
-            // abstract zono parameters
-            this->nGc = this->nG;
-            this->nGb = 0;
-            this->nC = 0;
-            this->Gc = this->G;
-            this->Gb.resize(this->n, 0);
-            this->A.resize(0, this->nG);
-            this->Ac = this->A;
-            this->Ab.resize(0, 0);
-            this->b.resize(0);
+            return new Zono(*this);
         }
 
-        // get methods
-        int get_n() const { return this->n; }
-        int get_nG() const { return this->nG; }
-        Eigen::SparseMatrix<float_type> get_G() const { return this->G; }
-        Eigen::Vector<float_type, -1> get_c() const { return this->c; }
-        bool is_0_1_form() const { return this->zero_one_form; }
+        /**
+         * @brief Perform zonotope order reduction
+         *
+         * @param n_o desired order, must be greater than or equal to the dimension of the set
+         * @return zonotope with order n_o
+         */
+        std::unique_ptr<Zono> reduce_order(int n_o);
 
         // generator conversion between [-1,1] and [0,1]
-        void convert_form()
-        {
-            Eigen::Vector<float_type, -1> c;
-            Eigen::SparseMatrix<float_type> G;
-
-            if (!this->zero_one_form) // convert to [0,1] generators
-            {
-                c = this->c - this->G*Eigen::Vector<float_type, -1>::Ones(this->nG);
-                G = 2*this->G;
-
-                set(G, c, true);
-            }
-            else // convert to [-1,1] generators
-            {
-                c = this->c + 0.5*this->G*Eigen::Vector<float_type, -1>::Ones(this->nG);
-                G = 0.5*this->G;
-
-                set(G, c, false);
-            }
-        }
+        void convert_form() override;
 
         // display methods
-        std::string print() const
-        {
-            std::stringstream ss;
-            ss << "Zono: " << std::endl;
-            ss << "n: " << this->n << std::endl;
-            ss << "nG: " << this->nG << std::endl;
-            ss << "G: " << Eigen::Matrix<float_type, -1, -1>(this->G) << std::endl;
-            ss << "c: " << this->c << std::endl;
-            ss << "zero_one_form: " << this->zero_one_form << std::endl;
-            return ss.str();
-        }
+        std::string print() const override;
 
-        // optimization
-        Eigen::Vector<float_type, -1> optimize_over( 
-            const Eigen::SparseMatrix<float_type> &P, const Eigen::Vector<float_type, -1> &q, float_type c=0,
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(), 
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return AbstractZono<float_type>::optimize_over_admm(P, q, c, settings, solution);
-        }
+    protected:
 
-        // project point onto set
-        Eigen::Vector<float_type, -1> project_point(const Eigen::Vector<float_type, -1>& x, 
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(), 
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return AbstractZono<float_type>::project_point_admm(x, settings, solution);
-        }
+        bool do_is_empty(const OptSettings &settings, OptSolution* solution) const override;
 
-        // is empty
-        bool is_empty(const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            if (this->n == 0)
-                return true;
-            else
-                return false;
-        }
+        Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override;
 
-        // support
-        float_type support(const Eigen::Vector<float_type, -1>& d, 
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return AbstractZono<float_type>::support_admm(d, settings, solution);
-        }
-
-        // point containment
-        bool contains_point(const Eigen::Vector<float_type, -1>& x,
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return AbstractZono<float_type>::contains_point_admm(x, settings, solution);
-        }
-
-        // bounding box
-        std::unique_ptr<AbstractZono<float_type>> bounding_box(
-            const ADMM_settings<float_type> &settings=ADMM_settings<float_type>(),
-            ADMM_solution<float_type>* solution=nullptr) const
-        {
-            return AbstractZono<float_type>::bounding_box_admm(settings, solution);
-        }
-
+        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
+            OptSolution* solution) override;
 };
 
-// setup functions
-template<typename float_type>
-std::unique_ptr<Zono<float_type>> make_regular_zono_2D(float_type radius, int n_sides, bool outer_approx=false, const Eigen::Vector<float_type, 2>& c=Eigen::Vector<float_type, 2>::Zero())
-{
-    // check number of sides
-    if (n_sides % 2 != 0 || n_sides < 4)
-    {
-        throw std::invalid_argument("make_regular_zono_2D: number of sides must be even and >= 4.");
-    }
+// forward declarations
+/**
+ * @brief Builds a zonotope from a Box object.
+ *
+ * @param box Box object (vector of intervals)
+ * @return zonotope
+ * @ingroup ZonoOpt_SetupFunctions
+ */
+std::unique_ptr<Zono> interval_2_zono(const Box& box);
 
-    // check radius
-    if (radius <= 0)
-    {
-        throw std::invalid_argument("make_regular_zono_2D: radius must be positive.");
-    }
+/**
+ * @brief Builds a 2D regular zonotope with a given radius and number of sides.
+ *
+ * @param radius radius of the zonotope
+ * @param n_sides number of sides (must be an even number >= 4)
+ * @param outer_approx flag to do an outer approximation instead of an inner approximation
+ * @param c center vector
+ * @return zonotope
+ * @ingroup ZonoOpt_SetupFunctions
+ */
+std::unique_ptr<Zono> make_regular_zono_2D(zono_float radius, int n_sides, bool outer_approx=false, const Eigen::Vector<zono_float, 2>& c=Eigen::Vector<zono_float, 2>::Zero());
 
-    // problem parameters
-    int n_gens = n_sides/2;
-    const float_type pi = 3.14159265358979323846;
-    float_type dphi = pi/n_gens;
-    float_type R = outer_approx ? radius/std::cos(dphi/2) : radius;
-    
-    // generator matrix
-    float_type phi = ((float_type) (n_gens/2))*dphi;
-    float_type l_side = 2*R*std::sin(dphi/2);
-    Eigen::Matrix<float_type, -1, -1> G(2, n_gens);
-    for (int i = 0; i < n_gens; i++)
-    {
-        G(0, i) = l_side*std::cos(phi);
-        G(1, i) = l_side*std::sin(phi);
-        phi -= dphi;
-    }
-
-    // return zonotope
-    return std::make_unique<Zono<float_type>>(0.5*G.sparseView(), c, false);
-}
-
-template <typename float_type>
-std::unique_ptr<Zono<float_type>> interval_2_zono(const Eigen::Vector<float_type, -1>& a, const Eigen::Vector<float_type, -1>& b)
+// implementation
+inline void Zono::set(const Eigen::SparseMatrix<zono_float>& G, const Eigen::Vector<zono_float, -1>& c,
+    const bool zero_one_form)
 {
     // check dimensions
-    if (a.size() != b.size())
+    if (G.rows() != c.size())
     {
-        throw std::invalid_argument("Interval to zonotope: inconsistent dimensions.");
+        throw std::invalid_argument("Zono: inconsistent dimensions.");
     }
 
-    // generator matrix
-    std::vector<Eigen::Triplet<float_type>> triplets;
-    Eigen::SparseMatrix<float_type> G (a.size(), a.size());
-    for (int i=0; i<a.size(); i++)
+    // zonotope parameters
+    this->G = G;
+    this->c = c;
+    this->nG = static_cast<int>(this->G.cols());
+    this->n = static_cast<int>(this->G.rows());
+    this->zero_one_form = zero_one_form;
+
+    // abstract zono parameters
+    this->nGc = this->nG;
+    this->nGb = 0;
+    this->nC = 0;
+    this->Gc = this->G;
+    this->Gb.resize(this->n, 0);
+    this->A.resize(0, this->nG);
+    this->Ac = this->A;
+    this->Ab.resize(0, 0);
+    this->b.resize(0);
+}
+
+inline void Zono::convert_form()
+{
+    Eigen::Vector<zono_float, -1> c;
+    Eigen::SparseMatrix<zono_float> G;
+
+    if (!this->zero_one_form) // convert to [0,1] generators
     {
-        triplets.push_back(Eigen::Triplet<float_type>(i, i, (b(i)-a(i))/2));
+        c = this->c - this->G*Eigen::Vector<zono_float, -1>::Ones(this->nG);
+        G = 2.0*this->G;
+
+        set(G, c, true);
     }
-    G.setFromSortedTriplets(triplets.begin(), triplets.end());
+    else // convert to [-1,1] generators
+    {
+        c = this->c + 0.5*this->G*Eigen::Vector<zono_float, -1>::Ones(this->nG);
+        G = 0.5*this->G;
 
-    // center
-    Eigen::Vector<float_type, -1> c  = (a+b)/2;
+        set(G, c, false);
+    }
+}
 
-    // return zonotope
-    return std::make_unique<Zono<float_type>>(G, c, false);
+inline std::string Zono::print() const
+{
+    std::stringstream ss;
+    ss << "Zono: " << std::endl;
+    ss << "n: " << this->n << std::endl;
+    ss << "nG: " << this->nG << std::endl;
+    ss << "G: " << Eigen::Matrix<zono_float, -1, -1>(this->G) << std::endl;
+    ss << "c: " << this->c << std::endl;
+    ss << "zero_one_form: " << this->zero_one_form;
+    return ss.str();
+}
+
+inline bool Zono::do_is_empty(const OptSettings &settings, OptSolution* solution) const
+{
+    if (this->n == 0)
+        return true;
+    else
+        return false;
+}
+
+inline Box Zono::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+{
+    // convert to [-1,1] form
+    if (this->zero_one_form) this->convert_form();
+
+    // init bounds
+    Eigen::Vector<zono_float, -1> l = this->c;
+    Eigen::Vector<zono_float, -1> u = this->c;
+
+    // compute bounds
+    for (int i=0; i<this->nG; ++i)
+    {
+        l -= this->G.col(i).cwiseAbs();
+        u += this->G.col(i).cwiseAbs();
+    }
+
+    // return zonotope bounding box
+    return {l, u};
+}
+
+inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
+{
+    // check validity
+    if (n_o < this->n)
+        throw std::invalid_argument("Zono reduce_order: desired order is less than dimension of set");
+
+    // trivial case
+    if (this->nG <= n_o)
+        return std::make_unique<Zono>(*this);
+
+    // convert to [-1,1] form
+    if (this->zero_one_form) this->convert_form();
+
+    // sort columns by decreasing 2-norm
+
+    // vector of 2-norms and indices
+    std::vector<std::pair<int, zono_float>> sort_vec;
+    for (int i=0; i<this->nG; ++i)
+    {
+        sort_vec.emplace_back(i, this->G.col(i).norm());
+    }
+
+    // sort
+    auto comp = [](const std::pair<int, zono_float>& a, const std::pair<int, zono_float>& b) -> bool
+    {
+        return a.second > b.second;
+    };
+    std::sort(sort_vec.begin(), sort_vec.end(), comp);
+
+    // zonotope to keep
+    const int n_K = n_o - this->n;
+    Eigen::SparseMatrix<zono_float> G_K (this->n, n_K);
+    std::vector<Eigen::Triplet<zono_float>> triplets;
+    for (int i=0; i < n_K; ++i)
+    {
+        const int k = sort_vec[i].first; // column
+        for (Eigen::SparseMatrix<zono_float>::InnerIterator it(this->G, k); it; ++it)
+        {
+            triplets.emplace_back(it.row(), i, it.value());
+        }
+    }
+    G_K.setFromSortedTriplets(triplets.begin(), triplets.end());
+    const Zono K (G_K, this->c);
+
+    // zonotope to over-approximate
+    Eigen::SparseMatrix<zono_float> G_L (this->n, this->nG - n_K);
+    triplets.clear();
+    for (int i=n_K; i < this->nG; ++i)
+    {
+        const int k = sort_vec[i].first; // column
+        for (Eigen::SparseMatrix<zono_float>::InnerIterator it(this->G, k); it; ++it)
+        {
+            triplets.emplace_back(it.row(), i-n_K, it.value());
+        }
+    }
+    G_L.setFromSortedTriplets(triplets.begin(), triplets.end());
+    Zono L (G_L, Eigen::Vector<zono_float, -1>::Zero(this->n));
+
+    // get bounding box
+    const auto L_R = interval_2_zono(L.bounding_box());
+
+    // minkowski sum
+    auto Z = minkowski_sum(K, *L_R);
+
+    // check that dynamic cast is valid
+    if (!Z->is_zono())
+        throw std::runtime_error("In Zono::ReduceOrder, return type is not a zonotope?");
+
+    // cast to zono and return
+    return std::unique_ptr<Zono>(dynamic_cast<Zono*>(Z.release()));
+}
+
+inline zono_float Zono::do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings, OptSolution* solution)
+{
+    if (this->zero_one_form) this->convert_form();
+
+    zono_float h = d.dot(this->c);
+    const Eigen::Matrix<zono_float, -1, -1> Gd = this->G.toDense();
+    for (int i=0; i<this->nG; ++i)
+    {
+        h += std::abs(d.dot(Gd.col(i)));
+    }
+    return h;
 }
 
 } // namespace ZonoOpt

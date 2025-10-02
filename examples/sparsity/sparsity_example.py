@@ -53,7 +53,7 @@ for k in range(N):
     X2 = zono.project_onto_dims(PsiRU, [i for i in range(nx+nu, nx+nu+nx)])
     X2_arr.append(X2)
 
-### Reachability analysis with cartesian intersection ###
+### Reachability analysis with method from paper ###
 X3 = X0
 X3_arr = [X3]
 for k in range(N):
