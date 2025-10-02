@@ -4,7 +4,7 @@
 /**
  * @file IntervalUtilities.hpp
  * @author Josh Robbins (jrobbins@psu.edu)
- * @brief Internal utilities for interval arithmetic in ZonoOpt library.
+ * @brief Interval and box classes.
  * @version 1.0
  * @date 2025-06-04
  * 
