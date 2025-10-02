@@ -2,7 +2,7 @@
 #define ZONOOPT_INTERVAL_UTILITIES_HPP_
 
 /**
- * @file IntervalUtilities.hpp
+ * @file Intervals.hpp
  * @author Josh Robbins (jrobbins@psu.edu)
  * @brief Interval and box classes.
  * @version 1.0

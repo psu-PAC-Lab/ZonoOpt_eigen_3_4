@@ -18,6 +18,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon', # Recommended for NumPy/Google style docstrings
     'sphinx.ext.autosummary', # Optional: for generating summary tables
+    'myst_parser'
 ]
 
 templates_path = ['_templates']

@@ -13,6 +13,7 @@ LESS: IneqType
 LESS_OR_EQUAL: IneqType
 
 class Box:
+    """Box (i.e., interval vector) class"""
     def __init__(self, x_lb: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], x_ub: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]']) -> None:
         '''__init__(self: zonoopt._core.Box, x_lb: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], x_ub: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"]) -> None
 
@@ -264,6 +265,15 @@ class Box:
         """
 
 class ConZono(HybZono):
+    """
+                Constrained zonotope class
+                
+                A constrained zonotope is defined as:
+                Z = {G \\xi + c | A \\xi = b, \\xi in [-1, 1]^nG}.
+                Equivalently, the following shorthand can be used: Z = <G, c, A, b>.
+                Optionally, in 0-1 form, the factors are xi in [0,1].
+                The set dimension is n, and the number of equality constraints is nC.
+            """
     def __init__(self, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], A: scipy.sparse.csc_matrix[numpy.float64], b: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], zero_one_form: bool = ...) -> None:
         '''__init__(self: zonoopt._core.ConZono, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], A: scipy.sparse.csc_matrix[numpy.float64], b: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], zero_one_form: bool = False) -> None
 
@@ -314,6 +324,11 @@ class ConZono(HybZono):
         """
 
 class EmptySet(ConZono):
+    """
+                Empty Set class
+
+                Used to facilitate set operations with trivial solutions when one of the sets is an empty set.
+            """
     def __init__(self, n: typing.SupportsInt) -> None:
         """__init__(self: zonoopt._core.EmptySet, n: typing.SupportsInt) -> None
 
@@ -326,6 +341,15 @@ class EmptySet(ConZono):
         """
 
 class HybZono:
+    """
+            Hybrid zonotope class
+             
+            A hybrid zonotope is defined as:
+            Z = {Gc * xi_c + Gb * xi_b + c | Ac * xi_c + Ab * xi_b = b, xi_c in [-1, 1]^nGc, xi_b in {-1, 1}^nGb}.
+            Equivalently, the following shorthand can be used: Z = <Gc, Gb, c, Ac, Ab, b>.
+            Optionally, in 0-1 form, the factors are xi_c in [0, 1]^nGc, xi_b in {0, 1}^nGb. 
+            The set dimension is n, and the number of equality constraints is nC.
+        """
     def __init__(self, Gc: scipy.sparse.csc_matrix[numpy.float64], Gb: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], Ac: scipy.sparse.csc_matrix[numpy.float64], Ab: scipy.sparse.csc_matrix[numpy.float64], b: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], zero_one_form: bool = ..., sharp: bool = ...) -> None:
         '''__init__(self: zonoopt._core.HybZono, Gc: scipy.sparse.csc_matrix[numpy.float64], Gb: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], Ac: scipy.sparse.csc_matrix[numpy.float64], Ab: scipy.sparse.csc_matrix[numpy.float64], b: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], zero_one_form: bool = False, sharp: bool = False) -> None
 
@@ -757,6 +781,7 @@ class HybZono:
         '''
 
 class IneqTerm:
+    """Structure containing term in 0-1 inequality."""
     coeff: float
     idx: int
     def __init__(self, idx: typing.SupportsInt, coeff: typing.SupportsFloat) -> None:
@@ -766,6 +791,19 @@ class IneqTerm:
         """
 
 class IneqType:
+    """Enumeration to select inequality direction / use equality.
+
+    Members:
+
+      LESS : Strictly less than
+
+      LESS_OR_EQUAL : Less than or equal to
+
+      EQUAL : Equal to
+
+      GREATER_OR_EQUAL : Greater than or equal to
+
+      GREATER : Strictly greater than"""
     __members__: ClassVar[dict] = ...  # read-only
     EQUAL: ClassVar[IneqType] = ...
     GREATER: ClassVar[IneqType] = ...
@@ -786,11 +824,17 @@ class IneqType:
     def __ne__(self, other: object) -> bool:
         """__ne__(self: object, other: object, /) -> bool"""
     @property
-    def name(self): ...
+    def name(self) -> str:
+        """name(self: object, /) -> str
+
+        name(self: object, /) -> str
+        """
     @property
-    def value(self) -> int: ...
+    def value(self) -> int:
+        """(arg0: zonoopt._core.IneqType) -> int"""
 
 class Inequality:
+    """Inequality class"""
     def __init__(self, n_dims: typing.SupportsInt) -> None:
         """__init__(self: zonoopt._core.Inequality, n_dims: typing.SupportsInt) -> None
 
@@ -874,6 +918,11 @@ class Inequality:
         """
 
 class Interval:
+    """
+                Interval class
+
+                Implements interface from IntervalBase. This class owns its lower and upper bounds.
+            """
     lb: float
     ub: float
     def __init__(self, y_min: typing.SupportsFloat, y_max: typing.SupportsFloat) -> None:
@@ -1303,6 +1352,7 @@ class Interval:
         """
 
 class OptSettings:
+    """Settings for optimization routines in ZonoOpt library."""
     contractor_iter: int
     contractor_tree_search_depth: int
     eps_a: float
@@ -1333,6 +1383,7 @@ class OptSettings:
         """
 
 class OptSolution:
+    """Solution data structure for optimization routines in ZonoOpt library."""
     J: float
     converged: bool
     dual_residual: float
@@ -1348,6 +1399,11 @@ class OptSolution:
         """__init__(self: zonoopt._core.OptSolution) -> None"""
 
 class Point(Zono):
+    """
+                Point class
+                
+                A point is defined entirely by the center vector c.
+            """
     def __init__(self, c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]']) -> None:
         '''__init__(self: zonoopt._core.Point, c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"]) -> None
 
@@ -1370,6 +1426,15 @@ class Point(Zono):
         '''
 
 class Zono(ConZono):
+    """
+                Zonotope class
+                
+                A zonotope is defined as:
+                Z = {G \\xi + c | \\xi in [-1, 1]^nG}.
+                Equivalently, the following shorthand can be used: Z = <G, c>.
+                Optionally, in 0-1 form, the factors are xi in [0,1].
+                The set dimension is n, and the number of generators is nG.
+            """
     def __init__(self, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], zero_one_form: bool = ...) -> None:
         '''__init__(self: zonoopt._core.Zono, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], zero_one_form: bool = False) -> None
 
