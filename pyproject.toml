@@ -24,7 +24,6 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  'matplotlib>=3.6',
   'numpy',
   'scipy'
 ]
