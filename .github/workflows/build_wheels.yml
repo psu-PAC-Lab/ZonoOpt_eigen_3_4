@@ -17,6 +17,14 @@ jobs:
           fetch-depth: 0
           submodules: true
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install uv build frontend
+        run: pip install uv
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.2.0
         # env:
