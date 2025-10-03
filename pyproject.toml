@@ -28,3 +28,13 @@ dependencies = [
   'numpy',
   'scipy'
 ]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test/unit_tests",
+]
+python_path = ['.']
+python_files = "unit_tests.py"
+python_functions = "test_*"
+
+# [tool.cibuildwheel]
