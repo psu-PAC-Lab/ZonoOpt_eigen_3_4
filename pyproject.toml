@@ -44,6 +44,6 @@ python_functions = "test_*"
 
 [tool.cibuildwheel]
 test-groups = ["test"]
-test-command = "pytest"
+test-command = "pytest {project}"
 build-frontend = "build[uv]"
 build-verbosity = 1
