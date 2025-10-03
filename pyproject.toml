@@ -46,6 +46,3 @@ test-groups = ["test"]
 test-command = "pytest {project}"
 build-frontend = "build[uv]"
 build-verbosity = 1
-
-[tool.cibuildwheel.linux]
-test-environment = { UV_ONLY_BINARY = "numpy,scipy,matplotlib,contourpy,kiwisolver" }
