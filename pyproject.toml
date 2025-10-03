@@ -31,8 +31,7 @@ dependencies = [
 
 [dependency-groups]
 test = [
-    "pytest",
-    "pybind11[test]>=2.6.2"
+    "pytest"
 ]
 
 [tool.pytest.ini_options]
