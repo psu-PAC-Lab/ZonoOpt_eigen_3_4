@@ -31,9 +31,8 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = [
-    "test/unit_tests",
+    "test/unit-tests",
 ]
-python_path = ['.']
 python_files = "unit_tests.py"
 python_functions = "test_*"
 
