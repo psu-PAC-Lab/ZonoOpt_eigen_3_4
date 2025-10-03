@@ -36,4 +36,8 @@ testpaths = [
 python_files = "unit_tests.py"
 python_functions = "test_*"
 
-# [tool.cibuildwheel]
+[tool.cibuildwheel]
+test-groups = ["test"]
+test-command = "pytest"
+build-frontend = "build[uv]"
+build-verbosity = 1
