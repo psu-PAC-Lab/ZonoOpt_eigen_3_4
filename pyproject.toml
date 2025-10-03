@@ -29,6 +29,12 @@ dependencies = [
   'scipy'
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pybind11[test]>=2.6.2"
+]
+
 [tool.pytest.ini_options]
 testpaths = [
     "test/unit-tests",
