@@ -61,6 +61,14 @@ jobs:
           submodules: true # Optional, use if you have submodules
       - uses: astral-sh/setup-uv@v6
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install uv build frontend
+        run: pip install uv
+
       - name: Build SDist
         run: uv build --sdist
 
