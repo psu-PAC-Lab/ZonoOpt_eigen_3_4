@@ -12,7 +12,7 @@ authors = [
 ]
 requires-python = ">=3.9"
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.7",
@@ -28,3 +28,21 @@ dependencies = [
   'numpy',
   'scipy'
 ]
+
+[dependency-groups]
+test = [
+    "pytest"
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test/unit-tests",
+]
+python_files = "unit_tests.py"
+python_functions = "test_*"
+
+[tool.cibuildwheel]
+test-groups = ["test"]
+test-command = "pytest {project}"
+build-frontend = "build[uv]"
+build-verbosity = 1

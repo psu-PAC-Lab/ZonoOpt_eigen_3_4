@@ -15,6 +15,8 @@ PYBIND11_MODULE(_core, m)
     m.doc() = R"pbdoc(
         Classes and tailored optimization routines for zonotopes, constrained zonotopes, and hybrid zonotopes.
 
+        See the github page for documentation: https://github.com/psu-PAC-Lab/ZonoOpt
+
         More information about ZonoOpt can be found in the the following publication. Please cite this if you publish work based on ZonoOpt: 
         Robbins, J.A., Siefert, J.A., and Pangborn, H.C., "Sparsity-Promoting Reachability Analysis and Optimization of Constrained Zonotopes," 2025.**
     )pbdoc";
