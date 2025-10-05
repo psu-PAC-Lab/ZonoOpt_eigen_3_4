@@ -18,6 +18,7 @@ int main()
     G.insert(1, 1) = 1;
 
     Eigen::Vector<float, -1> c(2);
+    c.setZero();
 
     Eigen::SparseMatrix<float> A(1, 2); 
     A.insert(0, 0) = 1;
