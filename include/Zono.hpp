@@ -92,12 +92,12 @@ class Zono : public ConZono
 
     protected:
 
-        bool do_is_empty(const OptSettings &settings, OptSolution* solution) const override;
+        bool do_is_empty(const OptSettings&, OptSolution*) const override;
 
-        Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override;
+        Box do_bounding_box(const OptSettings&, OptSolution*) override;
 
-        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
-            OptSolution* solution) override;
+        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings&,
+            OptSolution*) override;
 };
 
 // forward declarations
@@ -184,7 +184,7 @@ inline std::string Zono::print() const
     return ss.str();
 }
 
-inline bool Zono::do_is_empty(const OptSettings &settings, OptSolution* solution) const
+inline bool Zono::do_is_empty(const OptSettings&, OptSolution*) const
 {
     if (this->n == 0)
         return true;
@@ -192,7 +192,7 @@ inline bool Zono::do_is_empty(const OptSettings &settings, OptSolution* solution
         return false;
 }
 
-inline Box Zono::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+inline Box Zono::do_bounding_box(const OptSettings&, OptSolution*)
 {
     // convert to [-1,1] form
     if (this->zero_one_form) this->convert_form();
@@ -284,7 +284,7 @@ inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
     return std::unique_ptr<Zono>(dynamic_cast<Zono*>(Z.release()));
 }
 
-inline zono_float Zono::do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings, OptSolution* solution)
+inline zono_float Zono::do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings&, OptSolution*)
 {
     if (this->zero_one_form) this->convert_form();
 
@@ -296,7 +296,6 @@ inline zono_float Zono::do_support(const Eigen::Vector<zono_float, -1>& d, const
     }
     return h;
 }
-
 } // namespace ZonoOpt
 
 #endif

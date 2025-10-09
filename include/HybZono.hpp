@@ -522,8 +522,7 @@ class HybZono
 
         void make_G_A();
         void set_Ac_Ab_from_A();
-        std::vector<Eigen::Vector<zono_float, -1>> get_bin_leaves(bool remove_redundancy=true, 
-            const OptSettings &settings=OptSettings(), OptSolution* solution=nullptr,
+        std::vector<Eigen::Vector<zono_float, -1>> get_bin_leaves(const OptSettings &settings=OptSettings(), OptSolution* solution=nullptr,
             int n_leaves = std::numeric_limits<int>::max()) const;
 };
 
@@ -1180,8 +1179,7 @@ inline void HybZono::set_Ac_Ab_from_A()
     this->Ab.setFromTriplets(triplets_Ab.begin(), triplets_Ab.end());
 }
 
-inline std::vector<Eigen::Vector<zono_float, -1>> HybZono::get_bin_leaves(bool remove_redundancy,
-    const OptSettings &settings, OptSolution* solution, const int n_leaves) const
+inline std::vector<Eigen::Vector<zono_float, -1>> HybZono::get_bin_leaves(const OptSettings &settings, OptSolution* solution, const int n_leaves) const
 {
     // optimize over P=I, q=0
     Eigen::SparseMatrix<zono_float> P (this->nG, this->nG);

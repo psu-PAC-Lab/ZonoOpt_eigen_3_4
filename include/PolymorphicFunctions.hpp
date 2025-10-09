@@ -33,28 +33,38 @@ using namespace detail;
 // type checking
 inline bool HybZono::is_point() const
 {
-    return dynamic_cast<const Point*>(this) != nullptr;
+    const auto PointCast = dynamic_cast<const Point*>(this);
+    return PointCast != nullptr;
 }
 
 inline bool HybZono::is_zono() const
 {
-    return (dynamic_cast<const Zono*>(this) != nullptr) && (dynamic_cast<const Point*>(this) == nullptr);
+    const auto ZonoCast = dynamic_cast<const Zono*>(this);
+    const auto PointCast = dynamic_cast<const Point*>(this);
+    return (ZonoCast != nullptr) && (PointCast == nullptr);
 }
 
 inline bool HybZono::is_conzono() const
 {
-    return (dynamic_cast<const ConZono*>(this) != nullptr) && (dynamic_cast<const Zono*>(this) == nullptr);
+    const auto ConZonoCast = dynamic_cast<const ConZono*>(this);
+    const auto ZonoCast = dynamic_cast<const Zono*>(this);
+    const auto EmptySetCast = dynamic_cast<const EmptySet*>(this);
+
+    return (ConZonoCast != nullptr) && (ZonoCast == nullptr) && (EmptySetCast == nullptr);
 }
 
 inline bool HybZono::is_hybzono() const
 {
-    return (dynamic_cast<const HybZono*>(this) != nullptr) && (dynamic_cast<const ConZono*>(this) == nullptr) &&
-        dynamic_cast<const EmptySet*>(this) == nullptr;
+    const auto HybZonoCast = dynamic_cast<const HybZono*>(this);
+    const auto ConZonoCast = dynamic_cast<const ConZono*>(this);
+
+    return (HybZonoCast != nullptr) && (ConZonoCast == nullptr);
 }
 
 inline bool HybZono::is_empty_set() const
 {
-    return dynamic_cast<const EmptySet*>(this) != nullptr;
+    const auto EmptySetCast = dynamic_cast<const EmptySet*>(this);
+    return EmptySetCast != nullptr;
 }
 
 
@@ -120,7 +130,7 @@ inline std::unique_ptr<HybZono> project_onto_dims(const HybZono& Z, const std::v
     // build affine map matrix
     Eigen::SparseMatrix<zono_float> R (dims.size(), Z.n);
     std::vector<Eigen::Triplet<zono_float>> tripvec;
-    for (int i=0; i<dims.size(); i++)
+    for (size_t i=0; i<dims.size(); i++)
     {
         tripvec.emplace_back(i, dims[i], 1);
     }
@@ -264,7 +274,7 @@ inline std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
     HybZono& Z2, const std::vector<int>& dims)
 {
     // check dimensions
-    if (Z2.n != dims.size())
+    if (static_cast<size_t>(Z2.n) != dims.size())
     {
         throw std::invalid_argument("Intersection over dims: Z2.n must equal number of dimensions.");
     }
@@ -281,7 +291,7 @@ inline std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
     // build projection matrix
     Eigen::SparseMatrix<zono_float> R (dims.size(), Z1.n);
     std::vector<Eigen::Triplet<zono_float>> tripvec;
-    for (int i=0; i<dims.size(); i++)
+    for (size_t i=0; i<dims.size(); i++)
     {
         tripvec.emplace_back(i, dims[i], 1);
     }
@@ -784,7 +794,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
 
     // check if known to be sharp
     bool sharp = preserve_sharpness;
-    int i = 0;
+    size_t i = 0;
     while (sharp && i < Zs.size())
     {
         sharp = Zs[i]->sharp;
@@ -1008,8 +1018,7 @@ inline std::unique_ptr<HybZono> HybZono::do_complement(const zono_float delta_m,
     return Z_out;
 }
 
-inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m, const bool remove_redundancy, const OptSettings &settings,
-    OptSolution* solution, const int n_leaves, const int contractor_iter)
+inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int)
 {
     // make sure in [-1,1] form
     if (this->is_0_1_form()) this->convert_form();
@@ -1453,12 +1462,12 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
         }
     }
 
-    int nV = V_vec.size(); // number of unique vertices
+    const int nV = static_cast<int>(V_vec.size()); // number of unique vertices
 
     // convert to Eigen matrices
     Eigen::Matrix<zono_float, -1, -1> V (n_dims, nV);
     Eigen::Matrix<zono_float, -1, -1> M (nV, n_polys);
-    for (int i=0; i<V_vec.size(); i++)
+    for (int i=0; i<nV; i++)
     {
         V.col(i) = V_vec[i];
         M.row(i) = M_vec[i];
@@ -1568,7 +1577,7 @@ inline std::unique_ptr<Zono> interval_2_zono(const Box& box)
     // generator matrix
     std::vector<Eigen::Triplet<zono_float>> triplets;
     Eigen::SparseMatrix<zono_float> G (static_cast<Eigen::Index>(box.size()), static_cast<Eigen::Index>(box.size()));
-    for (int i=0; i<box.size(); i++)
+    for (size_t i=0; i<box.size(); i++)
     {
         triplets.emplace_back(i, i, box[i].width()/2);
     }
@@ -1725,7 +1734,7 @@ inline std::vector<ConZono> HybZono::get_leaves(const bool remove_redundancy, co
     OptSettings settings_get_leaves = settings;
 
     // get leaves as conzonos
-    const std::vector<Eigen::Vector<zono_float, -1>> bin_leaves = this->get_bin_leaves(remove_redundancy, settings_get_leaves, solution, n_leaves);
+    const std::vector<Eigen::Vector<zono_float, -1>> bin_leaves = this->get_bin_leaves(settings_get_leaves, solution, n_leaves);
     std::vector<ConZono> leaves;
     for (auto &xi_b : bin_leaves)
     {

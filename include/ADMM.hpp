@@ -354,7 +354,7 @@ namespace ZonoOpt::detail {
             zkm1 = zk;
 
             // init residuals
-            zono_float rp_k, rd_k;
+            zono_float rp_k=std::numeric_limits<zono_float>::infinity(), rd_k=std::numeric_limits<zono_float>::infinity();
 
             // init loop
             int k = 0;
@@ -517,13 +517,13 @@ namespace ZonoOpt::detail {
             const bool prob_data_consistent = (this->data->P.rows() == this->data->n_x && this->data->P.cols() == this->data->n_x &&
                 this->data->q.size() == this->data->n_x && this->data->A.rows() == this->data->n_cons &&
                 this->data->A.cols() == this->data->n_x && this->data->b.size() == this->data->n_cons &&
-                this->data->x_box->size() == this->data->n_x);
+                this->data->x_box->size() == static_cast<size_t>(this->data->n_x));
 
             bool warm_start_consistent;
             if (this->is_warmstarted)
             {
                 warm_start_consistent = (this->x0.size() == this->data->n_x && this->u0.size() == this->data->n_x &&
-                    this->data->x_box->size() == this->data->n_x);
+                    this->data->x_box->size() == static_cast<size_t>(this->data->n_x));
             }
             else
                 warm_start_consistent = true;

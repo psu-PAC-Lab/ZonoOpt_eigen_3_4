@@ -746,7 +746,7 @@ namespace ZonoOpt {
             x_lb.resize(static_cast<Eigen::Index>(vals.size()));
             x_ub.resize(static_cast<Eigen::Index>(vals.size()));
 
-            for (Eigen::Index i=0; i<vals.size(); i++)
+            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(vals.size()); i++)
             {
                 this->x_lb(i) = vals[i].y_min();
                 this->x_ub(i) = vals[i].y_max();
@@ -808,7 +808,7 @@ namespace ZonoOpt {
          */
         IntervalView operator[](const size_t i)
         {
-            if (i >= x_lb.size())
+            if (i >= static_cast<size_t>(x_lb.size()))
                 throw std::out_of_range("Index out of range");
             return IntervalView(&x_lb(static_cast<Eigen::Index>(i)), &x_ub(static_cast<Eigen::Index>(i)));
         }
@@ -820,7 +820,7 @@ namespace ZonoOpt {
          */
         Interval operator[](const size_t i) const
         {
-            if (i >= x_lb.size())
+            if (i >= static_cast<size_t>(x_lb.size()))
                 throw std::out_of_range("Index out of range");
             return Interval(x_lb(static_cast<Eigen::Index>(i)), x_ub(static_cast<Eigen::Index>(i)));
         }
@@ -893,7 +893,7 @@ namespace ZonoOpt {
         Eigen::Vector<zono_float, -1> center() const
         {
             Eigen::Vector<zono_float, -1> c (this->size());
-            for (Eigen::Index i=0; i<this->size(); i++)
+            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(this->size()); i++)
             {
                 c(i) = (*this)[i].center();
             }
@@ -1134,7 +1134,7 @@ namespace ZonoOpt {
         {
             std::stringstream ss;
             ss << "Box: " << std::endl;
-            for (size_t i=0; i<x_lb.size(); i++)
+            for (Eigen::Index i=0; i<x_lb.size(); i++)
             {
                 ss << "  " << (*this)[i] << std::endl;
             }

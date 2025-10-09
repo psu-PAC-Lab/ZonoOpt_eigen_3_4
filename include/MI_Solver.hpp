@@ -40,7 +40,7 @@ namespace ZonoOpt::detail {
             }
 
             // check number of threads is valid
-            if (this->data.admm_data->settings.n_threads_bnb > std::thread::hardware_concurrency()-1)
+            if (this->data.admm_data->settings.n_threads_bnb > static_cast<int>(std::thread::hardware_concurrency())-1)
             {
                 std::stringstream ss;
                 ss << "MI_solver setup: number of threads for branch and bound (" << this->data.admm_data->settings.n_threads_bnb
@@ -301,7 +301,7 @@ namespace ZonoOpt::detail {
                 }
                 else // check based on number of solutions
                 {
-                    if (this->solutions.size() >= max_sols)
+                    if (this->solutions.size() >= static_cast<size_t>(max_sols))
                     {
                         this->done = true;
                         this->converged = true;

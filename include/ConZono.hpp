@@ -126,10 +126,10 @@ class ConZono : public HybZono
         bool do_contains_point(const Eigen::Vector<zono_float, -1>& x, const OptSettings &settings,
             OptSolution* solution) const override;
 
-        Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override;
+        Box do_bounding_box(const OptSettings &settings, OptSolution*) override;
 
-        std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool remove_redundancy, const OptSettings &settings,
-            OptSolution* solution, int n_leaves, int contractor_iter) override;
+        std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool, const OptSettings&,
+            OptSolution*, int, int) override;
 };
 
 // forward declarations
@@ -353,7 +353,7 @@ inline OptSolution ConZono::qp_opt(const Eigen::SparseMatrix<zono_float>& P, con
 }
 
 // bounding box
-inline Box ConZono::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+inline Box ConZono::do_bounding_box(const OptSettings &settings, OptSolution*)
 {
     // make sure dimension is at least 1
     if (this->n == 0)
