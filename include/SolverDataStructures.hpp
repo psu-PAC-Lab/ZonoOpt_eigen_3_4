@@ -82,13 +82,13 @@ struct OptSettings
     zono_float eps_a = 1e-1; 
 
     /// max number of branch-and-bound iterations
-    int k_max_bnb = 1e5;
+    int k_max_bnb = static_cast<int>(1e5);
 
     /// max threads for branch and bound
     int n_threads_bnb = 4;
 
     /// terminate if more than this many nodes are in branch and bound queue
-    int max_nodes = 1e5;
+    int max_nodes = static_cast<int>(1e5);
 
     /// when applying interval contractor in branch and bound, this is how deep to search the constraint tree for affected variables
     int contractor_tree_search_depth = 10;

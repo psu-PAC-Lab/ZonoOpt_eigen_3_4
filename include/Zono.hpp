@@ -250,7 +250,7 @@ inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
         const int k = sort_vec[i].first; // column
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(this->G, k); it; ++it)
         {
-            triplets.emplace_back(it.row(), i, it.value());
+            triplets.emplace_back(static_cast<int>(it.row()), i, it.value());
         }
     }
     G_K.setFromSortedTriplets(triplets.begin(), triplets.end());
@@ -264,7 +264,7 @@ inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
         const int k = sort_vec[i].first; // column
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(this->G, k); it; ++it)
         {
-            triplets.emplace_back(it.row(), i-n_K, it.value());
+            triplets.emplace_back(static_cast<int>(it.row()), i-n_K, it.value());
         }
     }
     G_L.setFromSortedTriplets(triplets.begin(), triplets.end());

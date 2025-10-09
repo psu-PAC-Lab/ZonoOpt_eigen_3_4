@@ -31,7 +31,7 @@ endif()
 if (MSVC)
     add_compile_options(/bigobj /W4)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wconversion -Wsign-compare)
 endif()
 
 # include path

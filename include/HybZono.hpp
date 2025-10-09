@@ -1063,7 +1063,7 @@ inline void HybZono::remove_generators(Eigen::SparseMatrix<zono_float>& G, Eigen
         {
             for (Eigen::SparseMatrix<zono_float>::InnerIterator it(G, k); it; ++it)
             {
-                triplets.emplace_back(it.row(), k-delta_ind, it.value());
+                triplets.emplace_back(static_cast<int>(it.row()), k-delta_ind, it.value());
             }
         }
     }
@@ -1083,7 +1083,7 @@ inline void HybZono::remove_generators(Eigen::SparseMatrix<zono_float>& G, Eigen
         {
             for (Eigen::SparseMatrix<zono_float>::InnerIterator it(A, k); it; ++it)
             {
-                triplets.emplace_back(it.row(), k-delta_ind, it.value());
+                triplets.emplace_back(static_cast<int>(it.row()), k-delta_ind, it.value());
             }
         }
     }
@@ -1163,11 +1163,11 @@ inline void HybZono::set_Ac_Ab_from_A()
         {
             if (it.col() < this->nGc)
             {
-                triplets_Ac.emplace_back(it.row(), it.col(), it.value());
+                triplets_Ac.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col()), it.value());
             }
             else
             {
-                triplets_Ab.emplace_back(it.row(), it.col()-this->nGc, it.value());
+                triplets_Ab.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col())-this->nGc, it.value());
             }
         }
     }
