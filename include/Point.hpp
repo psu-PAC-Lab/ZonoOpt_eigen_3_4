@@ -63,25 +63,25 @@ class Point final : public Zono
         std::string print() const override;
 
         // do nothing methods
-        void remove_redundancy(int interval_contractor) override { /* do nothing */ }
+        void remove_redundancy(int) override { /* do nothing */ }
         void convert_form() override { /* do nothing */ }
 
     protected:
 
         Eigen::Vector<zono_float, -1> do_optimize_over(
-            const Eigen::SparseMatrix<zono_float> &P, const Eigen::Vector<zono_float, -1> &q, zono_float c,
-            const OptSettings &settings, OptSolution* solution) const override;
+            const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
+            const OptSettings&, OptSolution*) const override;
 
         Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>& x,
-            const OptSettings &settings, OptSolution* solution) const override;
+            const OptSettings&, OptSolution*) const override;
 
-        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
-            OptSolution* solution) override;
+        zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings&,
+            OptSolution*) override;
 
-        bool do_contains_point(const Eigen::Vector<zono_float, -1>& x, const OptSettings &settings,
-            OptSolution* solution) const override;
+        bool do_contains_point(const Eigen::Vector<zono_float, -1>& x, const OptSettings&,
+            OptSolution*) const override;
 
-        Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override;
+        Box do_bounding_box(const OptSettings&, OptSolution*) override;
 };
 
 // implementation
@@ -116,14 +116,14 @@ inline std::string Point::print() const
 }
 
 inline Eigen::Vector<zono_float, -1> Point::do_optimize_over(
-    const Eigen::SparseMatrix<zono_float> &P, const Eigen::Vector<zono_float, -1> &q, zono_float c,
-    const OptSettings &settings, OptSolution* solution) const
+    const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
+    const OptSettings&, OptSolution*) const
 {
     return this->c;
 }
 
 inline Eigen::Vector<zono_float, -1> Point::do_project_point(const Eigen::Vector<zono_float, -1>& x,
-    const OptSettings &settings, OptSolution* solution) const
+    const OptSettings&, OptSolution*) const
 {
     // check dimensions
     if (this->n != x.size())
@@ -135,7 +135,7 @@ inline Eigen::Vector<zono_float, -1> Point::do_project_point(const Eigen::Vector
 }
 
 inline zono_float Point::do_support(const Eigen::Vector<zono_float, -1>& d,
-    const OptSettings &settings, OptSolution* solution)
+    const OptSettings&, OptSolution*)
 {
     // check dimensions
     if (this->n != d.size())
@@ -146,9 +146,8 @@ inline zono_float Point::do_support(const Eigen::Vector<zono_float, -1>& d,
     return this->c.dot(d);
 }
 
-
 inline bool Point::do_contains_point(const Eigen::Vector<zono_float, -1>& x,
-    const OptSettings &settings, OptSolution* solution) const
+    const OptSettings&, OptSolution*) const
 {
     if (this->n != x.size())
         throw std::invalid_argument("Contains point: inconsistent dimensions");
@@ -157,7 +156,7 @@ inline bool Point::do_contains_point(const Eigen::Vector<zono_float, -1>& x,
     return dist < zono_eps;
 }
 
-inline Box Point::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+inline Box Point::do_bounding_box(const OptSettings&, OptSolution*)
 {
     return {this->c, this->c};
 }

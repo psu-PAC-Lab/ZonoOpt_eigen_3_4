@@ -522,8 +522,7 @@ class HybZono
 
         void make_G_A();
         void set_Ac_Ab_from_A();
-        std::vector<Eigen::Vector<zono_float, -1>> get_bin_leaves(bool remove_redundancy=true, 
-            const OptSettings &settings=OptSettings(), OptSolution* solution=nullptr,
+        std::vector<Eigen::Vector<zono_float, -1>> get_bin_leaves(const OptSettings &settings=OptSettings(), OptSolution* solution=nullptr,
             int n_leaves = std::numeric_limits<int>::max()) const;
 };
 
@@ -1064,7 +1063,7 @@ inline void HybZono::remove_generators(Eigen::SparseMatrix<zono_float>& G, Eigen
         {
             for (Eigen::SparseMatrix<zono_float>::InnerIterator it(G, k); it; ++it)
             {
-                triplets.emplace_back(it.row(), k-delta_ind, it.value());
+                triplets.emplace_back(static_cast<int>(it.row()), k-delta_ind, it.value());
             }
         }
     }
@@ -1084,7 +1083,7 @@ inline void HybZono::remove_generators(Eigen::SparseMatrix<zono_float>& G, Eigen
         {
             for (Eigen::SparseMatrix<zono_float>::InnerIterator it(A, k); it; ++it)
             {
-                triplets.emplace_back(it.row(), k-delta_ind, it.value());
+                triplets.emplace_back(static_cast<int>(it.row()), k-delta_ind, it.value());
             }
         }
     }
@@ -1100,7 +1099,7 @@ inline std::set<int> HybZono::find_unused_generators(const Eigen::SparseMatrix<z
         bool is_unused = true;
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(A, k); it; ++it)
         {
-            if (it.value() != 0)
+            if (std::abs(it.value()) > zono_eps)
             {
                 is_unused = false;
                 break;
@@ -1120,7 +1119,7 @@ inline std::set<int> HybZono::find_unused_generators(const Eigen::SparseMatrix<z
         bool is_zero = true;
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(G, idx_no_con); it; ++it)
         {
-            if (it.value() != 0)
+            if (std::abs(it.value()) > zono_eps)
             {
                 is_zero = false;
                 break;
@@ -1164,11 +1163,11 @@ inline void HybZono::set_Ac_Ab_from_A()
         {
             if (it.col() < this->nGc)
             {
-                triplets_Ac.emplace_back(it.row(), it.col(), it.value());
+                triplets_Ac.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col()), it.value());
             }
             else
             {
-                triplets_Ab.emplace_back(it.row(), it.col()-this->nGc, it.value());
+                triplets_Ab.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col())-this->nGc, it.value());
             }
         }
     }
@@ -1180,8 +1179,7 @@ inline void HybZono::set_Ac_Ab_from_A()
     this->Ab.setFromTriplets(triplets_Ab.begin(), triplets_Ab.end());
 }
 
-inline std::vector<Eigen::Vector<zono_float, -1>> HybZono::get_bin_leaves(bool remove_redundancy,
-    const OptSettings &settings, OptSolution* solution, const int n_leaves) const
+inline std::vector<Eigen::Vector<zono_float, -1>> HybZono::get_bin_leaves(const OptSettings &settings, OptSolution* solution, const int n_leaves) const
 {
     // optimize over P=I, q=0
     Eigen::SparseMatrix<zono_float> P (this->nG, this->nG);

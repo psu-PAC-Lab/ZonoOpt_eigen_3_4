@@ -34,7 +34,7 @@ namespace ZonoOpt::detail
         {
             for (typename Eigen::SparseMatrix<T>::InnerIterator it(A, k); it; ++it)
             {
-                tripvec.emplace_back(Eigen::Triplet<T>(it.row(), it.col(), it.value()));
+                tripvec.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col()), it.value());
             }
         }
 
@@ -42,7 +42,7 @@ namespace ZonoOpt::detail
         {
             for (typename Eigen::SparseMatrix<T>::InnerIterator it(B, k); it; ++it)
             {
-                tripvec.emplace_back(Eigen::Triplet<T>(it.row(), it.col()+A.cols(), it.value()));
+                tripvec.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col()+A.cols()), it.value());
             }
         }
 
@@ -67,7 +67,7 @@ namespace ZonoOpt::detail
         {
             for (typename Eigen::SparseMatrix<T>::InnerIterator it(A, k); it; ++it)
             {
-                tripvec.emplace_back(Eigen::Triplet<T>(it.row(), it.col(), it.value()));
+                tripvec.emplace_back(static_cast<int>(it.row()), static_cast<int>(it.col()), it.value());
             }
         }
 
@@ -75,7 +75,7 @@ namespace ZonoOpt::detail
         {
             for (typename Eigen::SparseMatrix<T>::InnerIterator it(B, k); it; ++it)
             {
-                tripvec.emplace_back(Eigen::Triplet<T>(it.row()+A.rows(), it.col(), it.value()));
+                tripvec.emplace_back(static_cast<int>(it.row()+A.rows()), static_cast<int>(it.col()), it.value());
             }
         }
 
@@ -86,7 +86,7 @@ namespace ZonoOpt::detail
     // get triplets for matrix
     template <typename T>
     void get_triplets_offset(const Eigen::SparseMatrix<T> &mat, std::vector<Eigen::Triplet<T>> &triplets,
-                int i_offset, int j_offset)
+                const int i_offset, const int j_offset)
     {
         // check validity
         if (i_offset < 0 || j_offset < 0)
@@ -99,7 +99,7 @@ namespace ZonoOpt::detail
         {
             for (typename Eigen::SparseMatrix<T>::InnerIterator it(mat, k); it; ++it)
             {
-                triplets.emplace_back(Eigen::Triplet<T>(it.row() + i_offset, it.col() + j_offset, it.value()));
+                triplets.emplace_back(static_cast<int>(it.row() + i_offset), static_cast<int>(it.col() + j_offset), it.value());
             }
         }
     }
@@ -132,7 +132,7 @@ namespace ZonoOpt::detail
         std::vector<Eigen::Triplet<T>> tripvec;
         for (int i=0; i<qr.rank(); i++)
         {
-            tripvec.emplace_back(Eigen::Triplet<T>(P_indices(i), i, 1.0));
+            tripvec.emplace_back(P_indices(i), i, static_cast<T>(1.0));
         }
 
         Eigen::SparseMatrix<T> P_full (At.cols(), qr.rank());
@@ -155,7 +155,7 @@ namespace ZonoOpt::detail
 
         for (typename Eigen::SparseMatrix<T, Eigen::RowMajor>::InnerIterator it(mat, row); it; ++it)
         {
-            triplets.emplace_back(Eigen::Triplet<T>(row, it.col(), it.value()));
+            triplets.emplace_back(row, static_cast<int>(it.col()), it.value());
         }
 
         return triplets;

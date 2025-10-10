@@ -40,7 +40,7 @@ namespace ZonoOpt::detail {
             }
 
             // check number of threads is valid
-            if (this->data.admm_data->settings.n_threads_bnb > std::thread::hardware_concurrency()-1)
+            if (this->data.admm_data->settings.n_threads_bnb > static_cast<int>(std::thread::hardware_concurrency())-1)
             {
                 std::stringstream ss;
                 ss << "MI_solver setup: number of threads for branch and bound (" << this->data.admm_data->settings.n_threads_bnb
@@ -198,7 +198,7 @@ namespace ZonoOpt::detail {
             }
 
             // log startup time
-            zono_float startup_time = 1e-6 * static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(
+            double startup_time = 1e-6 * static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::high_resolution_clock::now() - start).count());
             if (this->data.admm_data->settings.verbose)
             {
@@ -301,7 +301,7 @@ namespace ZonoOpt::detail {
                 }
                 else // check based on number of solutions
                 {
-                    if (this->solutions.size() >= max_sols)
+                    if (this->solutions.size() >= static_cast<size_t>(max_sols))
                     {
                         this->done = true;
                         this->converged = true;
@@ -468,7 +468,7 @@ namespace ZonoOpt::detail {
         // check if integer feasible, xb is vector of relaxed binary variables
         bool is_integer_feasible(const Eigen::Ref<const Eigen::Vector<zono_float,-1>> xb) const
         {
-            const zono_float low = this->data.zero_one_form ? 0 : -1;
+            const zono_float low = this->data.zero_one_form ? zero : -one;
             constexpr zono_float high = 1;
 
             for (int i=0; i<xb.size(); i++)
@@ -486,7 +486,7 @@ namespace ZonoOpt::detail {
             if (this->data.idx_b.second <= 0)
                 return;
 
-            const zono_float low = this->data.zero_one_form ? 0 : -1;
+            const zono_float low = this->data.zero_one_form ? zero : -one;
             constexpr zono_float high = 1;
 
             // round and find most fractional variable
@@ -572,7 +572,7 @@ namespace ZonoOpt::detail {
                     std::unique_lock<std::mutex> lock(pq_mtx);
                     pq_cv_bnb.wait(lock, [this]() { return this->done || !this->node_queue.empty(); });
                     if (this->done) return;
-                    node = std::move(this->node_queue.pop_top());
+                    node = this->node_queue.pop_top();
                     this->J_threads.add(node->solution.J); // add J to J_threads vector, need to do this before releasing lock
                 }
                 solve_and_branch(node);

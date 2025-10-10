@@ -27,11 +27,9 @@ Reference:
 Luc Jaulin, Michel Kieffer, Olivier Didrit, Eric Walter
 */
 
-#ifndef M_PI
-    #define M_PI 3.14159265358979323846
-#endif
-
 namespace ZonoOpt {
+
+    using namespace detail;
 
     // forward declarations
     struct Interval;
@@ -155,17 +153,17 @@ namespace ZonoOpt {
             }
             else if (min > 0 || max < 0)
             {
-                min = 1.0 / max;
-                max = 1.0 / min;
+                min = one / max;
+                max = one / min;
             }
             else if (std::abs(min) < zono_eps && max > 0)
             {
-                min = 1.0 / max;
+                min = one / max;
                 max = std::numeric_limits<zono_float>::infinity();
             }
             else if (min < 0 && std::abs(max) < zono_eps)
             {
-                max = 1.0 / min;
+                max = one / min;
                 min = -std::numeric_limits<zono_float>::infinity();
             }
             else
@@ -241,30 +239,30 @@ namespace ZonoOpt {
          */
         void sin_assign(const Derived& x)
         {
-            if (x.y_max() - x.y_min() >= 2*M_PI)
+            if (x.y_max() - x.y_min() >= two*pi)
             {
-                y_max() = 1;
-                y_min() = -1;
+                y_max() = one;
+                y_min() = -one;
             }
             else
             {
                 // shift domain to [-pi, pi]
                 zono_float u = x.y_max(); // init
                 zono_float l = x.y_min(); // init
-                while (u > M_PI)
+                while (u > pi)
                 {
-                    u -= 2*M_PI;
-                    l -= 2*M_PI;
+                    u -= two*pi;
+                    l -= two*pi;
                 }
-                while (l < -M_PI)
+                while (l < -pi)
                 {
-                    u += 2*M_PI;
-                    l += 2*M_PI;
+                    u += two*pi;
+                    l += two*pi;
                 }
 
                 // get bounds
-                y_max() = ((l < M_PI/2 && M_PI/2 < u) || (l < -3*M_PI/2 && -3*M_PI/2 < u)) ? 1 : std::max(std::sin(u), std::sin(l));
-                y_min() = ((l < -M_PI/2 && -M_PI/2 < u) || (l < 3*M_PI/2 && 3*M_PI/2 < u)) ? -1 : std::min(std::sin(u), std::sin(l));
+                y_max() = ((l < pi/two && pi/two < u) || (l < -3*pi/two && -3*pi/two < u)) ? one : std::max(std::sin(u), std::sin(l));
+                y_min() = ((l < -pi/two && -pi/two < u) || (l < 3*pi/two && 3*pi/two < u)) ? -one : std::min(std::sin(u), std::sin(l));
             }
         }
 
@@ -275,7 +273,7 @@ namespace ZonoOpt {
         void cos_assign(const Derived& x)
         {
             Derived x_sin;
-            x_sin.set(x.y_min() + M_PI/2, x.y_max() + M_PI/2);
+            x_sin.set(x.y_min() + pi/two, x.y_max() + pi/two);
             sin_assign(x_sin);
         }
 
@@ -285,7 +283,7 @@ namespace ZonoOpt {
          */
         void tan_assign(const Derived& x)
         {
-            if (x.y_max() - x.y_min() >= M_PI)
+            if (x.y_max() - x.y_min() >= pi)
             {
                 y_max() = std::numeric_limits<zono_float>::infinity();
                 y_min() = -std::numeric_limits<zono_float>::infinity();
@@ -295,19 +293,19 @@ namespace ZonoOpt {
                 // shift domain to [-pi, pi]
                 zono_float u = x.y_max(); // init
                 zono_float l = x.y_min(); // init
-                while (u > M_PI)
+                while (u > pi)
                 {
-                    u -= 2*M_PI;
-                    l -= 2*M_PI;
+                    u -= two*pi;
+                    l -= two*pi;
                 }
-                while (l < -M_PI)
+                while (l < -pi)
                 {
-                    u += 2*M_PI;
-                    l += 2*M_PI;
+                    u += two*pi;
+                    l += two*pi;
                 }
 
                 // get bounds
-                if ((l < -M_PI/2 && -M_PI/2 < u) || (l < M_PI/2 && M_PI/2 < u))
+                if ((l < -pi/two && -pi/two < u) || (l < pi/two && pi/two < u))
                 {
                     y_max() = std::numeric_limits<zono_float>::infinity();
                     y_min() = -std::numeric_limits<zono_float>::infinity();
@@ -326,8 +324,8 @@ namespace ZonoOpt {
          */
         void arcsin_assign(const Derived& x)
         {
-            assert(x.y_min() >= -1 && x.y_min() <= 1);
-            assert(x.y_max() >= -1 && x.y_max() <= 1);
+            assert(x.y_min() >= -one && x.y_min() <= one);
+            assert(x.y_max() >= -one && x.y_max() <= one);
             y_min() = std::asin(x.y_min());
             y_max() = std::asin(x.y_max());
         }
@@ -338,8 +336,8 @@ namespace ZonoOpt {
          */
         void arccos_assign(const Derived& x)
         {
-            assert(x.y_min() >= -1 && x.y_min() <= 1);
-            assert(x.y_max() >= -1 && x.y_max() <= 1);
+            assert(x.y_min() >= -one && x.y_min() <= one);
+            assert(x.y_max() >= -one && x.y_max() <= one);
             y_min() = std::acos(x.y_max());
             y_max() = std::acos(x.y_min());
         }
@@ -518,7 +516,7 @@ namespace ZonoOpt {
          */
         zono_float center() const
         {
-            return (ub + lb) / 2;
+            return (ub + lb) / two;
         }
 
         // as interval view
@@ -746,7 +744,7 @@ namespace ZonoOpt {
             x_lb.resize(static_cast<Eigen::Index>(vals.size()));
             x_ub.resize(static_cast<Eigen::Index>(vals.size()));
 
-            for (Eigen::Index i=0; i<vals.size(); i++)
+            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(vals.size()); i++)
             {
                 this->x_lb(i) = vals[i].y_min();
                 this->x_ub(i) = vals[i].y_max();
@@ -808,7 +806,7 @@ namespace ZonoOpt {
          */
         IntervalView operator[](const size_t i)
         {
-            if (i >= x_lb.size())
+            if (i >= static_cast<size_t>(x_lb.size()))
                 throw std::out_of_range("Index out of range");
             return IntervalView(&x_lb(static_cast<Eigen::Index>(i)), &x_ub(static_cast<Eigen::Index>(i)));
         }
@@ -820,7 +818,7 @@ namespace ZonoOpt {
          */
         Interval operator[](const size_t i) const
         {
-            if (i >= x_lb.size())
+            if (i >= static_cast<size_t>(x_lb.size()))
                 throw std::out_of_range("Index out of range");
             return Interval(x_lb(static_cast<Eigen::Index>(i)), x_ub(static_cast<Eigen::Index>(i)));
         }
@@ -893,7 +891,7 @@ namespace ZonoOpt {
         Eigen::Vector<zono_float, -1> center() const
         {
             Eigen::Vector<zono_float, -1> c (this->size());
-            for (Eigen::Index i=0; i<this->size(); i++)
+            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(this->size()); i++)
             {
                 c(i) = (*this)[i].center();
             }
@@ -1134,7 +1132,7 @@ namespace ZonoOpt {
         {
             std::stringstream ss;
             ss << "Box: " << std::endl;
-            for (size_t i=0; i<x_lb.size(); i++)
+            for (Eigen::Index i=0; i<x_lb.size(); i++)
             {
                 ss << "  " << (*this)[i] << std::endl;
             }
@@ -1201,7 +1199,7 @@ namespace ZonoOpt {
                     for (const int col : cols)
                     {
                         Interval x = y; // init
-                        zono_float a_col=1;
+                        zono_float a_col=one;
                         for (Eigen::SparseMatrix<zono_float, Eigen::RowMajor>::InnerIterator it(A, k); it; ++it)
                         {
                             if (it.col() != col)
@@ -1215,7 +1213,7 @@ namespace ZonoOpt {
                         }
 
                         // update interval
-                        (*this)[col].intersect_assign((*this)[col], (x * (1/a_col)).as_view());
+                        (*this)[col].intersect_assign((*this)[col], (x * (one/a_col)).as_view());
                     }
                 }
             }
@@ -1275,7 +1273,7 @@ namespace ZonoOpt {
         }
     };
 
-} // namespace ZonoOpt::detail
+} // namespace ZonoOpt
 
 
 #endif

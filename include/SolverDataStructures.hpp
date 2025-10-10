@@ -41,13 +41,13 @@ struct OptSettings
     int k_max_admm = 5000; 
 
     /// admm penalty parameter, higher prioritizes feasibility during iterations, lower prioritizes optimality
-    zono_float rho = 10; 
+    zono_float rho = static_cast<zono_float>(10.0); 
 
     /// dual convergence tolerance 
-    zono_float eps_dual = 1e-2;
+    zono_float eps_dual = static_cast<zono_float>(1e-2);
 
     /// primal convergence tolerance
-    zono_float eps_prim = 1e-3;
+    zono_float eps_prim = static_cast<zono_float>(1e-3);
 
     /// check infeasibility every k_inf_check iterations
     int k_inf_check = 10; 
@@ -70,25 +70,25 @@ struct OptSettings
     bool polish = true;
 
     /// dual residual convergence tolerance during branch and bound and search
-    zono_float eps_dual_search = 1e-1; 
+    zono_float eps_dual_search = static_cast<zono_float>(1e-1); 
 
     /// primal residual convergence tolerance during branch and bound and search
-    zono_float eps_prim_search = 1e-2;
+    zono_float eps_prim_search = static_cast<zono_float>(1e-2);
 
     /// relative convergence tolerance
-    zono_float eps_r = 1e-2; 
+    zono_float eps_r = static_cast<zono_float>(1e-2); 
 
     /// absolute convergence tolerance
-    zono_float eps_a = 1e-1; 
+    zono_float eps_a = static_cast<zono_float>(1e-1); 
 
     /// max number of branch-and-bound iterations
-    int k_max_bnb = 1e5;
+    int k_max_bnb = static_cast<int>(1e5);
 
     /// max threads for branch and bound
     int n_threads_bnb = 4;
 
     /// terminate if more than this many nodes are in branch and bound queue
-    int max_nodes = 1e5;
+    int max_nodes = static_cast<int>(1e5);
 
     /// when applying interval contractor in branch and bound, this is how deep to search the constraint tree for affected variables
     int contractor_tree_search_depth = 10;
@@ -160,10 +160,10 @@ struct OptSolution
     zono_float J = -std::numeric_limits<zono_float>::infinity();
 
     /// time to compute solution
-    double run_time = 0;
+    double run_time = 0.0;
 
     /// time to factorize matrices and run interval contractors
-    double startup_time = 0;
+    double startup_time = 0.0;
 
     /// number of iterations
     int iter = 0;

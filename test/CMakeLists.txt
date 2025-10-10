@@ -13,16 +13,20 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
 endif()
 
 if (MSVC)
-    add_compile_options(/bigobj)
+    add_compile_options(/bigobj /W3)
+else()
+    add_compile_options(-Wall -Wextra)
 endif()
 
 # include path
 include_directories(
-    ../include
-    ../extern/eigen
+        ../include
+        ../extern/eigen
 )
 
 # add source files
 add_executable(example_operations
-    src/example_operations.cpp
+        src/example_operations.cpp
 )
+
+# set_target_properties(example_operations PROPERTIES COMPILE_WARNING_AS_ERROR ON)

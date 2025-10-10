@@ -112,7 +112,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            }</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="comment">// check number of threads is valid</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">if</span> (this-&gt;data.admm_data-&gt;settings.n_threads_bnb &gt; std::thread::hardware_concurrency()-1)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">if</span> (this-&gt;data.admm_data-&gt;settings.n_threads_bnb &gt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(std::thread::hardware_concurrency())-1)</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                std::stringstream ss;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                ss &lt;&lt; <span class="stringliteral">&quot;MI_solver setup: number of threads for branch and bound (&quot;</span> &lt;&lt; this-&gt;data.admm_data-&gt;settings.n_threads_bnb</div>
@@ -270,7 +270,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            }</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            <span class="comment">// log startup time</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> startup_time = 1e-6 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            <span class="keywordtype">double</span> startup_time = 1e-6 * <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                std::chrono::high_resolution_clock::now() - start).count());</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">if</span> (this-&gt;data.admm_data-&gt;settings.verbose)</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            {</div>
@@ -373,7 +373,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                }</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                <span class="keywordflow">else</span> <span class="comment">// check based on number of solutions</span></div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                {</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                    <span class="keywordflow">if</span> (this-&gt;solutions.size() &gt;= max_sols)</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                    <span class="keywordflow">if</span> (this-&gt;solutions.size() &gt;= <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(max_sols))</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                    {</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                        this-&gt;done = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                        this-&gt;converged = <span class="keyword">true</span>;</div>
@@ -540,7 +540,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>        <span class="comment">// check if integer feasible, xb is vector of relaxed binary variables</span></div>
 <div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>        <span class="keywordtype">bool</span> is_integer_feasible(<span class="keyword">const</span> Eigen::Ref&lt;<span class="keyword">const</span> Eigen::Vector&lt;zono_float,-1&gt;&gt; xb)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>            <span class="keyword">const</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> low = this-&gt;data.zero_one_form ? 0 : -1;</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>            <span class="keyword">const</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> low = this-&gt;data.zero_one_form ? zero : -one;</div>
 <div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>            <span class="keyword">constexpr</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> high = 1;</div>
 <div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span> </div>
 <div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i&lt;xb.size(); i++)</div>
@@ -558,7 +558,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>            <span class="keywordflow">if</span> (this-&gt;data.idx_b.second &lt;= 0)</div>
 <div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span> </div>
-<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            <span class="keyword">const</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> low = this-&gt;data.zero_one_form ? 0 : -1;</div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            <span class="keyword">const</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> low = this-&gt;data.zero_one_form ? zero : -one;</div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>            <span class="keyword">constexpr</span> <a class="code hl_define" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> high = 1;</div>
 <div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span> </div>
 <div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>            <span class="comment">// round and find most fractional variable</span></div>

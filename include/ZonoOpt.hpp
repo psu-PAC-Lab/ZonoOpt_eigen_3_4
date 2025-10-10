@@ -51,6 +51,16 @@
     #define zono_eps Eigen::NumTraits<zono_float>::dummy_precision()
 #endif
 
+// constants
+namespace ZonoOpt::detail
+{
+    constexpr zono_float pi = static_cast<zono_float>(3.14159265358979323846);
+    constexpr zono_float zero = static_cast<zono_float>(0.0);
+    constexpr zono_float p5 = static_cast<zono_float>(0.5);
+    constexpr zono_float one = static_cast<zono_float>(1.0);
+    constexpr zono_float two = static_cast<zono_float>(2.0);
+}
+
 #include "Point.hpp"
 #include "Zono.hpp"
 #include "ConZono.hpp"

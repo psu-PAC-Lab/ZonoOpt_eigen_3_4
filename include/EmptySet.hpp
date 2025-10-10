@@ -76,8 +76,8 @@ public:
 
 protected:
     Eigen::Vector<zono_float, -1> do_optimize_over(
-            const Eigen::SparseMatrix<zono_float> &P, const Eigen::Vector<zono_float, -1> &q, zono_float c,
-            const OptSettings &settings, OptSolution* solution) const override
+            const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
+            const OptSettings&, OptSolution* solution) const override
     {
         if (solution)
         {
@@ -86,8 +86,7 @@ protected:
         return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
     }
 
-    Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>& x,
-        const OptSettings &settings, OptSolution* solution) const override
+    Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const override
     {
         if (solution)
         {
@@ -96,8 +95,7 @@ protected:
         return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
     }
 
-    zono_float do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
-        OptSolution* solution) override
+    zono_float do_support(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) override
     {
         if (solution)
         {
@@ -106,26 +104,24 @@ protected:
         return std::numeric_limits<zono_float>::quiet_NaN();
     }
 
-    bool do_contains_point(const Eigen::Vector<zono_float, -1>& x, const OptSettings &settings,
-        OptSolution* solution) const override
+    bool do_contains_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution*) const override
     {
         return false;
     }
 
-    Box do_bounding_box(const OptSettings &settings, OptSolution* solution) override
+    Box do_bounding_box(const OptSettings&, OptSolution*) override
     {
         const Eigen::Vector<zono_float, -1> x_l = Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
         const Eigen::Vector<zono_float, -1> x_u = -Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
         return {x_l, x_u};
     }
 
-    bool do_is_empty(const OptSettings &settings, OptSolution *solution) const override
+    bool do_is_empty(const OptSettings&, OptSolution*) const override
     {
         return true;
     }
 
-    std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool remove_redundancy, const OptSettings &settings,
-        OptSolution* solution, int n_leaves, int contractor_iter) override
+    std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int) override
     {
         const zono_float m = delta_m + 1; // box width
         const Eigen::Vector<zono_float, -1> x_l = -Eigen::Vector<zono_float, -1>::Constant(this->n, m);
