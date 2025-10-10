@@ -264,6 +264,29 @@ def test_point_contain():
     assert not Z.contains_point(x_n)
     print('Passed: Point Containment')
 
+def test_get_leaves():
+
+    # make random conzonos
+    np.random.seed(0)
+
+    n_CZs = 10
+    n = 10
+    nV = 2*n
+
+    CZs = []
+    for i in range(n_CZs):
+        V = np.random.random((nV, n))
+        CZs.append(zono.vrep_2_conzono(V))
+
+    # take union
+    U = zono.union_of_many(CZs)
+
+    # get number of leaves
+    leaves = U.get_leaves()
+
+    # check number of leaves is correct
+    assert len(leaves) == n_CZs
+    print('Passed: Get Leaves')
 
 # run the unit tests
 test_vrep_2_hz()
@@ -272,3 +295,4 @@ test_intersection()
 test_is_empty()
 test_support()
 test_point_contain()
+test_get_leaves()
