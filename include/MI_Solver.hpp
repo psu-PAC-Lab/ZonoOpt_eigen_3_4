@@ -572,7 +572,7 @@ namespace ZonoOpt::detail {
                     std::unique_lock<std::mutex> lock(pq_mtx);
                     pq_cv_bnb.wait(lock, [this]() { return this->done || !this->node_queue.empty(); });
                     if (this->done) return;
-                    node = std::move(this->node_queue.pop_top());
+                    node = this->node_queue.pop_top();
                     this->J_threads.add(node->solution.J); // add J to J_threads vector, need to do this before releasing lock
                 }
                 solve_and_branch(node);
