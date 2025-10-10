@@ -13,6 +13,7 @@
  */
 
 #include "ConZono.hpp"
+#include "Zono.hpp"
 
 namespace ZonoOpt {
 
