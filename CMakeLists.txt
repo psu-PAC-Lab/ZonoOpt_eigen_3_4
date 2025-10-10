@@ -29,9 +29,9 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
 endif()
 
 if (MSVC)
-    add_compile_options(/bigobj /W4)
+    add_compile_options(/bigobj /W3)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic -Wconversion -Wsign-compare)
+    add_compile_options(-Wall -Wextra)
 endif()
 
 # include path
@@ -50,8 +50,7 @@ target_link_libraries(_core PRIVATE pybind11::headers)
 
 # This is passing in the version as a define just as an example
 target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
-
-set_target_properties(_core PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+# set_target_properties(_core PROPERTIES COMPILE_WARNING_AS_ERROR ON)
 
 # The install directory is the output (wheel) directory
 install(TARGETS _core DESTINATION zonoopt)

@@ -252,7 +252,7 @@ namespace ZonoOpt::detail {
 
         // protected fields
         std::shared_ptr<ADMM_data> data;
-        zono_float eps_prim=1e-3, eps_dual=1e-3;
+        zono_float eps_prim=static_cast<zono_float>(1e-3), eps_dual=static_cast<zono_float>(1e-3);
 
         // startup method
         bool startup(Box& x_box, OptSolution& solution, const std::set<int>& contract_inds=std::set<int>())

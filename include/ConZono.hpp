@@ -384,7 +384,7 @@ inline Box ConZono::do_bounding_box(const OptSettings &settings, OptSolution*)
     xi_ub = Eigen::Vector<zono_float, -1>::Ones(this->nG);
 
     // build ADMM object
-    const auto data = std::make_shared<ADMM_data>(P, q, this->A, this->b, xi_lb, xi_ub, 0, settings);
+    const auto data = std::make_shared<ADMM_data>(P, q, this->A, this->b, xi_lb, xi_ub, zero, settings);
     ADMM_solver solver(data);
 
     // get support in all box directions

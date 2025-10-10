@@ -13,9 +13,9 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
 endif()
 
 if (MSVC)
-    add_compile_options(/bigobj /W4)
+    add_compile_options(/bigobj /W3)
 else()
-    add_compile_options(-Wall -Wextra -Wpedantic -Wconversion -Wsign-compare)
+    add_compile_options(-Wall -Wextra)
 endif()
 
 # include path

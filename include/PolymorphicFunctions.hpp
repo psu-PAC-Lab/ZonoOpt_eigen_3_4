@@ -1607,7 +1607,6 @@ inline std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const
 
     // problem parameters
     const int n_gens = n_sides/2;
-    constexpr zono_float pi = 3.14159265358979323846;
     const zono_float dphi = pi/n_gens;
     const zono_float R = outer_approx ? radius/std::cos(dphi/2) : radius;
     
@@ -1840,7 +1839,7 @@ inline void ConZono::constraint_reduction()
     for (int j=0; j<this->nG; ++j)
     {
         // get r_j
-        const zono_float r_j = std::max<zono_float>(0.0, std::max<zono_float>(std::abs(R[j].to_interval().lb), std::abs(R[j].to_interval().ub)) - 1.0);
+        const zono_float r_j = std::max<zono_float>(zero, std::max<zono_float>(std::abs(R[j].to_interval().lb), std::abs(R[j].to_interval().ub)) - one);
         if (r_j < zono_eps)
         {
             haus_vec.emplace_back(j, 0);

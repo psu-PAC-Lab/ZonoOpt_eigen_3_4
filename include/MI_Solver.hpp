@@ -198,7 +198,7 @@ namespace ZonoOpt::detail {
             }
 
             // log startup time
-            zono_float startup_time = 1e-6 * static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(
+            double startup_time = 1e-6 * static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(
                 std::chrono::high_resolution_clock::now() - start).count());
             if (this->data.admm_data->settings.verbose)
             {
@@ -468,7 +468,7 @@ namespace ZonoOpt::detail {
         // check if integer feasible, xb is vector of relaxed binary variables
         bool is_integer_feasible(const Eigen::Ref<const Eigen::Vector<zono_float,-1>> xb) const
         {
-            const zono_float low = this->data.zero_one_form ? 0 : -1;
+            const zono_float low = this->data.zero_one_form ? zero : -one;
             constexpr zono_float high = 1;
 
             for (int i=0; i<xb.size(); i++)
@@ -486,7 +486,7 @@ namespace ZonoOpt::detail {
             if (this->data.idx_b.second <= 0)
                 return;
 
-            const zono_float low = this->data.zero_one_form ? 0 : -1;
+            const zono_float low = this->data.zero_one_form ? zero : -one;
             constexpr zono_float high = 1;
 
             // round and find most fractional variable
