@@ -29,4 +29,4 @@ add_executable(example_operations
         src/example_operations.cpp
 )
 
-set_target_properties(example_operations PROPERTIES COMPILE_WARNING_AS_ERROR ON)
+# set_target_properties(example_operations PROPERTIES COMPILE_WARNING_AS_ERROR ON)

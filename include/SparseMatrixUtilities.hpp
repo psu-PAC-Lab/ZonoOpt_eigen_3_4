@@ -132,7 +132,7 @@ namespace ZonoOpt::detail
         std::vector<Eigen::Triplet<T>> tripvec;
         for (int i=0; i<qr.rank(); i++)
         {
-            tripvec.emplace_back(P_indices(i), i, 1.0);
+            tripvec.emplace_back(P_indices(i), i, static_cast<T>(1.0));
         }
 
         Eigen::SparseMatrix<T> P_full (At.cols(), qr.rank());

@@ -132,7 +132,7 @@ inline std::unique_ptr<HybZono> project_onto_dims(const HybZono& Z, const std::v
     std::vector<Eigen::Triplet<zono_float>> tripvec;
     for (int i=0; i<static_cast<int>(dims.size()); i++)
     {
-        tripvec.emplace_back(i, dims[i], 1);
+        tripvec.emplace_back(i, dims[i], one);
     }
     R.setFromTriplets(tripvec.begin(), tripvec.end());
 
@@ -293,7 +293,7 @@ inline std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
     std::vector<Eigen::Triplet<zono_float>> tripvec;
     for (int i=0; i<static_cast<int>(dims.size()); ++i)
     {
-        tripvec.emplace_back(i, dims[i], 1);
+        tripvec.emplace_back(i, dims[i], one);
     }
     R.setFromTriplets(tripvec.begin(), tripvec.end());
 
@@ -572,11 +572,11 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
             // identity matrices
             for (int i=0; i<Z->nGc; i++)
             {
-                tripvec.emplace_back(rows+i, cols+i, 1);
+                tripvec.emplace_back(rows+i, cols+i, one);
             }
             for (int i=0; i<Z->nG; i++)
             {
-                tripvec.emplace_back(rows+i, cols+Z->nGc+i, 1);
+                tripvec.emplace_back(rows+i, cols+Z->nGc+i, one);
             }
 
             // increment
@@ -605,13 +605,13 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
             // identity matrix
             for (int i=0; i<Z->nGb; i++)
             {
-                tripvec.emplace_back(rows+Z->nGc+i, cols+i, 1);
+                tripvec.emplace_back(rows+Z->nGc+i, cols+i, one);
             }
 
             // last column
             for (int i=0; i<Z->nG; i++)
             {
-                tripvec.emplace_back(rows+i, cols+Z->nGb, -1);
+                tripvec.emplace_back(rows+i, cols+Z->nGb, -one);
             }
 
             // increment
@@ -624,7 +624,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
         // sum to 1 constraint
         for (int & it : idx_sum_to_1)
         {
-            tripvec.emplace_back(rows, it, 1);
+            tripvec.emplace_back(rows, it, one);
         }
         rows++;
         Ab.resize(rows, cols);
@@ -666,7 +666,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
         }
         for (int i=n; i<n_out; ++i)
         {
-            tripvec.emplace_back(i, idx_sum_to_1[i-n], 1.0);
+            tripvec.emplace_back(i, idx_sum_to_1[i-n], one);
         }
         Gb.resize(n_out, cols);
         Gb.setFromTriplets(tripvec.begin(), tripvec.end());
@@ -688,7 +688,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
             // populate first row
             for (int i=0; i<Z->nGc; i++)
             {
-                tripvec.emplace_back(rows, cols+i, 1);
+                tripvec.emplace_back(rows, cols+i, one);
             }
             tripvec.emplace_back(rows, cols+Z->nGc, static_cast<zono_float>(Z->nG));
 
@@ -714,7 +714,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
             // populate first row
             for (int i=0; i<Z->nGb; i++)
             {
-                tripvec.emplace_back(rows, cols+i, 1);
+                tripvec.emplace_back(rows, cols+i, one);
             }
             tripvec.emplace_back(rows, cols+Z->nGb, static_cast<zono_float>(-Z->nG));
 
@@ -740,7 +740,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
         // sum to 1 constraint
         for (int & it : idx_sum_to_1)
         {
-            tripvec.emplace_back(rows, it, 1);
+            tripvec.emplace_back(rows, it, one);
         }
         rows++;
         Ab.resize(rows, cols);
@@ -782,7 +782,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in
         }
         for (int i=n; i<n_out; ++i)
         {
-            tripvec.emplace_back(i, idx_sum_to_1[i-n], 1.0);
+            tripvec.emplace_back(i, idx_sum_to_1[i-n], one);
         }
         Gb.resize(n_out, cols);
         Gb.setFromTriplets(tripvec.begin(), tripvec.end());
@@ -1101,7 +1101,7 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(i, this->nG, -delta_m/2);
+        triplets.emplace_back(i, this->nG, -delta_m/two);
     }
     for (int i=0; i<this->nG; ++i)
     {
@@ -1109,7 +1109,7 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(this->nG+i, this->nG, -delta_m/2);
+        triplets.emplace_back(this->nG+i, this->nG, -delta_m/two);
     }
     Eigen::SparseMatrix<zono_float> AcPF (2*this->nG, 3*this->nG + 1 + this->nC + this->n);
     AcPF.setFromTriplets(triplets.begin(), triplets.end());
@@ -1121,20 +1121,20 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     n_offset = this->nG+1+this->n+this->nC;
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(i, n_offset+i, 0.5);
+        triplets.emplace_back(i, n_offset+i, p5);
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(this->nG, n_offset+i, 0.5);
+        triplets.emplace_back(this->nG, n_offset+i, p5);
     }
     n_offset += this->nG;
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(i, n_offset+i, -0.5);
+        triplets.emplace_back(i, n_offset+i, -p5);
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(this->nG, n_offset+i, 0.5);
+        triplets.emplace_back(this->nG, n_offset+i, p5);
     }
     Eigen::SparseMatrix<zono_float> AcDF (this->nG+1, 3*this->nG + 1 + this->nC + this->n);
     AcDF.setFromTriplets(triplets.begin(), triplets.end());
@@ -1150,7 +1150,7 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(i, this->nG, delta_m/2);
+        triplets.emplace_back(i, this->nG, delta_m/two);
     }
     for (int i=0; i<this->nG; ++i)
     {
@@ -1158,17 +1158,17 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(this->nG+i, this->nG, delta_m/2);
+        triplets.emplace_back(this->nG+i, this->nG, delta_m/two);
     }
     n_offset = this->nG+1+this->n+this->nC;
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(2*this->nG+i, n_offset+i, 1);
+        triplets.emplace_back(2*this->nG+i, n_offset+i, one);
     }
     n_offset += this->nG;
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(3*this->nG+i, n_offset+i, 1);
+        triplets.emplace_back(3*this->nG+i, n_offset+i, one);
     }
     Eigen::SparseMatrix<zono_float> AcCS (4*this->nG, 3*this->nG + 1 + this->nC + this->n);
     AcCS.setFromTriplets(triplets.begin(), triplets.end());
@@ -1188,11 +1188,11 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(2*this->nG+i, i, -1);
+        triplets.emplace_back(2*this->nG+i, i, -one);
     }
     for (int i=0; i<this->nG; ++i)
     {
-        triplets.emplace_back(3*this->nG+i, this->nG+i, -1);
+        triplets.emplace_back(3*this->nG+i, this->nG+i, -one);
     }
     Eigen::SparseMatrix<zono_float> AbCS (4*this->nG, 2*this->nG);
     AbCS.setFromTriplets(triplets.begin(), triplets.end());
@@ -1363,7 +1363,7 @@ inline std::unique_ptr<HybZono> zono_union_2_hybzono(std::vector<Zono> &Zs, cons
     }
     for (int i=n_dims; i<n_out; ++i)
     {
-        tripvec.emplace_back(i, i-n_dims, 1.0);
+        tripvec.emplace_back(i, i-n_dims, one);
     }
     Eigen::SparseMatrix<zono_float> Gb (n_out, n_zonos);
     Gb.setFromTriplets(tripvec.begin(), tripvec.end());
@@ -1392,7 +1392,7 @@ inline std::unique_ptr<HybZono> zono_union_2_hybzono(std::vector<Zono> &Zs, cons
     tripvec.clear();
     for (int i=0; i<n_zonos; i++)
     {
-        tripvec.emplace_back(0, i, 1);
+        tripvec.emplace_back(0, i, one);
     }
     Eigen::SparseMatrix<zono_float> mM_sp = -M.sparseView();
     get_triplets_offset<zono_float>(mM_sp, tripvec, 1, 0);
@@ -1491,7 +1491,7 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
     tripvec.clear();
     for (int i=n_dims; i<n_out; ++i)
     {
-        tripvec.emplace_back(i, i-n_dims, 1.0);
+        tripvec.emplace_back(i, i-n_dims, one);
     }
     Eigen::SparseMatrix<zono_float> Gb (n_out, n_polys);
     Gb.setFromSortedTriplets(tripvec.begin(), tripvec.end());
@@ -1509,7 +1509,7 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
     I_nv.setIdentity();
     for (int i=0; i<nV; i++)
     {
-        tripvec.emplace_back(0, i, 1);
+        tripvec.emplace_back(0, i, one);
     }
     get_triplets_offset<zono_float>(I_nv, tripvec, 2, 0);
     Eigen::Vector<zono_float, -1> sum_M = M.rowwise().sum();
@@ -1526,7 +1526,7 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
     tripvec.clear();
     for (int i=0; i<n_polys; i++)
     {
-        tripvec.emplace_back(1, i, 1);
+        tripvec.emplace_back(1, i, one);
     }
     Eigen::SparseMatrix<zono_float> mM_sp = -M.sparseView();
     get_triplets_offset<zono_float>(mM_sp, tripvec, 2, 0);
@@ -1560,7 +1560,7 @@ inline std::unique_ptr<ConZono> vrep_2_conzono(const Eigen::Matrix<zono_float, -
     Eigen::SparseMatrix<zono_float> A (1, n_verts);
     for (int i=0; i<n_verts; i++)
     {
-        tripvec.emplace_back(0, i, 1);
+        tripvec.emplace_back(0, i, one);
     }
     A.setFromTriplets(tripvec.begin(), tripvec.end());
 
@@ -1579,7 +1579,7 @@ inline std::unique_ptr<Zono> interval_2_zono(const Box& box)
     Eigen::SparseMatrix<zono_float> G (static_cast<Eigen::Index>(box.size()), static_cast<Eigen::Index>(box.size()));
     for (int i=0; i<static_cast<int>(box.size()); i++)
     {
-        triplets.emplace_back(i, i, box[i].width()/2.0);
+        triplets.emplace_back(i, i, box[i].width()/two);
     }
     G.setFromSortedTriplets(triplets.begin(), triplets.end());
 
@@ -1623,7 +1623,7 @@ inline std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const
     }
 
     // return zonotope
-    return std::make_unique<Zono>(0.5*G.sparseView(), c, false);
+    return std::make_unique<Zono>(p5*G.sparseView(), c, false);
 }
 
 // convex relaxation
@@ -1842,7 +1842,7 @@ inline void ConZono::constraint_reduction()
         const zono_float r_j = std::max<zono_float>(zero, std::max<zono_float>(std::abs(R[j].to_interval().lb), std::abs(R[j].to_interval().ub)) - one);
         if (r_j < zono_eps)
         {
-            haus_vec.emplace_back(j, 0);
+            haus_vec.emplace_back(j, zero);
             continue;
         }
 
@@ -1854,10 +1854,10 @@ inline void ConZono::constraint_reduction()
         triplets.clear();
         for (int i=0; i<this->nG + this->nC; ++i)
         {
-            triplets.emplace_back(i, i, 1);
+            triplets.emplace_back(i, i, one);
             if (i == j)
             {
-                triplets.emplace_back(this->nG + this->nC, j, 1); // extra row for e_j^T
+                triplets.emplace_back(this->nG + this->nC, j, one); // extra row for e_j^T
             }
         }
         for (int i=0; i<this->nG + this->nC; ++i)
@@ -1901,7 +1901,7 @@ inline void ConZono::constraint_reduction()
         {
             if (std::abs(it.value()) > zono_eps)
             {
-                triplets.emplace_back(j, static_cast<int>(it.row()), 1/it.value());
+                triplets.emplace_back(j, static_cast<int>(it.row()), one/it.value());
                 Ea.insert(j, it.row()) = 1/it.value();
                 gen_remove = j;
                 cons_remove = static_cast<int>(it.row());
@@ -1928,11 +1928,11 @@ inline void ConZono::constraint_reduction()
     triplets.clear();
     for (int j=0; j<gen_remove; ++j)
     {
-        triplets.emplace_back(j, j, 1);
+        triplets.emplace_back(j, j, one);
     }
     for (int j=gen_remove+1; j<this->nG; ++j)
     {
-        triplets.emplace_back(j, j-1, 1);
+        triplets.emplace_back(j, j-1, one);
     }
     Eigen::SparseMatrix<zono_float> dG (this->nG, this->nG - 1);
     dG.setFromSortedTriplets(triplets.begin(), triplets.end());
@@ -1941,11 +1941,11 @@ inline void ConZono::constraint_reduction()
     triplets.clear();
     for (int i=0; i<cons_remove; ++i)
     {
-        triplets.emplace_back(i, i, 1);
+        triplets.emplace_back(i, i, one);
     }
     for (int i=cons_remove+1; i<this->nC; ++i)
     {
-        triplets.emplace_back(i-1, i, 1);
+        triplets.emplace_back(i-1, i, one);
     }
     Eigen::SparseMatrix<zono_float> dA (this->nC - 1, this->nC);
     dA.setFromSortedTriplets(triplets.begin(), triplets.end());
