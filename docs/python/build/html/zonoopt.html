@@ -198,6 +198,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#zonoopt.Zono"><code class="docutils literal notranslate"><span class="pre">Zono</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#zonoopt.Zono.get_volume"><code class="docutils literal notranslate"><span class="pre">Zono.get_volume()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#zonoopt.Zono.reduce_order"><code class="docutils literal notranslate"><span class="pre">Zono.reduce_order()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#zonoopt.Zono.set"><code class="docutils literal notranslate"><span class="pre">Zono.set()</span></code></a></li>
 </ul>
@@ -1930,6 +1931,22 @@ The set dimension is n, and the number of generators is nG.</p>
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="zonoopt.Zono.get_volume">
+<span class="sig-name descname"><span class="pre">get_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#zonoopt.Zono" title="zonoopt._core.Zono"><span class="pre">zonoopt._core.Zono</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#zonoopt.Zono.get_volume" title="Link to this definition"></a></dt>
+<dd><p>Get volume of zonotope.</p>
+<p>Reference: Gover and Krikorian 2010, “Determinants and the volumes of parallelotopes and zonotopes”
+Requires nG choose n determinant computations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>volume of zonotope</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="zonoopt.Zono.reduce_order">
 <span class="sig-name descname"><span class="pre">reduce_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#zonoopt.Zono" title="zonoopt._core.Zono"><span class="pre">zonoopt._core.Zono</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_o</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SupportsInt</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#zonoopt.Zono" title="zonoopt._core.Zono"><span class="pre">zonoopt._core.Zono</span></a></span></span><a class="headerlink" href="#zonoopt.Zono.reduce_order" title="Link to this definition"></a></dt>
 <dd><p>Perform zonotope order reduction.</p>
@@ -1939,6 +1956,9 @@ The set dimension is n, and the number of generators is nG.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>zonotope with order n_o</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#zonoopt.Zono" title="zonoopt.Zono">Zono</a></p>
 </dd>
 </dl>
 </dd></dl>

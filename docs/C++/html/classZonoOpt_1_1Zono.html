@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98480f31374733165d0b0b4c22d82bc9" id="r_a98480f31374733165d0b0b4c22d82bc9"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1Zono.html">Zono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classZonoOpt_1_1Zono.html#a98480f31374733165d0b0b4c22d82bc9">reduce_order</a> (<a class="el" href="classZonoOpt_1_1Zono.html#aa7f395f0ceaac39c7727e181984c8e00">int</a> <a class="el" href="classZonoOpt_1_1Zono.html#aa7f395f0ceaac39c7727e181984c8e00">n_o</a>)</td></tr>
 <tr class="memdesc:a98480f31374733165d0b0b4c22d82bc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform zonotope order reduction.  <br /></td></tr>
 <tr class="separator:a98480f31374733165d0b0b4c22d82bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6f3a7d34994a451b5910203d12035e" id="r_abe6f3a7d34994a451b5910203d12035e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classZonoOpt_1_1Zono.html#abe6f3a7d34994a451b5910203d12035e">get_volume</a> ()</td></tr>
+<tr class="memdesc:abe6f3a7d34994a451b5910203d12035e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get volume of zonotope.  <br /></td></tr>
+<tr class="separator:abe6f3a7d34994a451b5910203d12035e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc0c5fcc9ead67a4968a2db144ee9a5d" id="r_adc0c5fcc9ead67a4968a2db144ee9a5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classZonoOpt_1_1Zono.html#aa7f395f0ceaac39c7727e181984c8e00">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classZonoOpt_1_1Zono.html#adc0c5fcc9ead67a4968a2db144ee9a5d">convert_form</a> () <a class="el" href="classZonoOpt_1_1Zono.html#aa7f395f0ceaac39c7727e181984c8e00">override</a></td></tr>
 <tr class="memdesc:adc0c5fcc9ead67a4968a2db144ee9a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the set representation between -1-1 and 0-1 forms.  <br /></td></tr>
 <tr class="separator:adc0c5fcc9ead67a4968a2db144ee9a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -622,6 +625,35 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="classZonoOpt_1_1ConZono.html#aef88ccd6e78f4c7386dcdecd7dc25644">ZonoOpt::ConZono</a>.</p>
+
+</div>
+</div>
+<a id="abe6f3a7d34994a451b5910203d12035e" name="abe6f3a7d34994a451b5910203d12035e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe6f3a7d34994a451b5910203d12035e">&#9670;&#160;</a></span>get_volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> ZonoOpt::Zono::get_volume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get volume of zonotope. </p>
+<dl class="section return"><dt>Returns</dt><dd>volume</dd></dl>
+<p>Reference: Gover and Krikorian 2010, "Determinants and the volumes of parallelotopes and zonotopes" Requires nG choose n determinant computations. </p>
 
 </div>
 </div>

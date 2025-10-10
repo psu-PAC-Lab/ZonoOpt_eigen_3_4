@@ -892,13 +892,23 @@ PYBIND11_MODULE(_core, m)
             )pbdoc")
         .def("reduce_order", &Zono::reduce_order, py::arg("n_o"),
             R"pbdoc(
-                Perform zonotope order reduction.
+                    Perform zonotope order reduction.
 
-                Args:
-                    n_o (int): desired order, must be greater than or equal to the dimension of the set
+                    Args:
+                        n_o (int): desired order, must be greater than or equal to the dimension of the set
 
-                Returns:
-                    zonotope with order n_o
+                    Returns:
+                        Zono: zonotope with order n_o
+                )pbdoc")
+        .def("get_volume", &Zono::get_volume,
+            R"pbdoc(
+                    Get volume of zonotope.
+
+                    Reference: Gover and Krikorian 2010, "Determinants and the volumes of parallelotopes and zonotopes"
+                    Requires nG choose n determinant computations.
+
+                    Returns:
+                        float: volume of zonotope
             )pbdoc")
     ;
 
