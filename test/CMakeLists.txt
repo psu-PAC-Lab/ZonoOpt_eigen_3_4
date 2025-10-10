@@ -23,12 +23,10 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
     target_compile_options(example_operations PRIVATE -march=native)
 endif()
 
-target_compile_options(example_operations PRIVATE
-    # Non-MSVC flags (e.g., GCC/Clang)
-    $<$<NOT:$<BOOL:MSVC>>:-Wall -Wextra>
-    
-    # MSVC flags
-    $<$<BOOL:MSVC>:/bigobj /W3>
-)
+if(MSVC)
+    target_compile_options(example_operations PRIVATE /bigobj /W3)
+else()
+    target_compile_options(example_operations PRIVATE -Wall -Wextra)
+endif()
 
 set_target_properties(example_operations PROPERTIES COMPILE_WARNING_AS_ERROR ON)

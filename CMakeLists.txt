@@ -45,15 +45,13 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
     target_compile_options(_core PRIVATE -march=native)
 endif()
 
-target_compile_options(_core PRIVATE
-    # Non-MSVC flags (e.g., GCC/Clang)
-    $<$<NOT:$<BOOL:MSVC>>:-Wall -Wextra>
-    
-    # MSVC flags
-    $<$<BOOL:MSVC>:/bigobj /W3>
-)
+if(MSVC)
+    target_compile_options(_core PRIVATE /bigobj /W3)
+else()
+    target_compile_options(_core PRIVATE -Wall -Wextra)
+endif()
 
 # set_target_properties(_core PROPERTIES COMPILE_WARNING_AS_ERROR ON)
 
 # The install directory is the output (wheel) directory
-# install(TARGETS _core DESTINATION zonoopt)
+install(TARGETS _core DESTINATION zonoopt)
