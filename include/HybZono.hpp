@@ -1099,7 +1099,7 @@ inline std::set<int> HybZono::find_unused_generators(const Eigen::SparseMatrix<z
         bool is_unused = true;
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(A, k); it; ++it)
         {
-            if (it.value() != 0)
+            if (std::abs(it.value()) > zono_eps)
             {
                 is_unused = false;
                 break;
@@ -1119,7 +1119,7 @@ inline std::set<int> HybZono::find_unused_generators(const Eigen::SparseMatrix<z
         bool is_zero = true;
         for (Eigen::SparseMatrix<zono_float>::InnerIterator it(G, idx_no_con); it; ++it)
         {
-            if (it.value() != 0)
+            if (std::abs(it.value()) > zono_eps)
             {
                 is_zero = false;
                 break;

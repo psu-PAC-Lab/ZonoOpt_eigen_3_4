@@ -1607,7 +1607,7 @@ inline std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const
 
     // problem parameters
     const int n_gens = n_sides/2;
-    const zono_float dphi = pi/n_gens;
+    const zono_float dphi = pi / static_cast<zono_float>(n_gens);
     const zono_float R = outer_approx ? radius/std::cos(dphi/2) : radius;
     
     // generator matrix
