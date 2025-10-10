@@ -282,7 +282,9 @@ def test_get_leaves():
     U = zono.union_of_many(CZs)
 
     # get number of leaves
-    leaves = U.get_leaves()
+    settings = zono.OptSettings()
+    settings.n_threads_bnb = 1
+    leaves = U.get_leaves(settings=settings)
 
     # check number of leaves is correct
     assert len(leaves) == n_CZs
