@@ -644,7 +644,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>                    std::unique_lock&lt;std::mutex&gt; lock(pq_mtx);</div>
 <div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>                    pq_cv_bnb.wait(lock, [<span class="keyword">this</span>]() { <span class="keywordflow">return</span> this-&gt;done || !this-&gt;node_queue.empty(); });</div>
 <div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>                    <span class="keywordflow">if</span> (this-&gt;done) <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>                    node = std::move(this-&gt;node_queue.pop_top());</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>                    node = this-&gt;node_queue.pop_top();</div>
 <div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>                    this-&gt;J_threads.add(node-&gt;solution.J); <span class="comment">// add J to J_threads vector, need to do this before releasing lock</span></div>
 <div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>                }</div>
 <div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>                solve_and_branch(node);</div>

@@ -1447,18 +1447,31 @@ class Zono(ConZono):
                             zero_one_form (bool, optional): true if set is in 0-1 form
             
         '''
+    def get_volume(self) -> float:
+        '''get_volume(self: zonoopt._core.Zono) -> float
+
+
+                            Get volume of zonotope.
+
+                            Reference: Gover and Krikorian 2010, "Determinants and the volumes of parallelotopes and zonotopes"
+                            Requires nG choose n determinant computations.
+
+                            Returns:
+                                float: volume of zonotope
+            
+        '''
     def reduce_order(self, n_o: typing.SupportsInt) -> Zono:
         """reduce_order(self: zonoopt._core.Zono, n_o: typing.SupportsInt) -> zonoopt._core.Zono
 
 
-                        Perform zonotope order reduction.
+                            Perform zonotope order reduction.
 
-                        Args:
-                            n_o (int): desired order, must be greater than or equal to the dimension of the set
+                            Args:
+                                n_o (int): desired order, must be greater than or equal to the dimension of the set
 
-                        Returns:
-                            zonotope with order n_o
-            
+                            Returns:
+                                Zono: zonotope with order n_o
+                
         """
     def set(self, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, '[m, 1]'], zero_one_form: bool = ...) -> None:
         '''set(self: zonoopt._core.Zono, G: scipy.sparse.csc_matrix[numpy.float64], c: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[m, 1]"], zero_one_form: bool = False) -> None
