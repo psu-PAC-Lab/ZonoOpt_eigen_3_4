@@ -322,7 +322,7 @@ inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
             triplets.emplace_back(static_cast<int>(it.row()), i, it.value());
         }
     }
-    G_K.setFromSortedTriplets(triplets.begin(), triplets.end());
+    G_K.setFromTriplets(triplets.begin(), triplets.end());
     const Zono K (G_K, this->c);
 
     // zonotope to over-approximate
@@ -336,7 +336,7 @@ inline std::unique_ptr<Zono> Zono::reduce_order(const int n_o)
             triplets.emplace_back(static_cast<int>(it.row()), i-n_K, it.value());
         }
     }
-    G_L.setFromSortedTriplets(triplets.begin(), triplets.end());
+    G_L.setFromTriplets(triplets.begin(), triplets.end());
     Zono L (G_L, Eigen::Vector<zono_float, -1>::Zero(this->n));
 
     // get bounding box
@@ -392,7 +392,7 @@ inline zono_float Zono::do_support(const Eigen::Vector<zono_float, -1>& d, const
 
     for (const auto& comb : combs)
     {
-        const Eigen::Matrix<zono_float, -1, -1> G_comb = Gd(Eigen::placeholders::all, comb);
+        const Eigen::Matrix<zono_float, -1, -1> G_comb = Gd(Eigen::all, comb);
         const Eigen::Matrix<zono_float, -1, -1> GT_G = G_comb.transpose()*G_comb;
         ldlt.compute(GT_G);
         const Eigen::Vector<zono_float, -1> D = ldlt.vectorD();

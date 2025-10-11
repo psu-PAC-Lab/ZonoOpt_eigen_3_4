@@ -507,7 +507,7 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
             triplets.emplace_back(i, i, d);
         }
         Eigen::SparseMatrix<zono_float> D (Z1.nG, Z1.nG);
-        D.setFromSortedTriplets(triplets.begin(), triplets.end());
+        D.setFromTriplets(triplets.begin(), triplets.end());
 
         return std::make_unique<ConZono>(Z1.G*D, Z1.c - Z2_zono.c, Z1.A*D, Z1.b, false);
     }
@@ -1494,7 +1494,7 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
         tripvec.emplace_back(i, i-n_dims, one);
     }
     Eigen::SparseMatrix<zono_float> Gb (n_out, n_polys);
-    Gb.setFromSortedTriplets(tripvec.begin(), tripvec.end());
+    Gb.setFromTriplets(tripvec.begin(), tripvec.end());
 
     // c = 0
     Eigen::Vector<zono_float, -1> c (n_out);
@@ -1581,7 +1581,7 @@ inline std::unique_ptr<Zono> interval_2_zono(const Box& box)
     {
         triplets.emplace_back(i, i, box[i].width()/two);
     }
-    G.setFromSortedTriplets(triplets.begin(), triplets.end());
+    G.setFromTriplets(triplets.begin(), triplets.end());
 
     // center
     Eigen::Vector<zono_float, -1> c  = box.center();
@@ -1865,7 +1865,7 @@ inline void ConZono::constraint_reduction()
             triplets.emplace_back(i, this->nG + this->nC, Qinv_e_j(i));
         }
         Eigen::SparseMatrix<zono_float> M (this->nG + this->nC + 1, this->nG + this->nC + 1);
-        M.setFromSortedTriplets(triplets.begin(), triplets.end());
+        M.setFromTriplets(triplets.begin(), triplets.end());
 
         // RHS for linear system
         Eigen::Vector<zono_float, -1> rhs (this->nG + this->nC + 1);
@@ -1935,7 +1935,7 @@ inline void ConZono::constraint_reduction()
         triplets.emplace_back(j, j-1, one);
     }
     Eigen::SparseMatrix<zono_float> dG (this->nG, this->nG - 1);
-    dG.setFromSortedTriplets(triplets.begin(), triplets.end());
+    dG.setFromTriplets(triplets.begin(), triplets.end());
 
     // constraint removal matrix
     triplets.clear();
@@ -1948,7 +1948,7 @@ inline void ConZono::constraint_reduction()
         triplets.emplace_back(i-1, i, one);
     }
     Eigen::SparseMatrix<zono_float> dA (this->nC - 1, this->nC);
-    dA.setFromSortedTriplets(triplets.begin(), triplets.end());
+    dA.setFromTriplets(triplets.begin(), triplets.end());
 
     // update
     this->set(Gp*dG, cp, dA*Ap*dG, dA*bp, false);
@@ -1967,7 +1967,7 @@ inline std::unique_ptr<Zono> ConZono::to_zono_approx() const
     }
 
     // compute SVD of A
-    const Eigen::BDCSVD<Eigen::Matrix<zono_float, -1, -1>, Eigen::ComputeFullV | Eigen::ComputeFullU> svd (this->A.toDense());
+    const Eigen::BDCSVD<Eigen::Matrix<zono_float, -1, -1>> svd (this->A.toDense(), Eigen::ComputeFullV | Eigen::ComputeFullU);
     const Eigen::Vector<zono_float, -1>& sin_vals = svd.singularValues();
 
     const int n = this->nG;
