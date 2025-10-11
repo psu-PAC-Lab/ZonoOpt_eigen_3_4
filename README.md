@@ -9,9 +9,9 @@ More information about ZonoOpt can be found in the the following publication. Pl
 
 Auto-generated API documentation is available below.
 
-[C++ API](https://psu-PAC-Lab.github.io/ZonoOpt/C++/html/index.html)
+[C++ API](https://psu-PAC-Lab.github.io/ZonoOpt_eigen_3_4/C++/html/index.html)
 
-[Python API](https://psu-PAC-Lab.github.io/ZonoOpt/python/build/html/index.html)
+[Python API](https://psu-PAC-Lab.github.io/ZonoOpt_eigen_3_4/python/build/html/index.html)
 
 ![image](images/mhe-traj.svg)
 ![image](images/reachability-traj.svg)
