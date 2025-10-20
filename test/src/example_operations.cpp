@@ -35,11 +35,7 @@ int main()
     std::cout << "Z_sum: " << *Z_sum << std::endl;
 
     // union
-    std::vector<HybZono*> Zs;
-    Zs.push_back(&Z1);
-    Zs.push_back(&Z2);
-
-    ZonoPtr U = union_of_many(Zs);
+    ZonoPtr U = union_of_many({std::shared_ptr<HybZono>(Z1.clone()), std::shared_ptr<HybZono>(Z2.clone())});
     std::cout << "U: " << *U << std::endl;
     std::cout << "U is empty? " << U->is_empty(settings) << std::endl;
     

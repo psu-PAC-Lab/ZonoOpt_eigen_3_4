@@ -430,7 +430,7 @@ class HybZono
             const std::vector<int>& dims);
         friend std::unique_ptr<HybZono> halfspace_intersection(HybZono& Z, const Eigen::SparseMatrix<zono_float>& H, 
             const Eigen::Vector<zono_float, -1>& f, const Eigen::SparseMatrix<zono_float>& R);
-        friend std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs, bool preserve_sharpness, bool expose_indicators);
+        friend std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<HybZono>>& Zs, bool preserve_sharpness, bool expose_indicators);
         friend std::unique_ptr<HybZono> cartesian_product(const HybZono& Z1, HybZono& Z2);
         friend std::unique_ptr<HybZono> constrain(HybZono& Z, const std::vector<Inequality> &ineqs, const Eigen::SparseMatrix<zono_float>& R);
         friend std::unique_ptr<HybZono> set_diff(const HybZono& Z1, HybZono& Z2, zono_float delta_m, bool remove_redundancy,
@@ -629,7 +629,7 @@ std::unique_ptr<HybZono> halfspace_intersection(HybZono& Z, const Eigen::SparseM
  * Specifically, each dimension of I corresponds to one of the Zi in the union. So for union_of_many({Z0, Z1, Z2}, true) with Z0, Z1, Z2 not intersecting,
  * if a vector [z, i] is in union({Z0, Z1, Z2}) x I, then i = [1, 0, 0] if z is in Z0, etc.
  */
-std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs, bool preserve_sharpness=false, bool expose_indicators=false);
+std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<HybZono>>& Zs, bool preserve_sharpness=false, bool expose_indicators=false);
 
 /**
  * @brief Computes the Cartesian product of two sets Z1 and Z2.

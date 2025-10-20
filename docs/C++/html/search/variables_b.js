@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['n_0',['n',['../classZonoOpt_1_1HybZono.html#a1f3c74c21ad0e4001024c45dfad5ad2e',1,'ZonoOpt::HybZono']]],
-  ['n_5fthreads_5fbnb_1',['n_threads_bnb',['../structZonoOpt_1_1OptSettings.html#a69a26720c7cbd50dbafcdfa52b6bf0da',1,'ZonoOpt::OptSettings']]],
-  ['nc_2',['nC',['../classZonoOpt_1_1HybZono.html#a0cbd8a576782eff52cd2d7ac9c080269',1,'ZonoOpt::HybZono']]],
-  ['ng_3',['nG',['../classZonoOpt_1_1HybZono.html#a58438abd3fdf16964dd208a7d9eaadb4',1,'ZonoOpt::HybZono']]],
-  ['ngb_4',['nGb',['../classZonoOpt_1_1HybZono.html#a997bb8834d49cb9236d47fc0e9f4fbf3',1,'ZonoOpt::HybZono']]],
-  ['ngc_5',['nGc',['../classZonoOpt_1_1HybZono.html#af146a5fbddcf74cfbe28eba160ee5838',1,'ZonoOpt::HybZono']]]
+  ['lb_0',['lb',['../structZonoOpt_1_1Interval.html#a5fa82ae78be649fbc40b13ce93b9a642',1,'ZonoOpt::Interval']]],
+  ['lb_5fptr_1',['lb_ptr',['../structZonoOpt_1_1IntervalView.html#ad8f896849b6b17a7e130bb12d7bd82a4',1,'ZonoOpt::IntervalView']]],
+  ['leaves_5foutput_2',['leaves_output',['../test_8cpp.html#ab06fb0dc41ed2578971a7e2bcf25b507',1,'leaves_output:&#160;test.cpp'],['../test2_8cpp.html#ab06fb0dc41ed2578971a7e2bcf25b507',1,'leaves_output:&#160;test2.cpp']]]
 ];
