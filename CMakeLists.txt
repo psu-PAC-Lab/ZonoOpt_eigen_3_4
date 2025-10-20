@@ -46,6 +46,7 @@ endif()
 # source files
 set(SOURCE_FILES
     src/PolymorphicFunctions.cpp
+    src/ADMM.cpp
 )
 
 # build

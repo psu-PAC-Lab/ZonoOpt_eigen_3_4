@@ -1,7 +1,9 @@
 #ifndef ZONOOPT_HPP_
 #define ZONOOPT_HPP_
 
-// doxygen
+#include <sstream>
+#include <iostream>
+
 /**
  * @file ZonoOpt.hpp
  * @author Josh Robbins (jrobbins@psu.edu)
@@ -61,6 +63,20 @@ namespace ZonoOpt::detail
     constexpr zono_float two = static_cast<zono_float>(2.0);
 }
 
+// uitlities
+namespace ZonoOpt::detail
+{
+    inline void print_str(std::stringstream& ss)
+    {
+#ifdef IS_PYTHON_ENV
+        py::print(ss.str());
+#else
+        std::cout << ss.str() << std::endl;
+#endif
+        ss.str("");
+    }
+}
+
 #include "Point.hpp"
 #include "Zono.hpp"
 #include "ConZono.hpp"
@@ -69,6 +85,7 @@ namespace ZonoOpt::detail
 #include "Inequality.hpp"
 #include "EmptySet.hpp"
 
+// typedef
 namespace ZonoOpt
 {
     /**
