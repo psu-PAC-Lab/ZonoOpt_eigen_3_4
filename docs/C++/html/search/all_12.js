@@ -1,20 +1,10 @@
 var searchData=
 [
-  ['search_5fmode_0',['search_mode',['../structZonoOpt_1_1OptSettings.html#ae9f8f56825ea6c4207a68290c718bdb8',1,'ZonoOpt::OptSettings']]],
-  ['set_1',['set',['../classZonoOpt_1_1ConZono.html#a0a4cad796e50fc4ad6640fce0df3ad17',1,'ZonoOpt::ConZono::set()'],['../classZonoOpt_1_1HybZono.html#a8ada02a325ae0db542c0d2ae2fa0b1be',1,'ZonoOpt::HybZono::set()'],['../structZonoOpt_1_1IntervalBase.html#ab268265ef7c44ec967838bb0330a6929',1,'ZonoOpt::IntervalBase::set()'],['../classZonoOpt_1_1Point.html#ab006df44a645fdd36907248807e2f0ed',1,'ZonoOpt::Point::set()'],['../classZonoOpt_1_1Zono.html#aa7f395f0ceaac39c7727e181984c8e00',1,'ZonoOpt::Zono::set()']]],
-  ['set_20operations_2',['Set Operations',['../group__ZonoOpt__SetOperations.html',1,'']]],
-  ['set_5fdiff_3',['set_diff',['../classZonoOpt_1_1HybZono.html#afb31f3578aa9de644fc105abbb28a67b',1,'ZonoOpt::HybZono::set_diff'],['../group__ZonoOpt__SetOperations.html#ga2658906b006078600bb80d59607da03a',1,'ZonoOpt::set_diff()']]],
-  ['set_5fineq_5ftype_4',['set_ineq_type',['../classZonoOpt_1_1Inequality.html#a5c3a0b306c64a0a05b69099f6ca1b517',1,'ZonoOpt::Inequality']]],
-  ['set_5frhs_5',['set_rhs',['../classZonoOpt_1_1Inequality.html#a71ee3b06168f7bc498ccbecae9479858',1,'ZonoOpt::Inequality']]],
-  ['settings_5fvalid_6',['settings_valid',['../structZonoOpt_1_1OptSettings.html#af7a12727ae47a4634e94a5700a5c0e27',1,'ZonoOpt::OptSettings']]],
-  ['setup_20functions_7',['Setup Functions',['../group__ZonoOpt__SetupFunctions.html',1,'']]],
-  ['sharp_8',['sharp',['../classZonoOpt_1_1HybZono.html#a96987ca477202427deb307b4fe0e7da0',1,'ZonoOpt::HybZono']]],
-  ['sin_9',['sin',['../structZonoOpt_1_1Interval.html#acfaec26626f68355fea6e27cb45af1e1',1,'ZonoOpt::Interval']]],
-  ['sin_5fassign_10',['sin_assign',['../structZonoOpt_1_1IntervalBase.html#ab9d8d2f3c28d77698389ade05f093565',1,'ZonoOpt::IntervalBase']]],
-  ['size_11',['size',['../classZonoOpt_1_1Box.html#aa7955b649c5252db2893d7944b30353b',1,'ZonoOpt::Box']]],
-  ['solverdatastructures_2ehpp_12',['SolverDataStructures.hpp',['../SolverDataStructures_8hpp.html',1,'']]],
-  ['sparsematrixutilities_2ehpp_13',['SparseMatrixUtilities.hpp',['../SparseMatrixUtilities_8hpp.html',1,'']]],
-  ['startup_5ftime_14',['startup_time',['../structZonoOpt_1_1OptSolution.html#ae06a6c2f5ea6bd1e7ffeffc0b2a22275',1,'ZonoOpt::OptSolution']]],
-  ['subtract_5fassign_15',['subtract_assign',['../structZonoOpt_1_1IntervalBase.html#a8c490b6922a0056f3a918796caab7397',1,'ZonoOpt::IntervalBase']]],
-  ['support_16',['support',['../classZonoOpt_1_1HybZono.html#a533de8166d7db87d3645d3f92eda4146',1,'ZonoOpt::HybZono']]]
+  ['readme_2emd_0',['README.md',['../README_8md.html',1,'']]],
+  ['reduce_5forder_1',['reduce_order',['../classZonoOpt_1_1Zono.html#a98480f31374733165d0b0b4c22d82bc9',1,'ZonoOpt::Zono']]],
+  ['remove_5fgenerators_2',['remove_generators',['../classZonoOpt_1_1HybZono.html#a9bd4a75f271f7c974f155659a267e921',1,'ZonoOpt::HybZono']]],
+  ['remove_5fredundancy_3',['remove_redundancy',['../classZonoOpt_1_1HybZono.html#a97d9e34e9a88e610b5b5e8fbca62d677',1,'ZonoOpt::HybZono::remove_redundancy()'],['../classZonoOpt_1_1Point.html#ac3ed950567fdfaf916a34e566a2bdbfb',1,'ZonoOpt::Point::remove_redundancy()']]],
+  ['rho_4',['rho',['../structZonoOpt_1_1OptSettings.html#aa9daad3982cfea491e0aa34451dc53dd',1,'ZonoOpt::OptSettings']]],
+  ['robbins_5',['Robbins',['../test2_8cpp.html#ae6c935b2eab21cbe50a60188f895b569',1,'test2.cpp']]],
+  ['run_5ftime_6',['run_time',['../structZonoOpt_1_1OptSolution.html#a4c924318807a20bd19229fe1d7995de2',1,'ZonoOpt::OptSolution']]]
 ];

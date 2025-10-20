@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lb_0',['lb',['../structZonoOpt_1_1Interval.html#a5fa82ae78be649fbc40b13ce93b9a642',1,'ZonoOpt::Interval']]],
-  ['lb_5fptr_1',['lb_ptr',['../structZonoOpt_1_1IntervalView.html#ad8f896849b6b17a7e130bb12d7bd82a4',1,'ZonoOpt::IntervalView']]]
+  ['j_0',['J',['../structZonoOpt_1_1OptSolution.html#a8c39dfe3e1db54bdde41b43107a98ab6',1,'ZonoOpt::OptSolution']]],
+  ['james_3c_20jglunt_20_40psu_2eedu_20_3e_1',['James&lt; jglunt @psu.edu &gt;',['../test2_8cpp.html#a89363b347876265225028c06059b281f',1,'test2.cpp']]]
 ];
