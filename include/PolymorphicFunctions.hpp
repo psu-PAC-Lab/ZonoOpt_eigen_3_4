@@ -393,7 +393,7 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
         }
 
         // take union of pontry diffs for inner approx
-        std::vector<std::unique_ptr<HybZono>> leaf_diffs; // init
+        std::vector<std::shared_ptr<HybZono>> leaf_diffs; // init
         for (auto& Z1_leaf : Z1_leaves)
         {
             std::unique_ptr<HybZono> Z_out; // declare
@@ -408,12 +408,7 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
             }
             leaf_diffs.push_back(std::move(Z_out));
         }
-        std::vector<HybZono*> leaf_diff_ptrs;
-        for (auto& leaf_diff : leaf_diffs)
-        {
-            leaf_diff_ptrs.emplace_back(leaf_diff.get());
-        }
-        return union_of_many(leaf_diff_ptrs);
+        return union_of_many(leaf_diffs);
     }
     else if (Z1.is_hybzono())
     {
@@ -423,17 +418,12 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
         Zono Z2_zono = *Z2_CZ->to_zono_approx();
 
         // take union of pontry diffs for inner approx
-        std::vector<std::unique_ptr<HybZono>> leaf_diffs; // init
+        std::vector<std::shared_ptr<HybZono>> leaf_diffs; // init
         for (auto& Z1_leaf : Z1_leaves)
         {
-            leaf_diffs.emplace_back(pontry_diff(Z1_leaf, Z2_zono, false));
+            leaf_diffs.push_back(pontry_diff(Z1_leaf, Z2_zono, false));
         }
-        std::vector<HybZono*> leaf_diff_ptrs;
-        for (auto& leaf_diff : leaf_diffs)
-        {
-            leaf_diff_ptrs.emplace_back(leaf_diff.get());
-        }
-        return union_of_many(leaf_diff_ptrs);
+        return union_of_many(leaf_diffs);
     }
     else if (Z2.is_hybzono())
     {
@@ -513,12 +503,14 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
     }
 }
 
-inline std::unique_ptr<HybZono> union_of_many(const std::vector<HybZono*>& Zs_in, const bool preserve_sharpness, const bool expose_indicators)
+inline std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<HybZono>>& Zs_in, const bool preserve_sharpness, const bool expose_indicators)
 {
     // remove empty sets from sets to be unioned
-    std::vector<HybZono*> Zs;
-    for (HybZono* Z : Zs_in) {
-        if (!Z->is_empty_set()) {
+    std::vector<std::shared_ptr<HybZono>> Zs;
+    for (auto& Z : Zs_in)
+    {
+        if (!Z->is_empty_set())
+        {
             Zs.push_back(Z);
         }
     }
