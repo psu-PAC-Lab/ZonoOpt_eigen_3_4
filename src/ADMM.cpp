@@ -400,6 +400,4 @@ namespace ZonoOpt
     }
 
 
-
-
 }

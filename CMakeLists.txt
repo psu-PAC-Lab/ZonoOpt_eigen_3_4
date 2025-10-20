@@ -47,6 +47,8 @@ endif()
 set(SOURCE_FILES
     src/PolymorphicFunctions.cpp
     src/ADMM.cpp
+    src/CholeskyUtilities.cpp
+    src/HybZono.cpp
 )
 
 # build
