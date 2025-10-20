@@ -65,7 +65,6 @@ namespace ZonoOpt::detail
 #include "Zono.hpp"
 #include "ConZono.hpp"
 #include "HybZono.hpp"
-#include "PolymorphicFunctions.hpp"
 #include "Intervals.hpp"
 #include "Inequality.hpp"
 #include "EmptySet.hpp"
