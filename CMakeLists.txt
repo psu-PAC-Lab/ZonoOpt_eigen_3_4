@@ -49,6 +49,28 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 endif()
 
+# submodule
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    message(STATUS "Updating Git submodules...")
+
+    # Execute 'git submodule update --init --recursive'
+    execute_process(
+        COMMAND git submodule update --init --recursive
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE GIT_SUBMODULE_RESULT
+        OUTPUT_VARIABLE GIT_SUBMODULE_OUTPUT
+        ERROR_VARIABLE GIT_SUBMODULE_ERROR
+    )
+
+    if (NOT GIT_SUBMODULE_RESULT EQUAL "0")
+        message(FATAL_ERROR "Failed to update Git submodules: ${GIT_SUBMODULE_ERROR}")
+    else()
+        message(STATUS "Git submodules updated successfully.")
+    endif()
+else()
+    message(STATUS "Not a Git repository, skipping submodule update.")
+endif()
+
 # source files
 set(SOURCE_FILES
     src/PolymorphicFunctions.cpp
