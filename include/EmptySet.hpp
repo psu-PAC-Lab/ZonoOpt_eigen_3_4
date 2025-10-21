@@ -37,39 +37,11 @@ public:
      *
      * @param n dimension
      */
-    explicit EmptySet(const int n)
-    {
-        this->n = n;
+    explicit EmptySet(int n);
 
-        // hybzono parameters
-        this->c.resize(this->n);
-        this->c.setConstant(std::numeric_limits<zono_float>::quiet_NaN());
-        this->G.resize(this->n,0);
-        this->nG = 0;
-        this->nGc = this->nG;
-        this->nGb = 0;
-        this->nC = 0;
-        this->Gc = this->G;
-        this->Gb.resize(this->n, 0);
-        this->A.resize(0, this->nG);
-        this->Ac = this->A;
-        this->Ab.resize(0, 0);
-        this->b.resize(0);
-        this->zero_one_form = false;
-    }
+    HybZono* clone() const override;
 
-    HybZono* clone() const override
-    {
-        return new EmptySet(*this);
-    }
-
-    std::string print() const override
-    {
-        std::stringstream ss;
-        ss << "EmptySet: " << std::endl;
-        ss << "  n: " << this->n;
-        return ss.str();
-    }
+    std::string print() const override;
 
     void constraint_reduction() override { /* do nothing */ }
 
@@ -78,58 +50,19 @@ public:
 protected:
     Eigen::Vector<zono_float, -1> do_optimize_over(
             const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
-            const OptSettings&, OptSolution* solution) const override
-    {
-        if (solution)
-        {
-            solution->infeasible = true;
-        }
-        return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
-    }
+            const OptSettings&, OptSolution* solution) const override;
 
-    Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const override
-    {
-        if (solution)
-        {
-            solution->infeasible = true;
-        }
-        return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
-    }
+    Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const override;
 
-    zono_float do_support(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) override
-    {
-        if (solution)
-        {
-            solution->infeasible = true;
-        }
-        return std::numeric_limits<zono_float>::quiet_NaN();
-    }
+    zono_float do_support(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) override;
 
-    bool do_contains_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution*) const override
-    {
-        return false;
-    }
+    bool do_contains_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution*) const override;
 
-    Box do_bounding_box(const OptSettings&, OptSolution*) override
-    {
-        const Eigen::Vector<zono_float, -1> x_l = Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
-        const Eigen::Vector<zono_float, -1> x_u = -Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
-        return {x_l, x_u};
-    }
+    Box do_bounding_box(const OptSettings&, OptSolution*) override;
 
-    bool do_is_empty(const OptSettings&, OptSolution*) const override
-    {
-        return true;
-    }
+    bool do_is_empty(const OptSettings&, OptSolution*) const override;
 
-    std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int) override
-    {
-        const zono_float m = delta_m + 1; // box width
-        const Eigen::Vector<zono_float, -1> x_l = -Eigen::Vector<zono_float, -1>::Constant(this->n, m);
-        const Eigen::Vector<zono_float, -1> x_u = Eigen::Vector<zono_float, -1>::Constant(this->n, m);
-        const Box box(x_l, x_u);
-        return interval_2_zono(box);
-    }
+    std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int) override;
 };
 
 }

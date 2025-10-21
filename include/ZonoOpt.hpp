@@ -62,21 +62,8 @@ namespace ZonoOpt::detail
     constexpr zono_float one = static_cast<zono_float>(1.0);
     constexpr zono_float two = static_cast<zono_float>(2.0);
 }
-
-// uitlities
-namespace ZonoOpt::detail
-{
-    inline void print_str(std::stringstream& ss)
-    {
-#ifdef IS_PYTHON_ENV
-        py::print(ss.str());
-#else
-        std::cout << ss.str() << std::endl;
-#endif
-        ss.str("");
-    }
-}
-
+// includes
+#include "GenUtilities.hpp"
 #include "Point.hpp"
 #include "Zono.hpp"
 #include "ConZono.hpp"

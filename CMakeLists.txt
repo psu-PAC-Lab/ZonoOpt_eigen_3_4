@@ -49,6 +49,10 @@ set(SOURCE_FILES
     src/ADMM.cpp
     src/CholeskyUtilities.cpp
     src/HybZono.cpp
+    src/ConZono.cpp
+    src/Zono.cpp
+    src/Point.cpp
+    src/EmptySet.cpp
 )
 
 # build
