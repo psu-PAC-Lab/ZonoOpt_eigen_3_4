@@ -53,6 +53,7 @@ set(SOURCE_FILES
     src/Zono.cpp
     src/Point.cpp
     src/EmptySet.cpp
+    src/Intervals.cpp
 )
 
 # build
