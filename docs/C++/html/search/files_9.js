@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['test_2ecpp_0',['test.cpp',['../test_8cpp.html',1,'']]],
-  ['test2_2ecpp_1',['test2.cpp',['../test2_8cpp.html',1,'']]]
+  ['solverdatastructures_2ehpp_0',['SolverDataStructures.hpp',['../SolverDataStructures_8hpp.html',1,'']]],
+  ['sparsematrixutilities_2ehpp_1',['SparseMatrixUtilities.hpp',['../SparseMatrixUtilities_8hpp.html',1,'']]]
 ];

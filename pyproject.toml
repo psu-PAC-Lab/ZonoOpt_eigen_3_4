@@ -46,3 +46,6 @@ test-groups = ["test"]
 test-command = "pytest {project}"
 build-frontend = "build[uv]"
 build-verbosity = 1
+
+[tool.scikit-build]
+cmake.args = ["-DBUILD_PYTHON_BINDINGS=ON"]

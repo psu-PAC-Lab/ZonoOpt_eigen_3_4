@@ -1,43 +1,10 @@
-#ifndef ZONOOPT_EMPTYSET_HPP_
-#define ZONOOPT_EMPTYSET_HPP_
+#include "ZonoOpt.hpp"
 
-/**
- * @file EmptySet.hpp
- * @author Josh Robbins (jrobbins@psu.edu)
- * @brief Empty Set class for ZonoOpt library.
- * @version 1.0
- * @date 2025-09-11
- *
- * @copyright Copyright (c) 2025
- *
- */
-
-#include "ConZono.hpp"
-#include "Zono.hpp"
-
-namespace ZonoOpt {
-
-/**
- * @brief Empty Set class.
- *
- * Used to facilitate set operations with trivial solutions when one of the sets is an empty set.
- */
-class EmptySet final : public ConZono
+namespace ZonoOpt
 {
-public:
+    using namespace detail;
 
-    /**
-     * @brief Default constructor for EmptySet class
-     *
-     */
-    EmptySet() = default;
-
-    /**
-     * @brief EmptySet constructor
-     *
-     * @param n dimension
-     */
-    explicit EmptySet(const int n)
+    EmptySet::EmptySet(const int n)
     {
         this->n = n;
 
@@ -58,12 +25,12 @@ public:
         this->zero_one_form = false;
     }
 
-    HybZono* clone() const override
+    HybZono* EmptySet::clone() const
     {
         return new EmptySet(*this);
     }
 
-    std::string print() const override
+    std::string EmptySet::print() const
     {
         std::stringstream ss;
         ss << "EmptySet: " << std::endl;
@@ -71,14 +38,9 @@ public:
         return ss.str();
     }
 
-    void constraint_reduction() override { /* do nothing */ }
-
-    std::unique_ptr<Zono> to_zono_approx() const override { throw std::runtime_error("to_zono_approx: EmptySet"); }
-
-protected:
-    Eigen::Vector<zono_float, -1> do_optimize_over(
+    Eigen::Vector<zono_float, -1> EmptySet::do_optimize_over(
             const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
-            const OptSettings&, OptSolution* solution) const override
+            const OptSettings&, OptSolution* solution) const
     {
         if (solution)
         {
@@ -87,7 +49,7 @@ protected:
         return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
     }
 
-    Eigen::Vector<zono_float, -1> do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const override
+    Eigen::Vector<zono_float, -1> EmptySet::do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const
     {
         if (solution)
         {
@@ -96,7 +58,7 @@ protected:
         return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
     }
 
-    zono_float do_support(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) override
+    zono_float EmptySet::do_support(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution)
     {
         if (solution)
         {
@@ -105,24 +67,24 @@ protected:
         return std::numeric_limits<zono_float>::quiet_NaN();
     }
 
-    bool do_contains_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution*) const override
+    bool EmptySet::do_contains_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution*) const
     {
         return false;
     }
 
-    Box do_bounding_box(const OptSettings&, OptSolution*) override
+    Box EmptySet::do_bounding_box(const OptSettings&, OptSolution*)
     {
         const Eigen::Vector<zono_float, -1> x_l = Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
         const Eigen::Vector<zono_float, -1> x_u = -Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
         return {x_l, x_u};
     }
 
-    bool do_is_empty(const OptSettings&, OptSolution*) const override
+    bool EmptySet::do_is_empty(const OptSettings&, OptSolution*) const
     {
         return true;
     }
 
-    std::unique_ptr<HybZono> do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int) override
+    std::unique_ptr<HybZono> EmptySet::do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int)
     {
         const zono_float m = delta_m + 1; // box width
         const Eigen::Vector<zono_float, -1> x_l = -Eigen::Vector<zono_float, -1>::Constant(this->n, m);
@@ -130,8 +92,4 @@ protected:
         const Box box(x_l, x_u);
         return interval_2_zono(box);
     }
-};
-
 }
-
-#endif

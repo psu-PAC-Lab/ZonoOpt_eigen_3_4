@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['fused_5fhyb_5fzonotope_0',['fused_hyb_zonotope',['../test_8cpp.html#a25ef5afa83a0d571f83ae8773aff679b',1,'Fused_Hyb_zonotope:&#160;test.cpp'],['../test2_8cpp.html#a25ef5afa83a0d571f83ae8773aff679b',1,'Fused_Hyb_zonotope:&#160;test2.cpp']]]
+  ['idx_0',['idx',['../structZonoOpt_1_1IneqTerm.html#aeee74a5435784569469928a5bb3b7c0e',1,'ZonoOpt::IneqTerm']]],
+  ['inf_5fnorm_5fconv_1',['inf_norm_conv',['../structZonoOpt_1_1OptSettings.html#a98f460b97185e44b6ebe3079bea70079',1,'ZonoOpt::OptSettings']]],
+  ['infeasible_2',['infeasible',['../structZonoOpt_1_1OptSolution.html#a1abcc36f8525aea7d228a24b69f2f83e',1,'ZonoOpt::OptSolution']]],
+  ['iter_3',['iter',['../structZonoOpt_1_1OptSolution.html#ad7e8cccf5eaaea057cb10f60841d846e',1,'ZonoOpt::OptSolution']]]
 ];

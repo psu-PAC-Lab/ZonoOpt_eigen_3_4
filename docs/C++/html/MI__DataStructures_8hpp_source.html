@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ZonoOpt: /home/joshr/Documents/Projects/ZonoOpt/include/MI_DataStructures.hpp Source File</title>
+<title>ZonoOpt: /home/joshr/Documents/Projects/ZonoOpt/include/zonoopt/MI_DataStructures.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v1.0.0</span>
+   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v2.0.1</span>
    </div>
   </td>
  </tr>
@@ -74,7 +74,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_193bdbab3565eeaa4b5e0fbe695510a6.html">zonoopt</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -220,7 +220,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        ThreadSafeVector() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="comment">// add element</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="test_8cpp.html#ab33d2aaba9c9ec8c7915f1bf26abc6f8">push_back</a>(<span class="keyword">const</span> T&amp; value)</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordtype">void</span> push_back(<span class="keyword">const</span> T&amp; value)</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        {</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            std::lock_guard&lt;std::mutex&gt; lock(mtx);</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            data.push_back(value);</div>
@@ -376,8 +376,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aADMM_8hpp_html"><div class="ttname"><a href="ADMM_8hpp.html">ADMM.hpp</a></div><div class="ttdoc">ADMM implementation used within ZonoOpt.</div></div>
 <div class="ttc" id="aSolverDataStructures_8hpp_html"><div class="ttname"><a href="SolverDataStructures_8hpp.html">SolverDataStructures.hpp</a></div><div class="ttdoc">Optimization settings and solution data structures for ZonoOpt library.</div></div>
-<div class="ttc" id="agroup__ZonoOpt__PreprocessorMacros_html_ga10f9d95aa3b7fa4dca1699582aa53598"><div class="ttname"><a href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a></div><div class="ttdeci">#define zono_float</div><div class="ttdoc">Defines the floating-point type used in ZonoOpt.</div><div class="ttdef"><b>Definition</b> ZonoOpt.hpp:43</div></div>
-<div class="ttc" id="atest_8cpp_html_ab33d2aaba9c9ec8c7915f1bf26abc6f8"><div class="ttname"><a href="test_8cpp.html#ab33d2aaba9c9ec8c7915f1bf26abc6f8">push_back</a></div><div class="ttdeci">confidence_list push_back(confidence1)</div></div>
+<div class="ttc" id="agroup__ZonoOpt__PreprocessorMacros_html_ga10f9d95aa3b7fa4dca1699582aa53598"><div class="ttname"><a href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a></div><div class="ttdeci">#define zono_float</div><div class="ttdoc">Defines the floating-point type used in ZonoOpt.</div><div class="ttdef"><b>Definition</b> ZonoOpt.hpp:45</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

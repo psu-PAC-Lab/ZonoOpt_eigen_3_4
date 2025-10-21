@@ -1,6 +1,3 @@
-#ifndef ZONOOPT_POLYMORPHIC_FUNCTIONS_HPP_
-#define ZONOOPT_POLYMORPHIC_FUNCTIONS_HPP_
-
 /**
  * @file PolymorphicFunctions.hpp
  * @author Josh Robbins (jrobbins@psu.edu)
@@ -18,12 +15,7 @@
 #include <memory>
 #include <cmath>
 
-#include "Zono.hpp"
-#include "ConZono.hpp"
-#include "HybZono.hpp"
-#include "Point.hpp"
-#include "EmptySet.hpp"
-#include "SparseMatrixUtilities.hpp"
+#include "ZonoOpt.hpp"
 
 namespace ZonoOpt
 {
@@ -31,20 +23,20 @@ namespace ZonoOpt
 using namespace detail;
 
 // type checking
-inline bool HybZono::is_point() const
+bool HybZono::is_point() const
 {
     const auto PointCast = dynamic_cast<const Point*>(this);
     return PointCast != nullptr;
 }
 
-inline bool HybZono::is_zono() const
+bool HybZono::is_zono() const
 {
     const auto ZonoCast = dynamic_cast<const Zono*>(this);
     const auto PointCast = dynamic_cast<const Point*>(this);
     return (ZonoCast != nullptr) && (PointCast == nullptr);
 }
 
-inline bool HybZono::is_conzono() const
+bool HybZono::is_conzono() const
 {
     const auto ConZonoCast = dynamic_cast<const ConZono*>(this);
     const auto ZonoCast = dynamic_cast<const Zono*>(this);
@@ -53,7 +45,7 @@ inline bool HybZono::is_conzono() const
     return (ConZonoCast != nullptr) && (ZonoCast == nullptr) && (EmptySetCast == nullptr);
 }
 
-inline bool HybZono::is_hybzono() const
+bool HybZono::is_hybzono() const
 {
     const auto HybZonoCast = dynamic_cast<const HybZono*>(this);
     const auto ConZonoCast = dynamic_cast<const ConZono*>(this);
@@ -61,14 +53,14 @@ inline bool HybZono::is_hybzono() const
     return (HybZonoCast != nullptr) && (ConZonoCast == nullptr);
 }
 
-inline bool HybZono::is_empty_set() const
+bool HybZono::is_empty_set() const
 {
     const auto EmptySetCast = dynamic_cast<const EmptySet*>(this);
     return EmptySetCast != nullptr;
 }
 
 
-inline std::unique_ptr<HybZono> affine_map(const HybZono& Z,
+std::unique_ptr<HybZono> affine_map(const HybZono& Z,
     const Eigen::SparseMatrix<zono_float>& R, const Eigen::Vector<zono_float, -1>& s)
 {
     // check dimensions
@@ -111,7 +103,7 @@ inline std::unique_ptr<HybZono> affine_map(const HybZono& Z,
         return std::make_unique<Point>(c);
 }
 
-inline std::unique_ptr<HybZono> project_onto_dims(const HybZono& Z, const std::vector<int>& dims)
+std::unique_ptr<HybZono> project_onto_dims(const HybZono& Z, const std::vector<int>& dims)
 {
     // make sure all dims are >= 0 and < n
     for (const int dim : dims)
@@ -140,7 +132,7 @@ inline std::unique_ptr<HybZono> project_onto_dims(const HybZono& Z, const std::v
     return affine_map(Z, R);
 }
 
-inline std::unique_ptr<HybZono> minkowski_sum(const HybZono& Z1, HybZono& Z2)
+std::unique_ptr<HybZono> minkowski_sum(const HybZono& Z1, HybZono& Z2)
 {
     // check dimensions
     if (Z1.n != Z2.n)
@@ -195,7 +187,7 @@ inline std::unique_ptr<HybZono> minkowski_sum(const HybZono& Z1, HybZono& Z2)
         return std::make_unique<Zono>(Gc, c, Z1.zero_one_form);
 }
 
-inline std::unique_ptr<HybZono> intersection(const HybZono& Z1, HybZono& Z2, const Eigen::SparseMatrix<zono_float>& R)
+std::unique_ptr<HybZono> intersection(const HybZono& Z1, HybZono& Z2, const Eigen::SparseMatrix<zono_float>& R)
 {
     // handle default arguments
     const Eigen::SparseMatrix<zono_float> * R_ptr = nullptr;
@@ -270,7 +262,7 @@ inline std::unique_ptr<HybZono> intersection(const HybZono& Z1, HybZono& Z2, con
         return std::make_unique<ConZono>(Gc, c, Ac, b, Z1.zero_one_form);
 }
 
-inline std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
+std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
     HybZono& Z2, const std::vector<int>& dims)
 {
     // check dimensions
@@ -301,7 +293,7 @@ inline std::unique_ptr<HybZono> intersection_over_dims(const HybZono& Z1,
     return intersection(Z1, Z2, R);
 }
 
-inline std::unique_ptr<HybZono> halfspace_intersection(HybZono& Z, const Eigen::SparseMatrix<zono_float>& H,
+std::unique_ptr<HybZono> halfspace_intersection(HybZono& Z, const Eigen::SparseMatrix<zono_float>& H,
     const Eigen::Vector<zono_float, -1>& f, const Eigen::SparseMatrix<zono_float>& R)
 {
     // use the constrain function
@@ -331,7 +323,7 @@ inline std::unique_ptr<HybZono> halfspace_intersection(HybZono& Z, const Eigen::
 }
 
 // pontryagin difference
-inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact)
+std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact)
 {
     // check dimensions
     if (Z1.n != Z2.n)
@@ -503,7 +495,7 @@ inline std::unique_ptr<HybZono> pontry_diff(HybZono& Z1, HybZono& Z2, bool exact
     }
 }
 
-inline std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<HybZono>>& Zs_in, const bool preserve_sharpness, const bool expose_indicators)
+std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<HybZono>>& Zs_in, const bool preserve_sharpness, const bool expose_indicators)
 {
     // remove empty sets from sets to be unioned
     std::vector<std::shared_ptr<HybZono>> Zs;
@@ -797,7 +789,7 @@ inline std::unique_ptr<HybZono> union_of_many(const std::vector<std::shared_ptr<
     return std::make_unique<HybZono>(Gc, Gb, c, Ac, Ab, b, true, sharp);
 }
 
-inline std::unique_ptr<HybZono> cartesian_product(const HybZono& Z1, HybZono& Z2)
+std::unique_ptr<HybZono> cartesian_product(const HybZono& Z1, HybZono& Z2)
 {
     // trivial case
     if (Z1.is_empty_set() || Z2.is_empty_set()) {
@@ -856,7 +848,7 @@ inline std::unique_ptr<HybZono> cartesian_product(const HybZono& Z1, HybZono& Z2
         return std::make_unique<Point>(c);
 }
 
-inline std::unique_ptr<HybZono> constrain(HybZono& Z, const std::vector<Inequality> &ineqs, const Eigen::SparseMatrix<zono_float>& R)
+std::unique_ptr<HybZono> constrain(HybZono& Z, const std::vector<Inequality> &ineqs, const Eigen::SparseMatrix<zono_float>& R)
 {
     // trivial case
     if (Z.is_empty_set()) {
@@ -978,7 +970,7 @@ inline std::unique_ptr<HybZono> constrain(HybZono& Z, const std::vector<Inequali
         return std::make_unique<ConZono>(Z_Gc, Z.c, Ac, b, true);
 }
 
-inline std::unique_ptr<HybZono> HybZono::do_complement(const zono_float delta_m, const bool remove_redundancy, const OptSettings &settings,
+std::unique_ptr<HybZono> HybZono::do_complement(const zono_float delta_m, const bool remove_redundancy, const OptSettings &settings,
     OptSolution* solution, const int n_leaves, const int contractor_iter)
 {
     // make sure set in [-1,1] form
@@ -1010,7 +1002,7 @@ inline std::unique_ptr<HybZono> HybZono::do_complement(const zono_float delta_m,
     return Z_out;
 }
 
-inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int)
+std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int)
 {
     // make sure in [-1,1] form
     if (this->is_0_1_form()) this->convert_form();
@@ -1237,7 +1229,7 @@ inline std::unique_ptr<HybZono> ConZono::do_complement(const zono_float delta_m,
     return std::make_unique<HybZono>(Gc, Gb, c, Ac, Ab, b, false, false);
 }
 
-inline std::unique_ptr<HybZono> set_diff(const HybZono& Z1, HybZono& Z2, const zono_float delta_m, const bool remove_redundancy,
+std::unique_ptr<HybZono> set_diff(const HybZono& Z1, HybZono& Z2, const zono_float delta_m, const bool remove_redundancy,
     const OptSettings &settings, OptSolution* solution, const int n_leaves, const int contractor_iter)
 {
     // trivial case
@@ -1253,7 +1245,7 @@ inline std::unique_ptr<HybZono> set_diff(const HybZono& Z1, HybZono& Z2, const z
 }
 
 // setup functions
-inline std::unique_ptr<HybZono> zono_union_2_hybzono(std::vector<Zono> &Zs, const bool expose_indicators)
+std::unique_ptr<HybZono> zono_union_2_hybzono(std::vector<Zono> &Zs, const bool expose_indicators)
 {
     // can't be empty
     if (Zs.empty())
@@ -1400,7 +1392,7 @@ inline std::unique_ptr<HybZono> zono_union_2_hybzono(std::vector<Zono> &Zs, cons
     return std::make_unique<HybZono>(Gc, Gb, c, Ac, Ab, b, true, true);
 }
 
-inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<zono_float, -1, -1>> &Vpolys, const bool expose_indicators)
+std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<zono_float, -1, -1>> &Vpolys, const bool expose_indicators)
 {
     // error handling
     if (Vpolys.empty())
@@ -1536,7 +1528,7 @@ inline std::unique_ptr<HybZono> vrep_2_hybzono(const std::vector<Eigen::Matrix<z
     return std::make_unique<HybZono>(Gc, Gb, c, Ac, Ab, b, true, true);
 }
 
-inline std::unique_ptr<ConZono> vrep_2_conzono(const Eigen::Matrix<zono_float, -1, -1> &Vpoly)
+std::unique_ptr<ConZono> vrep_2_conzono(const Eigen::Matrix<zono_float, -1, -1> &Vpoly)
 {
     // dimensions
     const int n_dims = static_cast<int>(Vpoly.cols());
@@ -1564,7 +1556,7 @@ inline std::unique_ptr<ConZono> vrep_2_conzono(const Eigen::Matrix<zono_float, -
 }
 
 
-inline std::unique_ptr<Zono> interval_2_zono(const Box& box)
+std::unique_ptr<Zono> interval_2_zono(const Box& box)
 {
     // generator matrix
     std::vector<Eigen::Triplet<zono_float>> triplets;
@@ -1583,7 +1575,7 @@ inline std::unique_ptr<Zono> interval_2_zono(const Box& box)
 }
 
 
-inline std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const int n_sides, const bool outer_approx, const Eigen::Vector<zono_float, 2>& c)
+std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const int n_sides, const bool outer_approx, const Eigen::Vector<zono_float, 2>& c)
 {
     // check number of sides
     if (n_sides % 2 != 0 || n_sides < 4)
@@ -1619,10 +1611,10 @@ inline std::unique_ptr<Zono> make_regular_zono_2D(const zono_float radius, const
 }
 
 // convex relaxation
-inline std::unique_ptr<ConZono> HybZono::convex_relaxation() const { return std::make_unique<ConZono>(this->G, this->c, this->A, this->b, this->zero_one_form); }
+std::unique_ptr<ConZono> HybZono::convex_relaxation() const { return std::make_unique<ConZono>(this->G, this->c, this->A, this->b, this->zero_one_form); }
 
 // bounding box
-inline Box HybZono::do_bounding_box(const OptSettings &settings, OptSolution* solution)
+Box HybZono::do_bounding_box(const OptSettings &settings, OptSolution* solution)
 {
     // if sharp, compute from convex relaxation
     if (this->sharp)
@@ -1689,7 +1681,7 @@ inline Box HybZono::do_bounding_box(const OptSettings &settings, OptSolution* so
     return box;
 }
 
-inline zono_float HybZono::do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
+zono_float HybZono::do_support(const Eigen::Vector<zono_float, -1>& d, const OptSettings &settings,
     OptSolution* solution)
 {
     // check dimensions
@@ -1719,7 +1711,7 @@ inline zono_float HybZono::do_support(const Eigen::Vector<zono_float, -1>& d, co
         return d.dot(this->G*sol.z + this->c);
 }
 
-inline std::vector<ConZono> HybZono::get_leaves(const bool remove_redundancy, const OptSettings &settings,
+std::vector<ConZono> HybZono::get_leaves(const bool remove_redundancy, const OptSettings &settings,
     OptSolution* solution, const int n_leaves, const int contractor_iter) const
 {
     // allocate all threads to branch and bound
@@ -1746,7 +1738,7 @@ inline std::vector<ConZono> HybZono::get_leaves(const bool remove_redundancy, co
 }
 
 
-inline void ConZono::constraint_reduction()
+void ConZono::constraint_reduction()
 {
     // make sure there are constraints to remove
     if (this->nC == 0) return;
@@ -1946,7 +1938,7 @@ inline void ConZono::constraint_reduction()
     this->set(Gp*dG, cp, dA*Ap*dG, dA*bp, false);
 }
 
-inline std::unique_ptr<Zono> ConZono::to_zono_approx() const
+std::unique_ptr<Zono> ConZono::to_zono_approx() const
 {
     // check for case that there are no constraints
     if (this->nG == 0)
@@ -1980,5 +1972,3 @@ inline std::unique_ptr<Zono> ConZono::to_zono_approx() const
 }
 
 } // namespace ZonoOpt
-
-#endif
