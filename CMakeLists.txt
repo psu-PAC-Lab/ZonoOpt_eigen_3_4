@@ -63,7 +63,7 @@ if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
     )
 
     if (NOT GIT_SUBMODULE_RESULT EQUAL "0")
-        message(FATAL_ERROR "Failed to update Git submodules: ${GIT_SUBMODULE_ERROR}")
+        message(STATUS "Failed to update Git submodules: ${GIT_SUBMODULE_ERROR}")
     else()
         message(STATUS "Git submodules updated successfully.")
     endif()
