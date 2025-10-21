@@ -104,7 +104,7 @@ namespace ZonoOpt::detail {
         void solve_and_branch(const std::unique_ptr<Node, NodeDeleter>& node);
 
         // check if integer feasible, xb is vector of relaxed binary variables
-        bool is_integer_feasible(const Eigen::Ref<const Eigen::Vector<zono_float,-1>> xb) const;
+        bool is_integer_feasible(Eigen::Ref<const Eigen::Vector<zono_float,-1>> xb) const;
 
         // most fractional branching
         void branch_most_frac(const std::unique_ptr<Node, NodeDeleter>& node);
@@ -116,7 +116,7 @@ namespace ZonoOpt::detail {
         void push_node(std::unique_ptr<Node, NodeDeleter>&& node);
 
         // prune
-        void prune(const zono_float J_max);
+        void prune(zono_float J_max);
 
         // check if 2 solutions correspond to the same binaries
         bool check_bin_equal(const OptSolution& sol1, const OptSolution& sol2) const;

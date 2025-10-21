@@ -8,6 +8,12 @@ cmake_minimum_required(VERSION 3.15...3.27)
 option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
 message(STATUS "Building Python Bindings: ${BUILD_PYTHON_BINDINGS}")
 
+set(ZONO_FLOAT "double" CACHE STRING "The underlying floating-point type for ZonoOpt library.")
+message(STATUS "ZONO_FLOAT set to: ${ZONO_FLOAT}")
+
+set(ZONO_EPS "1e-12" CACHE STRING "Numerical precision for floating point comparisons in ZonoOpt.")
+message(STATUS "ZONO_EPS set to: ${ZONO_EPS}")
+
 # project name
 if (BUILD_PYTHON_BINDINGS)
     # Scikit-build-core sets these values for you, or you can just hard-code the
@@ -54,7 +60,7 @@ set(SOURCE_FILES
     src/Point.cpp
     src/EmptySet.cpp
     src/Intervals.cpp
-        src/MI_Solver.cpp
+    src/MI_Solver.cpp
 )
 
 # build
@@ -87,8 +93,21 @@ target_include_directories(${TARGET_VAR} PUBLIC
     SYSTEM $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
 )
 
+# preprocessor definitions
+target_compile_definitions(${TARGET_VAR} PUBLIC
+    zono_float=${ZONO_FLOAT}
+    zono_eps=${ZONO_EPS}
+)
+
+# debug flags
 if (MSVC)
     target_compile_options(${TARGET_VAR} PRIVATE /bigobj /W3)
 else()
     target_compile_options(${TARGET_VAR} PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+# C++ example
+if (NOT BUILD_PYTHON_BINDINGS)
+    # build test executable
+    add_subdirectory(test)
 endif()
