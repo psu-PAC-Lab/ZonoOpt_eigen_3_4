@@ -1,6 +1,17 @@
 #ifndef ZONOOPT_GENUTILITIES_HPP_
 #define ZONOOPT_GENUTILITIES_HPP_
 
+/**
+ * @file GenUtilities.hpp
+ * @author Josh Robbins (jrobbins@psu.edu)
+ * @brief General utility functions for ZonoOpt library.
+ * @version 1.0
+ * @date 2025-10-21
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #include <vector>
 #include <sstream>
 #include <iostream>

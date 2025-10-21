@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v1.0.0</span>
+   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v2.0.1</span>
    </div>
   </td>
  </tr>
@@ -83,14 +83,22 @@ $(function() {
 
 <p><a class="el" href="namespaceZonoOpt.html">ZonoOpt</a> library main header file.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="Point_8hpp_source.html">Point.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Zono_8hpp_source.html">Zono.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ConZono_8hpp_source.html">ConZono.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="HybZono_8hpp_source.html">HybZono.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PolymorphicFunctions_8hpp_source.html">PolymorphicFunctions.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Intervals_8hpp_source.html">Intervals.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Inequality_8hpp_source.html">Inequality.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EmptySet_8hpp_source.html">EmptySet.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &quot;<a class="el" href="ADMM_8hpp_source.html">zonoopt/ADMM.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CholeskyUtilities_8hpp_source.html">zonoopt/CholeskyUtilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ConZono_8hpp_source.html">zonoopt/ConZono.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EmptySet_8hpp_source.html">zonoopt/EmptySet.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="GenUtilities_8hpp_source.html">zonoopt/GenUtilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="HybZono_8hpp_source.html">zonoopt/HybZono.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Inequality_8hpp_source.html">zonoopt/Inequality.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Intervals_8hpp_source.html">zonoopt/Intervals.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MI__DataStructures_8hpp_source.html">zonoopt/MI_DataStructures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MI__Solver_8hpp_source.html">zonoopt/MI_Solver.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Point_8hpp_source.html">zonoopt/Point.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SolverDataStructures_8hpp_source.html">zonoopt/SolverDataStructures.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SparseMatrixUtilities_8hpp_source.html">zonoopt/SparseMatrixUtilities.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Zono_8hpp_source.html">zonoopt/Zono.hpp</a>&quot;</code><br />
 </div>
 <p><a href="ZonoOpt_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">

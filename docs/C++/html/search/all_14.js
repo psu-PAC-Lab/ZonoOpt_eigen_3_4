@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['t_5fmax_0',['t_max',['../structZonoOpt_1_1OptSettings.html#a2f5cf1d13aa71a56f32a0b050e983d6a',1,'ZonoOpt::OptSettings']]],
-  ['tan_1',['tan',['../structZonoOpt_1_1Interval.html#a97e31d71eadf9f542df3e47753469280',1,'ZonoOpt::Interval']]],
-  ['tan_5fassign_2',['tan_assign',['../structZonoOpt_1_1IntervalBase.html#add92623bfb80335f59904f9c6af93856',1,'ZonoOpt::IntervalBase']]],
-  ['temp_5fcz_5f1_3',['temp_cz_1',['../test_8cpp.html#a245e7bba3bd2ad27ac1c1e308a8194b3',1,'temp_CZ_1:&#160;test.cpp'],['../test2_8cpp.html#a245e7bba3bd2ad27ac1c1e308a8194b3',1,'temp_CZ_1:&#160;test2.cpp']]],
-  ['temp_5fcz_5f2_4',['temp_cz_2',['../test_8cpp.html#acc22d2013c9c9e6dda3dcb9d93e80ac8',1,'temp_CZ_2:&#160;test.cpp'],['../test2_8cpp.html#acc22d2013c9c9e6dda3dcb9d93e80ac8',1,'temp_CZ_2:&#160;test2.cpp']]],
-  ['test_2ecpp_5',['test.cpp',['../test_8cpp.html',1,'']]],
-  ['test2_2ecpp_6',['test2.cpp',['../test2_8cpp.html',1,'']]],
-  ['to_5finterval_7',['to_interval',['../structZonoOpt_1_1IntervalView.html#a9f62ce641c41b6931132efe432fad600',1,'ZonoOpt::IntervalView']]],
-  ['to_5fzono_5fapprox_8',['to_zono_approx',['../classZonoOpt_1_1ConZono.html#ac6213beaefb83de7e4bef14a7f691d8e',1,'ZonoOpt::ConZono::to_zono_approx()'],['../classZonoOpt_1_1EmptySet.html#a74e3e8dcf40797efbb91233555bf7891',1,'ZonoOpt::EmptySet::to_zono_approx()']]],
-  ['typedefs_9',['Typedefs',['../group__ZonoOpt__Typedefs.html',1,'']]]
+  ['u_0',['u',['../structZonoOpt_1_1OptSolution.html#aea86a6a5aee7f8bafc9039ca72c9d79d',1,'ZonoOpt::OptSolution']]],
+  ['ub_1',['ub',['../structZonoOpt_1_1Interval.html#aca7a81fcaf929e7486e49be3355d619f',1,'ZonoOpt::Interval']]],
+  ['ub_5fptr_2',['ub_ptr',['../structZonoOpt_1_1IntervalView.html#afb71cecdeea222f185cce32c47208de0',1,'ZonoOpt::IntervalView']]],
+  ['union_5fof_5fmany_3',['union_of_many',['../classZonoOpt_1_1HybZono.html#aa9d2fc96ff1937d8a8f0b6af96da6e8d',1,'ZonoOpt::HybZono::union_of_many'],['../group__ZonoOpt__SetOperations.html#ga74e540bb5cb3dee56069affcea646a25',1,'ZonoOpt::union_of_many()']]],
+  ['upper_4',['upper',['../classZonoOpt_1_1Box.html#a7e2fa323afdb2ca4b2f9d09d44745442',1,'ZonoOpt::Box']]],
+  ['use_5finterval_5fcontractor_5',['use_interval_contractor',['../structZonoOpt_1_1OptSettings.html#a2d6b27de8e3ff88c892cfd714ee39bd5',1,'ZonoOpt::OptSettings']]]
 ];

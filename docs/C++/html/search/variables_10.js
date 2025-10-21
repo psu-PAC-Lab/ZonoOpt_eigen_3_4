@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['search_5fmode_0',['search_mode',['../structZonoOpt_1_1OptSettings.html#ae9f8f56825ea6c4207a68290c718bdb8',1,'ZonoOpt::OptSettings']]],
-  ['sharp_1',['sharp',['../classZonoOpt_1_1HybZono.html#a96987ca477202427deb307b4fe0e7da0',1,'ZonoOpt::HybZono']]],
-  ['startup_5ftime_2',['startup_time',['../structZonoOpt_1_1OptSolution.html#ae06a6c2f5ea6bd1e7ffeffc0b2a22275',1,'ZonoOpt::OptSolution']]],
-  ['subject_3',['Subject',['../test2_8cpp.html#a5e423a17fc671aa50118293d77400732',1,'test2.cpp']]]
+  ['u_0',['u',['../structZonoOpt_1_1OptSolution.html#aea86a6a5aee7f8bafc9039ca72c9d79d',1,'ZonoOpt::OptSolution']]],
+  ['ub_1',['ub',['../structZonoOpt_1_1Interval.html#aca7a81fcaf929e7486e49be3355d619f',1,'ZonoOpt::Interval']]],
+  ['ub_5fptr_2',['ub_ptr',['../structZonoOpt_1_1IntervalView.html#afb71cecdeea222f185cce32c47208de0',1,'ZonoOpt::IntervalView']]],
+  ['use_5finterval_5fcontractor_3',['use_interval_contractor',['../structZonoOpt_1_1OptSettings.html#a2d6b27de8e3ff88c892cfd714ee39bd5',1,'ZonoOpt::OptSettings']]]
 ];

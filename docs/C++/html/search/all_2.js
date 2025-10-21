@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['b_0',['b',['../classZonoOpt_1_1HybZono.html#ac19cee5ccdf6afde9d183960997d2c8a',1,'ZonoOpt::HybZono']]],
-  ['b1_1',['b1',['../test_8cpp.html#af120555826a69aa1bc2ba418a7df1280',1,'b1(2):&#160;test.cpp'],['../test2_8cpp.html#af120555826a69aa1bc2ba418a7df1280',1,'b1(2):&#160;test2.cpp']]],
-  ['b2_2',['b2',['../test_8cpp.html#a5be01e587378073dafbdffc8331d0f38',1,'b2(2):&#160;test.cpp'],['../test2_8cpp.html#a5be01e587378073dafbdffc8331d0f38',1,'b2(2):&#160;test2.cpp']]],
-  ['bounding_5fbox_3',['bounding_box',['../classZonoOpt_1_1HybZono.html#ab5259894fbfdfbfdb158d19b4f4143ec',1,'ZonoOpt::HybZono']]],
-  ['box_4',['box',['../classZonoOpt_1_1Box.html',1,'ZonoOpt::Box'],['../classZonoOpt_1_1Box.html#a79dc4b78bb800cbc124314a45f61aae5',1,'ZonoOpt::Box::Box()=default'],['../classZonoOpt_1_1Box.html#a65e9e103b998bcdb5645a59d983a8482',1,'ZonoOpt::Box::Box(const size_t size)'],['../classZonoOpt_1_1Box.html#a013f431b2703c0484378a04978d2cddb',1,'ZonoOpt::Box::Box(const std::vector&lt; Interval &gt; &amp;vals)'],['../classZonoOpt_1_1Box.html#ab90cc9643d2d55ab34959423b90e7af6',1,'ZonoOpt::Box::Box(const Eigen::Vector&lt; zono_float, -1 &gt; &amp;x_lb, const Eigen::Vector&lt; zono_float, -1 &gt; &amp;x_ub)'],['../classZonoOpt_1_1Box.html#af8957cfb8e48384b8508f9ee14a8b927',1,'ZonoOpt::Box::Box(const Box &amp;other)']]]
+  ['c_0',['c',['../classZonoOpt_1_1HybZono.html#a988a9040bbee473e3a43ace3c0dd1511',1,'ZonoOpt::HybZono']]],
+  ['cartesian_5fproduct_1',['cartesian_product',['../group__ZonoOpt__SetOperations.html#ga21cab38a1787f36fc586e48204d4e797',1,'ZonoOpt::cartesian_product()'],['../classZonoOpt_1_1HybZono.html#a1e6ef99c19bd6c9439491f9131fde106',1,'ZonoOpt::HybZono::cartesian_product']]],
+  ['center_2',['center',['../structZonoOpt_1_1Interval.html#abd514ecfa68ca3ab0fc7ca34e069e85b',1,'ZonoOpt::Interval::center()'],['../classZonoOpt_1_1Box.html#a88505ef0c5fbc76d0983c562f7e145bb',1,'ZonoOpt::Box::center()']]],
+  ['choleskyutilities_2ecpp_3',['CholeskyUtilities.cpp',['../CholeskyUtilities_8cpp.html',1,'']]],
+  ['choleskyutilities_2ehpp_4',['CholeskyUtilities.hpp',['../CholeskyUtilities_8hpp.html',1,'']]],
+  ['clone_5',['clone',['../classZonoOpt_1_1ConZono.html#a31510dabcf6b795b491f2c14ad662c91',1,'ZonoOpt::ConZono::clone()'],['../classZonoOpt_1_1Zono.html#a755b61571e9e189ee4c10e2e077d4324',1,'ZonoOpt::Zono::clone()'],['../classZonoOpt_1_1Point.html#ae7158fb9a9bf735d9c371734497a700a',1,'ZonoOpt::Point::clone()'],['../classZonoOpt_1_1Box.html#ac6910e1142612efd61a24445eebbf43b',1,'ZonoOpt::Box::clone()'],['../structZonoOpt_1_1Interval.html#ae782b51fbcfe7f41b8ed209ecd064fae',1,'ZonoOpt::Interval::clone()'],['../classZonoOpt_1_1HybZono.html#a5b84a48a2719fc3d956bbe845b270f33',1,'ZonoOpt::HybZono::clone()'],['../classZonoOpt_1_1EmptySet.html#a55a823e66260a7873c83e6f9bfb0904b',1,'ZonoOpt::EmptySet::clone()']]],
+  ['coeff_6',['coeff',['../structZonoOpt_1_1IneqTerm.html#ad3e19054fe45a377020ab5d00a5af68e',1,'ZonoOpt::IneqTerm']]],
+  ['complement_7',['complement',['../classZonoOpt_1_1HybZono.html#afa50c0ea9847e87aa306d000eb60fb96',1,'ZonoOpt::HybZono']]],
+  ['constrain_8',['constrain',['../group__ZonoOpt__SetOperations.html#gaf9945c4d9544749e91c64bbaf24fab73',1,'ZonoOpt::constrain()'],['../classZonoOpt_1_1HybZono.html#ac49a907897d69bb5da857f9d526c1207',1,'ZonoOpt::HybZono::constrain']]],
+  ['constraint_5freduction_9',['constraint_reduction',['../classZonoOpt_1_1ConZono.html#a23bf29a6f15280f663cb7e8ba7c10276',1,'ZonoOpt::ConZono::constraint_reduction()'],['../classZonoOpt_1_1EmptySet.html#a50723209a5a9a21224e6b33a5b668ac7',1,'ZonoOpt::EmptySet::constraint_reduction()']]],
+  ['contains_10',['contains',['../structZonoOpt_1_1IntervalBase.html#af5d34a913946d1a695ea08617bc19326',1,'ZonoOpt::IntervalBase']]],
+  ['contains_5fpoint_11',['contains_point',['../classZonoOpt_1_1HybZono.html#a56657b0ced4be5af7906bbac6bd0dc94',1,'ZonoOpt::HybZono']]],
+  ['contract_12',['contract',['../classZonoOpt_1_1Box.html#acb3a056cb0eaa32acc8d0c84b239c113',1,'ZonoOpt::Box']]],
+  ['contract_5fsubset_13',['contract_subset',['../classZonoOpt_1_1Box.html#a7e736d03bedfd3bf93e04fb30f3cd3c8',1,'ZonoOpt::Box']]],
+  ['contractor_5fiter_14',['contractor_iter',['../structZonoOpt_1_1OptSettings.html#af9419db5635a39c10eec3d67b0fe99f9',1,'ZonoOpt::OptSettings']]],
+  ['contractor_5ftree_5fsearch_5fdepth_15',['contractor_tree_search_depth',['../structZonoOpt_1_1OptSettings.html#a8601f8ec28dd65d652fff2fd07fabd57',1,'ZonoOpt::OptSettings']]],
+  ['converged_16',['converged',['../structZonoOpt_1_1OptSolution.html#ae75579600c7c0687f043d26b79228d5b',1,'ZonoOpt::OptSolution']]],
+  ['convert_5fform_17',['convert_form',['../classZonoOpt_1_1ConZono.html#a626ff5fadc6560a8fed6aeb7e154435b',1,'ZonoOpt::ConZono::convert_form()'],['../classZonoOpt_1_1Zono.html#adc0c5fcc9ead67a4968a2db144ee9a5d',1,'ZonoOpt::Zono::convert_form()'],['../classZonoOpt_1_1Point.html#a5baf25d14dc72d94c7d313e34c8451bf',1,'ZonoOpt::Point::convert_form()'],['../classZonoOpt_1_1HybZono.html#a5566841a31499d793a1891e080ff7de9',1,'ZonoOpt::HybZono::convert_form()']]],
+  ['convex_5frelaxation_18',['convex_relaxation',['../classZonoOpt_1_1HybZono.html#a924cb5116e31b275a44369ab057c48dd',1,'ZonoOpt::HybZono']]],
+  ['conzono_19',['conzono',['../classZonoOpt_1_1ConZono.html#a420a12db1dd044c673421f2646afd07f',1,'ZonoOpt::ConZono::ConZono()'],['../classZonoOpt_1_1ConZono.html#a81ea14d2f6289b97cf87c8a2173c7d04',1,'ZonoOpt::ConZono::ConZono(const Eigen::SparseMatrix&lt; zono_float &gt; &amp;G, const Eigen::Vector&lt; zono_float, -1 &gt; &amp;c, const Eigen::SparseMatrix&lt; zono_float &gt; &amp;A, const Eigen::Vector&lt; zono_float, -1 &gt; &amp;b, bool zero_one_form=false)'],['../classZonoOpt_1_1ConZono.html',1,'ZonoOpt::ConZono']]],
+  ['conzono_2ecpp_20',['ConZono.cpp',['../ConZono_8cpp.html',1,'']]],
+  ['conzono_2ehpp_21',['ConZono.hpp',['../ConZono_8hpp.html',1,'']]],
+  ['cos_22',['cos',['../structZonoOpt_1_1Interval.html#ad7021bb884e142fd826e7067d65bfe9f',1,'ZonoOpt::Interval']]],
+  ['cos_5fassign_23',['cos_assign',['../structZonoOpt_1_1IntervalBase.html#a3b615f9b28a3f36502b77c4f22eb5317',1,'ZonoOpt::IntervalBase']]]
 ];
