@@ -54,6 +54,7 @@ set(SOURCE_FILES
     src/Point.cpp
     src/EmptySet.cpp
     src/Intervals.cpp
+        src/MI_Solver.cpp
 )
 
 # build

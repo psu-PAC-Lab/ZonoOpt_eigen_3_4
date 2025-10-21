@@ -320,7 +320,7 @@ namespace ZonoOpt
         mi_data.zero_one_form = this->zero_one_form;
 
         // build MI_ADMM_solver object
-        MI_solver mi_solver(mi_data);
+        MI_Solver mi_solver(mi_data);
 
         // solve optimization problem
         OptSolution sol = mi_solver.solve();
@@ -353,7 +353,7 @@ namespace ZonoOpt
         mi_data.zero_one_form = this->zero_one_form;
 
         // build MI_ADMM_solver object
-        MI_solver mi_solver(mi_data);
+        MI_Solver mi_solver(mi_data);
 
         // solve optimization problem
         auto [fst, snd] = mi_solver.multi_solve(n_sols);
