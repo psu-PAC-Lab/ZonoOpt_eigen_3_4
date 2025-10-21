@@ -33,7 +33,10 @@ endif()
 # compiler flags
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_BUILD_TYPE Release)
+if(NOT CMAKE_BUILD_TYPE)
+  message(STATUS "Setting build type to 'Release' by default.")
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
 if (BUILD_PYTHON_BINDINGS)
     # Find the module development requirements (requires FindPython from 3.17 or
