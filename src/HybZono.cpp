@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "HybZono.hpp"
 
 namespace ZonoOpt
 {

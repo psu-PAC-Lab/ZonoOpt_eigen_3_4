@@ -62,15 +62,22 @@ namespace ZonoOpt::detail
     constexpr zono_float one = static_cast<zono_float>(1.0);
     constexpr zono_float two = static_cast<zono_float>(2.0);
 }
+
 // includes
-#include "GenUtilities.hpp"
-#include "Point.hpp"
-#include "Zono.hpp"
-#include "ConZono.hpp"
-#include "HybZono.hpp"
-#include "Intervals.hpp"
-#include "Inequality.hpp"
-#include "EmptySet.hpp"
+#include "zonoopt/ADMM.hpp"
+#include "zonoopt/CholeskyUtilities.hpp"
+#include "zonoopt/ConZono.hpp"
+#include "zonoopt/EmptySet.hpp"
+#include "zonoopt/GenUtilities.hpp"
+#include "zonoopt/HybZono.hpp"
+#include "zonoopt/Inequality.hpp"
+#include "zonoopt/Intervals.hpp"
+#include "zonoopt/MI_DataStructures.hpp"
+#include "zonoopt/MI_Solver.hpp"
+#include "zonoopt/Point.hpp"
+#include "zonoopt/SolverDataStructures.hpp"
+#include "zonoopt/SparseMatrixUtilities.hpp"
+#include "zonoopt/Zono.hpp"
 
 // typedef
 namespace ZonoOpt

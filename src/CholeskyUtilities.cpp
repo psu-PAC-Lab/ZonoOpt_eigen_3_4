@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "CholeskyUtilities.hpp"
 
 namespace ZonoOpt::detail {
 

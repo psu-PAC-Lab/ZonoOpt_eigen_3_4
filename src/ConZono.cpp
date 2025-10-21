@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "ConZono.hpp"
 
 namespace ZonoOpt
 {

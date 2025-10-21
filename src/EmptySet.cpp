@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "EmptySet.hpp"
 
 namespace ZonoOpt
 {

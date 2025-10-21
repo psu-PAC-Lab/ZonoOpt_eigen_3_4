@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "MI_Solver.hpp"
 
 namespace ZonoOpt::detail
 {

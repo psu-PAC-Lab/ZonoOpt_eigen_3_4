@@ -1,5 +1,4 @@
 #include "ZonoOpt.hpp"
-#include "Intervals.hpp"
 
 namespace ZonoOpt
 {
