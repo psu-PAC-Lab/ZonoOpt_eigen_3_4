@@ -53,13 +53,13 @@ if(COMPILER_SUPPORTS_MARCH_NATIVE)
 endif()
 
 # submodule
-if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     message(STATUS "Updating Git submodules...")
 
     # Execute 'git submodule update --init --recursive'
     execute_process(
         COMMAND git submodule update --init --recursive
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         RESULT_VARIABLE GIT_SUBMODULE_RESULT
         OUTPUT_VARIABLE GIT_SUBMODULE_OUTPUT
         ERROR_VARIABLE GIT_SUBMODULE_ERROR
