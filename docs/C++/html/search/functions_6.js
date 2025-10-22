@@ -9,7 +9,7 @@ var searchData=
   ['get_5fgb_6',['get_Gb',['../classZonoOpt_1_1HybZono.html#ae5dd6c62051011b883d468f16fb7869f',1,'ZonoOpt::HybZono']]],
   ['get_5fgc_7',['get_Gc',['../classZonoOpt_1_1HybZono.html#a1ff3229111634faed429a4c287d8c822',1,'ZonoOpt::HybZono']]],
   ['get_5fineq_5ftype_8',['get_ineq_type',['../classZonoOpt_1_1Inequality.html#a093d4009ae27469ca11389e006de2e47',1,'ZonoOpt::Inequality']]],
-  ['get_5fleaves_9',['get_leaves',['../classZonoOpt_1_1HybZono.html#ad97295648a8dda5421d8ac12e58613c5',1,'ZonoOpt::HybZono']]],
+  ['get_5fleaves_9',['get_leaves',['../classZonoOpt_1_1HybZono.html#a9da923aa9b9e0097de26b9a62f861b07',1,'ZonoOpt::HybZono']]],
   ['get_5fn_10',['get_n',['../classZonoOpt_1_1HybZono.html#a0edc0ec72b94f2ef3c882bb24da5ade3',1,'ZonoOpt::HybZono']]],
   ['get_5fn_5fdims_11',['get_n_dims',['../classZonoOpt_1_1Inequality.html#a395cbad8a7edc510e88454c1f3ce42df',1,'ZonoOpt::Inequality']]],
   ['get_5fnc_12',['get_nC',['../classZonoOpt_1_1HybZono.html#a46463c644dcbb4588ec9408ea3c3f18e',1,'ZonoOpt::HybZono']]],

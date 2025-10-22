@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v1.0.0</span>
+   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v2.0.1</span>
    </div>
   </td>
  </tr>
@@ -101,9 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa29e9313fc492754b671299f91166ea0" id="r_gaa29e9313fc492754b671299f91166ea0"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#gaa29e9313fc492754b671299f91166ea0">ZonoOpt::halfspace_intersection</a> (<a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z, const Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt; &amp;H, const Eigen::Vector&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a>, -1 &gt; &amp;f, const Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt; &amp;R=Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt;())</td></tr>
 <tr class="memdesc:gaa29e9313fc492754b671299f91166ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the intersection generalized intersection of set Z with halfspace H*x &lt;= f over matrix R.  <br /></td></tr>
 <tr class="separator:gaa29e9313fc492754b671299f91166ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2794f20c10218205c957f62f5a47e65f" id="r_ga2794f20c10218205c957f62f5a47e65f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga2794f20c10218205c957f62f5a47e65f">ZonoOpt::union_of_many</a> (const std::vector&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> * &gt; &amp;Zs, bool preserve_sharpness=false, bool expose_indicators=false)</td></tr>
-<tr class="memdesc:ga2794f20c10218205c957f62f5a47e65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes union of several sets.  <br /></td></tr>
-<tr class="separator:ga2794f20c10218205c957f62f5a47e65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74e540bb5cb3dee56069affcea646a25" id="r_ga74e540bb5cb3dee56069affcea646a25"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga74e540bb5cb3dee56069affcea646a25">ZonoOpt::union_of_many</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; &gt; &amp;Zs, bool preserve_sharpness=false, bool expose_indicators=false)</td></tr>
+<tr class="memdesc:ga74e540bb5cb3dee56069affcea646a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes union of several sets.  <br /></td></tr>
+<tr class="separator:ga74e540bb5cb3dee56069affcea646a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga21cab38a1787f36fc586e48204d4e797" id="r_ga21cab38a1787f36fc586e48204d4e797"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga21cab38a1787f36fc586e48204d4e797">ZonoOpt::cartesian_product</a> (const <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z1, <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z2)</td></tr>
 <tr class="memdesc:ga21cab38a1787f36fc586e48204d4e797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Cartesian product of two sets Z1 and Z2.  <br /></td></tr>
 <tr class="separator:ga21cab38a1787f36fc586e48204d4e797"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +122,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::affine_map </td>
@@ -150,11 +147,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns affine map R*Z + s of set Z. </p>
@@ -175,9 +167,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::cartesian_product </td>
@@ -197,11 +186,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes the Cartesian product of two sets Z1 and Z2. </p>
@@ -221,9 +205,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::constrain </td>
@@ -249,11 +230,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Applies inequalities to set. </p>
@@ -275,9 +251,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::halfspace_intersection </td>
@@ -309,11 +282,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes the intersection generalized intersection of set Z with halfspace H*x &lt;= f over matrix R. </p>
@@ -335,9 +303,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::intersection </td>
@@ -363,11 +328,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes the generalized intersection of sets Z1 and Z2 over the matrix R. </p>
@@ -388,9 +348,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::intersection_over_dims </td>
@@ -416,11 +373,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes the generalized intersection of sets Z1 and Z2 over the specified dimensions. </p>
@@ -441,9 +393,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::minkowski_sum </td>
@@ -463,11 +412,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes Minkowski sum of two sets Z1 and Z2. </p>
@@ -487,9 +431,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::pontry_diff </td>
@@ -515,11 +456,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes the Pontryagin difference Z1 - Z2. </p>
@@ -541,9 +477,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::project_onto_dims </td>
@@ -563,11 +496,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Projects set Z onto the dimensions specified in dims. </p>
@@ -587,9 +515,6 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::set_diff </td>
@@ -645,11 +570,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Set difference Z1 \ Z2. </p>
@@ -670,19 +590,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga2794f20c10218205c957f62f5a47e65f" name="ga2794f20c10218205c957f62f5a47e65f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2794f20c10218205c957f62f5a47e65f">&#9670;&#160;</a></span>union_of_many()</h2>
+<a id="ga74e540bb5cb3dee56069affcea646a25" name="ga74e540bb5cb3dee56069affcea646a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga74e540bb5cb3dee56069affcea646a25">&#9670;&#160;</a></span>union_of_many()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; ZonoOpt::union_of_many </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>Zs</em>, </td>
         </tr>
         <tr>
@@ -703,11 +620,6 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Computes union of several sets. </p>

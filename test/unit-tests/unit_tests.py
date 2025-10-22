@@ -269,7 +269,7 @@ def test_get_leaves():
     # make random conzonos
     np.random.seed(0)
 
-    n_CZs = 10
+    n_CZs = 20
     n = 10
     nV = 2*n
 
@@ -281,13 +281,16 @@ def test_get_leaves():
     # take union
     U = zono.union_of_many(CZs)
 
+    # minkowski sum
+    Z = zono.minkowski_sum(U, U)
+
     # get number of leaves
     settings = zono.OptSettings()
     settings.n_threads_bnb = 1
-    leaves = U.get_leaves(settings=settings)
+    leaves = Z.get_leaves(settings=settings)
 
     # check number of leaves is correct
-    assert len(leaves) == n_CZs
+    assert len(leaves) == n_CZs**2
     print('Passed: Get Leaves')
 
 # run the unit tests

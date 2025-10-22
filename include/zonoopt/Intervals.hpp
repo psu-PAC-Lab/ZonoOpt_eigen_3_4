@@ -729,40 +729,20 @@ namespace ZonoOpt {
          * @brief Default construct with size specified
          * @param size dimension of box
          */
-        explicit Box(const size_t size)
-        {
-            x_lb.resize(static_cast<Eigen::Index>(size));
-            x_ub.resize(static_cast<Eigen::Index>(size));
-        }
+        explicit Box(const size_t size);
 
         /**
          * @brief Constructor using vector of intervals
          * @param vals vector of intervals
          */
-        explicit Box(const std::vector<Interval>& vals)
-        {
-            x_lb.resize(static_cast<Eigen::Index>(vals.size()));
-            x_ub.resize(static_cast<Eigen::Index>(vals.size()));
-
-            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(vals.size()); i++)
-            {
-                this->x_lb(i) = vals[i].y_min();
-                this->x_ub(i) = vals[i].y_max();
-            }
-        }
+        explicit Box(const std::vector<Interval>& vals);
 
         /**
          * @brief Constructor from intervals of lower and upper bounds
          * @param x_lb vector of lower bounds
          * @param x_ub vector of upper bounds
          */
-        Box(const Eigen::Vector<zono_float, -1>& x_lb, const Eigen::Vector<zono_float, -1>& x_ub)
-        {
-            if (x_lb.size() != x_ub.size())
-                throw std::invalid_argument("x_l and x_u must have the same size");
-            this->x_lb = x_lb;
-            this->x_ub = x_ub;
-        }
+        Box(const Eigen::Vector<zono_float, -1>& x_lb, const Eigen::Vector<zono_float, -1>& x_ub);
 
         // virtual destructor
         /**
@@ -776,26 +756,14 @@ namespace ZonoOpt {
          * @param other other Box object
          * @return this = other
          */
-        Box& operator=(const Box& other)
-        {
-            if (this != &other)
-            {
-                this->x_lb = other.x_lb;
-                this->x_ub = other.x_ub;
-            }
-            return *this;
-        }
+        Box& operator=(const Box& other);
 
         // copy constructor
         /**
          * @brief Copy constructor
          * @param other other Box object
          */
-        Box(const Box& other)
-        {
-            this->x_lb = other.x_lb;
-            this->x_ub = other.x_ub;
-        }
+        Box(const Box& other);
 
         // element-wise assignment, access
 
@@ -804,33 +772,19 @@ namespace ZonoOpt {
          * @param i index
          * @return IntervalView for element i in Box
          */
-        IntervalView operator[](const size_t i)
-        {
-            if (i >= static_cast<size_t>(x_lb.size()))
-                throw std::out_of_range("Index out of range");
-            return IntervalView(&x_lb(static_cast<Eigen::Index>(i)), &x_ub(static_cast<Eigen::Index>(i)));
-        }
+        IntervalView operator[](size_t i);
 
         /**
          * @brief Element-wise access
          * @param i index
          * @return Interval for element i in Box
          */
-        Interval operator[](const size_t i) const
-        {
-            if (i >= static_cast<size_t>(x_lb.size()))
-                throw std::out_of_range("Index out of range");
-            return Interval(x_lb(static_cast<Eigen::Index>(i)), x_ub(static_cast<Eigen::Index>(i)));
-        }
-
+        Interval operator[](size_t i) const;
         /**
          * @brief get size of Box object
          * @return size of box
          */
-        size_t size() const
-        {
-            return x_lb.size();
-        }
+        size_t size() const;
 
         // project onto box
 
@@ -838,21 +792,13 @@ namespace ZonoOpt {
          * @brief Projects vector onto the Box
          * @param x vector reference
          */
-        virtual void project(Eigen::Ref<Eigen::Vector<zono_float, -1>> x) const
-        {
-            if (x.size() != x_lb.size())
-                throw std::invalid_argument("x must have the same size as the Box");
-            x = x.cwiseMax(x_lb).cwiseMin(x_ub);
-        }
+        virtual void project(Eigen::Ref<Eigen::Vector<zono_float, -1>> x) const;
 
         /**
          * @brief Clone operation
          * @return pointer to newly created object
          */
-        virtual Box* clone() const
-        {
-            return new Box(*this);
-        }
+        virtual Box* clone() const;
 
         // access bounds
         /**
@@ -874,29 +820,13 @@ namespace ZonoOpt {
          *
          * Specifically, this returns the sum of the widths of each interval in the box
          */
-        zono_float width() const
-        {
-            zono_float w = 0;
-            for (Eigen::Index i=0; i<x_lb.size(); i++)
-            {
-                w += x_ub(i) - x_lb(i);
-            }
-            return w;
-        }
+        zono_float width() const;
 
         /**
          * @brief get center of box
          * @return center of box
          */
-        Eigen::Vector<zono_float, -1> center() const
-        {
-            Eigen::Vector<zono_float, -1> c (this->size());
-            for (Eigen::Index i=0; i<static_cast<Eigen::Index>(this->size()); i++)
-            {
-                c(i) = (*this)[i].center();
-            }
-            return c;
-        }
+        Eigen::Vector<zono_float, -1> center() const;
 
         // operator overloading
 
@@ -905,83 +835,35 @@ namespace ZonoOpt {
          * @param other rhs box
          * @return this + other (elementwise)
          */
-        Box operator+(const Box& other) const
-        {
-            if (this->size() != other.size())
-                throw std::invalid_argument("Box addition: inconsistent dimensions");
-            Box out =  *this;
-            for (size_t i=0; i<this->size(); ++i)
-            {
-                out[i] = (*this)[i] + other[i];
-            }
-            return out;
-        }
+        Box operator+(const Box& other) const;
 
         /**
          * @brief elementwise subtraction
          * @param other rhs box
          * @return this - other (elementwise)
          */
-        Box operator-(const Box& other) const
-        {
-            if (this->size() != other.size())
-                throw std::invalid_argument("Box subtraction: inconsistent dimensions");
-            Box out =  *this;
-            for (size_t i=0; i<this->size(); ++i)
-            {
-                out[i] = (*this)[i] - other[i];
-            }
-            return out;
-        }
+        Box operator-(const Box& other) const;
 
         /**
          * @brief elementwise multiplication
          * @param other rhs box
          * @return this * other (elementwise)
          */
-        Box operator*(const Box& other) const
-        {
-            if (this->size() != other.size())
-                throw std::invalid_argument("Box multiplication: inconsistent dimensions");
-            Box out =  *this;
-            for (size_t i=0; i<this->size(); ++i)
-            {
-                out[i] = (*this)[i] * other[i];
-            }
-            return out;
-        }
+        Box operator*(const Box& other) const;
 
         /**
          * @brief elementwise multiplication with scalar
          * @param alpha scalar multiplier
          * @return alpha * this (elementwise)
          */
-        Box operator*(zono_float alpha) const
-        {
-            Box out = *this;
-            for (size_t i=0; i<this->size(); ++i)
-            {
-                out[i] = (*this)[i]*alpha;
-            }
-            return out;
-        }
+        Box operator*(zono_float alpha) const;
 
         /**
          * @brief elementwise division
          * @param other rhs box
          * @return this / other (elementwise)
          */
-        Box operator/(const Box& other) const
-        {
-            if (this->size() != other.size())
-                throw std::invalid_argument("Box division: inconsistent dimensions");
-            Box out = *this;
-            for (size_t i=0; i<this->size(); ++i)
-            {
-                out[i] = (*this)[i] / other[i];
-            }
-            return out;
-        }
+        Box operator/(const Box& other) const;
 
         // interval contractors
 
@@ -996,21 +878,7 @@ namespace ZonoOpt {
          * For points x in the box, this shrinks the box without removing any points x that satisfy A*x=b.
          * If the contractor detects that the box does not intersect A*x=b, then this function will return false.
          */
-        bool contract(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A, const Eigen::Vector<zono_float, -1>& b, const int iter)
-        {
-            if (iter <= 0)
-                throw std::invalid_argument("iter must be positive");
-
-            // contract over all constraints
-            std::set<int> constraints;
-            for (int i=0; i<A.rows(); i++)
-            {
-                constraints.insert(i);
-            }
-
-            // run contractor
-            return contract_helper(A, b, iter, constraints);
-        }
+        bool contract(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A, const Eigen::Vector<zono_float, -1>& b, int iter);
 
         /**
          * @brief Interval contractor over a subset of the dimensions of the box
@@ -1026,118 +894,40 @@ namespace ZonoOpt {
          * This detects what other dimensions are affected up to a specified search depth prior to executing the contractor.
          */
         bool contract_subset(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A_rm, const Eigen::Vector<zono_float, -1>& b, int iter,
-                             const Eigen::SparseMatrix<zono_float>& A, const std::set<int>& inds, int tree_search_depth)
-        {
-            if (iter <= 0)
-                throw std::invalid_argument("iter must be positive");
-            if (A_rm.rows() != A.rows() || A_rm.cols() != A.cols())
-                throw std::invalid_argument("A_rm must equal A");
-
-            // get affected constraints
-            std::set<int> all_constraints, all_vars;
-
-            get_vars_cons(A, A_rm, all_constraints, all_vars, inds, 0, tree_search_depth);
-
-            // run contractor
-            return contract_helper(A_rm, b, iter, all_constraints);
-        }
+                             const Eigen::SparseMatrix<zono_float>& A, const std::set<int>& inds, int tree_search_depth);
 
         /**
          * @brief Linear map of box based on interval arithmetic
          * @param A map matrix (dense)
          * @return Linear mapped box
          */
-        Box linear_map(const Eigen::Matrix<zono_float, -1, -1>& A) const
-        {
-            // input handling
-            if (A.cols() != x_lb.size())
-                throw std::invalid_argument("Matrix A must have the same number of columns as the size of the Box");
-
-            // declare
-            Box y(A.rows());
-
-            // linear map
-            for (int i=0; i<A.rows(); i++)
-            {
-                y[i] = Interval(0, 0);
-                for (int j=0; j<A.cols(); j++)
-                {
-                    y[i].add_assign(y[i], ((*this)[j]*A(i, j)).as_view());
-                }
-            }
-            return y;
-        }
+        Box linear_map(const Eigen::Matrix<zono_float, -1, -1>& A) const;
 
         /**
          * @brief Linear map of box based on interval arithmetic
          * @param A map matrix (sparse row major)
          * @return Linear mapped box
          */
-        Box linear_map(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A) const
-        {
-            // input handling
-            if (A.cols() != x_lb.size())
-                throw std::invalid_argument("Matrix A must have the same number of columns as the size of the Box");
-
-            // declare
-            Box y (A.rows());
-
-            // linear map
-            for (int i=0; i<A.rows(); i++)
-            {
-                y[i] = Interval(0, 0);
-                for (Eigen::SparseMatrix<zono_float, Eigen::RowMajor>::InnerIterator it(A, i); it; ++it)
-                {
-                    y[i].add_assign(y[i], ((*this)[it.col()]*it.value()).as_view());
-                }
-            }
-            return y;
-        }
+        Box linear_map(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A) const;
 
         /**
          * @brief Linear map with vector
          * @param x vector
          * @return Interval
          */
-        Interval dot(const Eigen::Vector<zono_float, -1>& x) const
-        {
-            // input handling
-            if (x.size() != x_lb.size())
-                throw std::invalid_argument("Vector x must have the same size as the Box");
-
-            // declare
-            Interval y(0, 0);
-
-            // linear map
-            for (int i=0; i<this->x_lb.size(); i++)
-                y.add_assign(y, ((*this)[i]*x(i)));
-            return y;
-        }
+        Interval dot(const Eigen::Vector<zono_float, -1>& x) const;
 
         /**
          * @brief Permutes in place using permutation matrix, i.e., [x] <- P*[x]
          * @param P permutation matrix
          */
-        void permute(const Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic>& P)
-        {
-            this->x_lb = P*this->x_lb;
-            this->x_ub = P*this->x_ub;
-        }
+        void permute(const Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic>& P);
 
         /**
          * @brief Print method
          * @return string display of Box
          */
-        std::string print() const
-        {
-            std::stringstream ss;
-            ss << "Box: " << std::endl;
-            for (Eigen::Index i=0; i<x_lb.size(); i++)
-            {
-                ss << "  " << (*this)[i] << std::endl;
-            }
-            return ss.str();
-        }
+        std::string print() const;
 
         /**
          * @brief print to ostream
@@ -1145,11 +935,7 @@ namespace ZonoOpt {
          * @param box reference to box
          * @return ostream
          */
-        friend std::ostream& operator<<(std::ostream& os, const Box& box)
-        {
-            os << box.print();
-            return os;
-        }
+        friend std::ostream& operator<<(std::ostream& os, const Box& box);
 
     protected:
 
@@ -1173,53 +959,7 @@ namespace ZonoOpt {
          * @return flag indicating that the contractor did not detect that A*x=b and the box do not intersect
          */
         bool contract_helper(const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A, const Eigen::Vector<zono_float, -1>& b, const int iter,
-                             const std::set<int>& constraints)
-        {
-            for (int i=0; i<iter; i++)
-            {
-                // loop through constraints
-                for (const int k : constraints)
-                {
-                    // forward propagate
-                    Interval y(0, 0);
-                    std::vector<int> cols; // keeping track of columns
-                    for (Eigen::SparseMatrix<zono_float, Eigen::RowMajor>::InnerIterator it(A, k); it; ++it)
-                    {
-                        y.add_assign(y, (*this)[it.col()].to_interval()*it.value());
-                        cols.push_back(static_cast<int>(it.col()));
-                    }
-
-                    // check validity
-                    if (!y.contains(b(k)))
-                        return false;
-                    else
-                        y = Interval(b(k), b(k));
-
-                    // backward propagate
-                    for (const int col : cols)
-                    {
-                        Interval x = y; // init
-                        zono_float a_col=one;
-                        for (Eigen::SparseMatrix<zono_float, Eigen::RowMajor>::InnerIterator it(A, k); it; ++it)
-                        {
-                            if (it.col() != col)
-                            {
-                                x.add_assign(x, (*this)[it.col()].to_interval()*(-it.value()));
-                            }
-                            else
-                            {
-                                a_col = it.value();
-                            }
-                        }
-
-                        // update interval
-                        (*this)[col].intersect_assign((*this)[col], (x * (one/a_col)).as_view());
-                    }
-                }
-            }
-
-            return true; // constraints valid
-        }
+                             const std::set<int>& constraints);
 
         /**
          * @brief Search constraint tree for affected dimensions of box (recursive)
@@ -1232,45 +972,7 @@ namespace ZonoOpt {
          * @param max_depth max depth to search constraint tree
          */
         void get_vars_cons(const Eigen::SparseMatrix<zono_float>& A, const Eigen::SparseMatrix<zono_float, Eigen::RowMajor>& A_rm,
-                           std::set<int>& constraints, std::set<int>& vars, const std::set<int>& new_vars, int depth, int max_depth)
-        {
-            // immediately copy over constraints and vars
-            vars.insert(new_vars.begin(), new_vars.end());
-
-            // find new constraints
-            std::set<int> new_constraints;
-            for (const int i : new_vars)
-            {
-                for (Eigen::SparseMatrix<zono_float>::InnerIterator it(A, i); it; ++it)
-                {
-                    if (!constraints.count(static_cast<int>(it.row())))
-                    {
-                        new_constraints.insert(static_cast<int>(it.row()));
-                    }
-                }
-            }
-
-            // find new vars
-            std::set<int> new_new_vars;
-            for (const int i : new_constraints)
-            {
-                for (Eigen::SparseMatrix<zono_float, Eigen::RowMajor>::InnerIterator it(A_rm, i); it; ++it)
-                {
-                    if (!vars.count(static_cast<int>(it.col())))
-                    {
-                        new_new_vars.insert(static_cast<int>(it.col()));
-                    }
-                }
-            }
-
-            // add new constraints to set
-            constraints.insert(new_constraints.begin(), new_constraints.end());
-
-            // recurse if able
-            depth++;
-            if (depth < max_depth && new_new_vars.empty())
-                get_vars_cons(A, A_rm, constraints, vars, new_new_vars, depth, max_depth);
-        }
+                           std::set<int>& constraints, std::set<int>& vars, const std::set<int>& new_vars, int depth, int max_depth);
     };
 
 } // namespace ZonoOpt
