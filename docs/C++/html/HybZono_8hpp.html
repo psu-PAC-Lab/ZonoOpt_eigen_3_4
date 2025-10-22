@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ZonoOpt: /home/joshr/Documents/Projects/ZonoOpt/include/HybZono.hpp File Reference</title>
+<title>ZonoOpt: /home/joshr/Documents/Projects/ZonoOpt/include/zonoopt/HybZono.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v1.0.0</span>
+   <div id="projectname">ZonoOpt<span id="projectnumber">&#160;v2.0.1</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_193bdbab3565eeaa4b5e0fbe695510a6.html">zonoopt</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -128,9 +128,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa29e9313fc492754b671299f91166ea0" id="r_gaa29e9313fc492754b671299f91166ea0"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#gaa29e9313fc492754b671299f91166ea0">ZonoOpt::halfspace_intersection</a> (<a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z, const Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt; &amp;H, const Eigen::Vector&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a>, -1 &gt; &amp;f, const Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt; &amp;R=Eigen::SparseMatrix&lt; <a class="el" href="group__ZonoOpt__PreprocessorMacros.html#ga10f9d95aa3b7fa4dca1699582aa53598">zono_float</a> &gt;())</td></tr>
 <tr class="memdesc:gaa29e9313fc492754b671299f91166ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the intersection generalized intersection of set Z with halfspace H*x &lt;= f over matrix R.  <br /></td></tr>
 <tr class="separator:gaa29e9313fc492754b671299f91166ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2794f20c10218205c957f62f5a47e65f" id="r_ga2794f20c10218205c957f62f5a47e65f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga2794f20c10218205c957f62f5a47e65f">ZonoOpt::union_of_many</a> (const std::vector&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> * &gt; &amp;Zs, bool preserve_sharpness=false, bool expose_indicators=false)</td></tr>
-<tr class="memdesc:ga2794f20c10218205c957f62f5a47e65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes union of several sets.  <br /></td></tr>
-<tr class="separator:ga2794f20c10218205c957f62f5a47e65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74e540bb5cb3dee56069affcea646a25" id="r_ga74e540bb5cb3dee56069affcea646a25"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga74e540bb5cb3dee56069affcea646a25">ZonoOpt::union_of_many</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt; &gt; &amp;Zs, bool preserve_sharpness=false, bool expose_indicators=false)</td></tr>
+<tr class="memdesc:ga74e540bb5cb3dee56069affcea646a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes union of several sets.  <br /></td></tr>
+<tr class="separator:ga74e540bb5cb3dee56069affcea646a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga21cab38a1787f36fc586e48204d4e797" id="r_ga21cab38a1787f36fc586e48204d4e797"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetOperations.html#ga21cab38a1787f36fc586e48204d4e797">ZonoOpt::cartesian_product</a> (const <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z1, <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z2)</td></tr>
 <tr class="memdesc:ga21cab38a1787f36fc586e48204d4e797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Cartesian product of two sets Z1 and Z2.  <br /></td></tr>
 <tr class="separator:ga21cab38a1787f36fc586e48204d4e797"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,8 +146,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ga137745f637f4bcc9c7f16fc5c9dfc1bd" id="r_ga137745f637f4bcc9c7f16fc5c9dfc1bd"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__ZonoOpt__SetupFunctions.html#ga137745f637f4bcc9c7f16fc5c9dfc1bd">ZonoOpt::zono_union_2_hybzono</a> (std::vector&lt; <a class="el" href="classZonoOpt_1_1Zono.html">Zono</a> &gt; &amp;Zs, bool expose_indicators=false)</td></tr>
 <tr class="memdesc:ga137745f637f4bcc9c7f16fc5c9dfc1bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a hybrid zonotope from a union of zonotopes.  <br /></td></tr>
 <tr class="separator:ga137745f637f4bcc9c7f16fc5c9dfc1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ba4e649a4e49d93fa7e8719602a046f" id="r_a6ba4e649a4e49d93fa7e8719602a046f"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceZonoOpt.html#a6ba4e649a4e49d93fa7e8719602a046f">ZonoOpt::operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classZonoOpt_1_1HybZono.html">HybZono</a> &amp;Z)</td></tr>
-<tr class="separator:a6ba4e649a4e49d93fa7e8719602a046f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Hybrid zonotope class for <a class="el" href="namespaceZonoOpt.html">ZonoOpt</a> library. </p>

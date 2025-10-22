@@ -449,7 +449,7 @@ PYBIND11_MODULE(_core, m)
     ;
 
     // hybzono class
-    py::class_<HybZono>(m, "HybZono", R"pbdoc(
+    py::class_<HybZono, py::smart_holder>(m, "HybZono", R"pbdoc(
             Hybrid zonotope class
              
             A hybrid zonotope is defined as:
@@ -809,7 +809,7 @@ PYBIND11_MODULE(_core, m)
     ;
 
     // conzono class
-    py::class_<ConZono, HybZono /* parent type */>(m, "ConZono",
+    py::class_<ConZono, HybZono /* parent type */, py::smart_holder>(m, "ConZono",
             R"pbdoc(
                 Constrained zonotope class
                 
@@ -861,7 +861,7 @@ PYBIND11_MODULE(_core, m)
     ;
 
     // zono class
-    py::class_<Zono, ConZono /* parent type */>(m, "Zono", 
+    py::class_<Zono, ConZono /* parent type */, py::smart_holder>(m, "Zono",
             R"pbdoc(
                 Zonotope class
                 
@@ -913,7 +913,7 @@ PYBIND11_MODULE(_core, m)
     ;
 
     // point class
-    py::class_<Point, Zono /* parent type */>(m, "Point", 
+    py::class_<Point, Zono /* parent type */, py::smart_holder>(m, "Point",
             R"pbdoc(
                 Point class
                 
@@ -936,7 +936,7 @@ PYBIND11_MODULE(_core, m)
     ;
 
     // empty set class
-    py::class_<EmptySet, ConZono>(m, "EmptySet",
+    py::class_<EmptySet, ConZono, py::smart_holder>(m, "EmptySet",
             R"pbdoc(
                 Empty Set class
 

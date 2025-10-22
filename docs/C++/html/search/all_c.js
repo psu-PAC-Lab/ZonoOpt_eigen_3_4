@@ -6,7 +6,8 @@ var searchData=
   ['mi_5fdatastructures_2ehpp_3',['MI_DataStructures.hpp',['../MI__DataStructures_8hpp.html',1,'']]],
   ['mi_5fopt_4',['mi_opt',['../classZonoOpt_1_1HybZono.html#a25494dd32f36a24a052ed974057a054b',1,'ZonoOpt::HybZono']]],
   ['mi_5fopt_5fmultisol_5',['mi_opt_multisol',['../classZonoOpt_1_1HybZono.html#a18d3038c7026d1698160b6cabe6026ba',1,'ZonoOpt::HybZono']]],
-  ['mi_5fsolver_2ehpp_6',['MI_Solver.hpp',['../MI__Solver_8hpp.html',1,'']]],
-  ['minkowski_5fsum_7',['minkowski_sum',['../classZonoOpt_1_1HybZono.html#a229e84dc0e86777fc1cfd51a28d19fe5',1,'ZonoOpt::HybZono::minkowski_sum'],['../group__ZonoOpt__SetOperations.html#ga2b0dff8af8367ac206cf800412838ce7',1,'ZonoOpt::minkowski_sum()']]],
-  ['multiply_5fassign_8',['multiply_assign',['../structZonoOpt_1_1IntervalBase.html#ad7bac641ca216b03ab178cb78ffd0654',1,'ZonoOpt::IntervalBase::multiply_assign(const Derived &amp;x1, const Derived &amp;x2)'],['../structZonoOpt_1_1IntervalBase.html#ae9b0dc343356b2d7c60df36ab215c4e5',1,'ZonoOpt::IntervalBase::multiply_assign(const Derived &amp;x1, zono_float alpha)']]]
+  ['mi_5fsolver_2ecpp_6',['MI_Solver.cpp',['../MI__Solver_8cpp.html',1,'']]],
+  ['mi_5fsolver_2ehpp_7',['MI_Solver.hpp',['../MI__Solver_8hpp.html',1,'']]],
+  ['minkowski_5fsum_8',['minkowski_sum',['../classZonoOpt_1_1HybZono.html#a229e84dc0e86777fc1cfd51a28d19fe5',1,'ZonoOpt::HybZono::minkowski_sum'],['../group__ZonoOpt__SetOperations.html#ga2b0dff8af8367ac206cf800412838ce7',1,'ZonoOpt::minkowski_sum()']]],
+  ['multiply_5fassign_9',['multiply_assign',['../structZonoOpt_1_1IntervalBase.html#ad7bac641ca216b03ab178cb78ffd0654',1,'ZonoOpt::IntervalBase::multiply_assign(const Derived &amp;x1, const Derived &amp;x2)'],['../structZonoOpt_1_1IntervalBase.html#ae9b0dc343356b2d7c60df36ab215c4e5',1,'ZonoOpt::IntervalBase::multiply_assign(const Derived &amp;x1, zono_float alpha)']]]
 ];
