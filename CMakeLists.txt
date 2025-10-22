@@ -45,13 +45,6 @@ if (BUILD_PYTHON_BINDINGS)
     find_package(pybind11 CONFIG REQUIRED)
 endif()
 
-
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-if(COMPILER_SUPPORTS_MARCH_NATIVE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-endif()
-
 # submodule
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     message(STATUS "Updating Git submodules...")
@@ -129,6 +122,13 @@ if (MSVC)
     target_compile_options(${TARGET_VAR} PRIVATE /bigobj /W3)
 else()
     target_compile_options(${TARGET_VAR} PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+# march native
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(${TARGET_VAR} PUBLIC -march=native)
+elseif(MSVC)
+    target_compile_options(${TARGET_VAR} PUBLIC /arch:AVX2)
 endif()
 
 # C++ example
