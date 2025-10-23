@@ -1,8 +1,3 @@
-# Reference:
-# https://github.com/pybind/scikit_build_example/blob/master/CMakeLists.txt
-
-# Require CMake 3.15+ (matching scikit-build-core) Use new versions of all
-# policies up to CMake 3.27
 cmake_minimum_required(VERSION 3.15...3.27)
 
 option(ZONOOPT_BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
@@ -51,9 +46,7 @@ else()
     set(TARGET_VAR ZonoOpt)
 endif()
 
-# compiler flags
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# release / debug
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'Release' by default.")
   set(CMAKE_BUILD_TYPE Release)
@@ -121,7 +114,7 @@ if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # The install directory is the output (wheel) directory
     install(TARGETS ${TARGET_VAR} DESTINATION zonoopt)
 else()
-    add_library(${TARGET_VAR} SHARED
+    add_library(${TARGET_VAR} STATIC
         ${SOURCE_FILES}
     )
 endif()
@@ -132,8 +125,19 @@ target_include_directories(${TARGET_VAR} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_include_directories(${TARGET_VAR} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
+# Eigen
+add_library(Eigen_Headers INTERFACE)
+
+target_include_directories(Eigen_Headers INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
+    $<INSTALL_INTERFACE:include/extern/eigen>
+)
+
+target_link_libraries(${TARGET_VAR} PUBLIC Eigen_Headers)
+
+# C++ standard
+target_compile_features(${TARGET_VAR} 
+    PUBLIC cxx_std_17
 )
 
 # preprocessor definitions
@@ -168,6 +172,7 @@ if (ZONOOPT_INSTALL_BUILD)
     include(CMakePackageConfigHelpers)
 
     # Install the target
+    install(TARGETS Eigen_Headers EXPORT ZonoOptTargets)
     install(TARGETS ${TARGET_VAR}
             EXPORT ZonoOptTargets
             ARCHIVE DESTINATION lib
@@ -178,6 +183,7 @@ if (ZONOOPT_INSTALL_BUILD)
 
     # Install headers
     install(DIRECTORY include/ DESTINATION include)
+    install(DIRECTORY extern/eigen/ DESTINATION include/extern/eigen)
 
     # Export the targets
     install(EXPORT ZonoOptTargets
