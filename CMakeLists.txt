@@ -5,8 +5,26 @@
 # policies up to CMake 3.27
 cmake_minimum_required(VERSION 3.15...3.27)
 
-option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
-message(STATUS "Building Python Bindings: ${BUILD_PYTHON_BINDINGS}")
+option(ZONOOPT_BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
+message(STATUS "ZONOOPT_BUILD_PYTHON_BINDINGS set to: ${ZONOOPT_BUILD_PYTHON_BINDINGS}")
+
+option(ZONOOPT_INSTALL_BUILD "Build with install rules" OFF)
+if(ZONOOPT_BUILD_PYTHON_BINDINGS)
+    set(ZONOOPT_INSTALL_BUILD OFF CACHE BOOL "Disable install build when building Python bindings" FORCE)
+endif()
+message(STATUS "ZONOOPT_INSTALL_BUILD set to: ${ZONOOPT_INSTALL_BUILD}")
+
+option(ZONOOPT_USE_NATIVE "Enable native vectorization (march=native)" ON)
+if(ZONOOPT_INSTALL_BUILD)
+    set(ZONOOPT_USE_NATIVE OFF CACHE BOOL "Disable march=native for install builds" FORCE)
+endif()
+message(STATUS "ZONOOPT_USE_NATIVE set to: ${ZONOOPT_USE_NATIVE}")
+
+option(ZONOOPT_BUILD_EXAMPLE "Build example executable" OFF)
+if(ZONOOPT_BUILD_PYTHON_BINDINGS)
+    set(ZONOOPT_BUILD_EXAMPLE OFF CACHE BOOL "Disable example build when building Python bindings" FORCE)
+endif()
+message(STATUS "ZONOOPT_BUILD_EXAMPLE set to: ${ZONOOPT_BUILD_EXAMPLE}")
 
 set(ZONO_FLOAT "double" CACHE STRING "The underlying floating-point type for ZonoOpt library.")
 message(STATUS "ZONO_FLOAT set to: ${ZONO_FLOAT}")
@@ -14,14 +32,8 @@ message(STATUS "ZONO_FLOAT set to: ${ZONO_FLOAT}")
 set(ZONO_EPS "1e-12" CACHE STRING "Numerical precision for floating point comparisons in ZonoOpt.")
 message(STATUS "ZONO_EPS set to: ${ZONO_EPS}")
 
-option(ZONOOPT_USE_NATIVE "Enable native vectorization (march=native)" ON)
-message(STATUS "ZONOOPT_USE_NATIVE set to: ${ZONOOPT_USE_NATIVE}")
-
-option(ZONOOPT_INSTALL_BUILD "Build with install rules" OFF)
-message(STATUS "ZONOOPT_INSTALL_BUILD set to: ${ZONOOPT_INSTALL_BUILD}")
-
 # project name
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Scikit-build-core sets these values for you, or you can just hard-code the
     # name and version.
     project(
@@ -47,7 +59,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Find the module development requirements (requires FindPython from 3.17 or
     # scikit-build-core's built-in backport)
     find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
@@ -91,7 +103,7 @@ set(SOURCE_FILES
 )
 
 # build
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Add a library using FindPython's tooling (pybind11 also provides a helper like
     # this)
     python_add_library(${TARGET_VAR} MODULE
@@ -138,7 +150,7 @@ else()
 endif()
 
 # march native
-if (ZONOOPT_USE_NATIVE AND NOT ZONOOPT_INSTALL_BUILD)
+if (ZONOOPT_USE_NATIVE)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         target_compile_options(${TARGET_VAR} PUBLIC -march=native)
     elseif(MSVC)
@@ -147,12 +159,12 @@ if (ZONOOPT_USE_NATIVE AND NOT ZONOOPT_INSTALL_BUILD)
 endif()
 
 # C++ example
-if (NOT BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_EXAMPLE)
     # build test executable
     add_subdirectory(test)
 endif()
 
-if (ZONOOPT_INSTALL_BUILD AND NOT BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_INSTALL_BUILD)
     include(CMakePackageConfigHelpers)
 
     # Install the target
