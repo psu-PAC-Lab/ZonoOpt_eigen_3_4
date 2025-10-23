@@ -1,12 +1,25 @@
-# Reference:
-# https://github.com/pybind/scikit_build_example/blob/master/CMakeLists.txt
-
-# Require CMake 3.15+ (matching scikit-build-core) Use new versions of all
-# policies up to CMake 3.27
 cmake_minimum_required(VERSION 3.15...3.27)
 
-option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
-message(STATUS "Building Python Bindings: ${BUILD_PYTHON_BINDINGS}")
+option(ZONOOPT_BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
+message(STATUS "ZONOOPT_BUILD_PYTHON_BINDINGS set to: ${ZONOOPT_BUILD_PYTHON_BINDINGS}")
+
+option(ZONOOPT_INSTALL_BUILD "Build with install rules" OFF)
+if(ZONOOPT_BUILD_PYTHON_BINDINGS)
+    set(ZONOOPT_INSTALL_BUILD OFF CACHE BOOL "Disable install build when building Python bindings" FORCE)
+endif()
+message(STATUS "ZONOOPT_INSTALL_BUILD set to: ${ZONOOPT_INSTALL_BUILD}")
+
+option(ZONOOPT_USE_NATIVE "Enable native vectorization (march=native)" ON)
+if(ZONOOPT_INSTALL_BUILD)
+    set(ZONOOPT_USE_NATIVE OFF CACHE BOOL "Disable march=native for install builds" FORCE)
+endif()
+message(STATUS "ZONOOPT_USE_NATIVE set to: ${ZONOOPT_USE_NATIVE}")
+
+option(ZONOOPT_BUILD_EXAMPLE "Build example executable" OFF)
+if(ZONOOPT_BUILD_PYTHON_BINDINGS)
+    set(ZONOOPT_BUILD_EXAMPLE OFF CACHE BOOL "Disable example build when building Python bindings" FORCE)
+endif()
+message(STATUS "ZONOOPT_BUILD_EXAMPLE set to: ${ZONOOPT_BUILD_EXAMPLE}")
 
 set(ZONO_FLOAT "double" CACHE STRING "The underlying floating-point type for ZonoOpt library.")
 message(STATUS "ZONO_FLOAT set to: ${ZONO_FLOAT}")
@@ -15,7 +28,7 @@ set(ZONO_EPS "1e-12" CACHE STRING "Numerical precision for floating point compar
 message(STATUS "ZONO_EPS set to: ${ZONO_EPS}")
 
 # project name
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Scikit-build-core sets these values for you, or you can just hard-code the
     # name and version.
     project(
@@ -26,19 +39,20 @@ if (BUILD_PYTHON_BINDINGS)
     
     set(TARGET_VAR _core)
 else()
-    project(ZonoOpt LANGUAGES CXX)
+    project(ZonoOpt
+        VERSION 2.0.1
+        LANGUAGES CXX
+    )
     set(TARGET_VAR ZonoOpt)
 endif()
 
-# compiler flags
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# release / debug
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'Release' by default.")
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Find the module development requirements (requires FindPython from 3.17 or
     # scikit-build-core's built-in backport)
     find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
@@ -82,7 +96,7 @@ set(SOURCE_FILES
 )
 
 # build
-if (BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_PYTHON_BINDINGS)
     # Add a library using FindPython's tooling (pybind11 also provides a helper like
     # this)
     python_add_library(${TARGET_VAR} MODULE
@@ -105,14 +119,29 @@ else()
     )
 endif()
 
+
 target_include_directories(${TARGET_VAR} PUBLIC
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    SYSTEM $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+# Eigen
+add_library(Eigen_Headers INTERFACE)
+
+target_include_directories(Eigen_Headers INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
+    $<INSTALL_INTERFACE:include/extern/eigen>
+)
+
+target_link_libraries(${TARGET_VAR} PUBLIC Eigen_Headers)
+
+# C++ standard
+target_compile_features(${TARGET_VAR} 
+    PUBLIC cxx_std_17
 )
 
 # preprocessor definitions
-target_compile_definitions(${TARGET_VAR} PUBLIC
+target_compile_definitions(${TARGET_VAR} PRIVATE
     zono_float=${ZONO_FLOAT}
     zono_eps=${ZONO_EPS}
 )
@@ -125,14 +154,59 @@ else()
 endif()
 
 # march native
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(${TARGET_VAR} PUBLIC -march=native)
-elseif(MSVC)
-    target_compile_options(${TARGET_VAR} PUBLIC /arch:AVX2)
+if (ZONOOPT_USE_NATIVE)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${TARGET_VAR} PUBLIC -march=native)
+    elseif(MSVC)
+        target_compile_options(${TARGET_VAR} PUBLIC /arch:AVX2)
+    endif()
 endif()
 
 # C++ example
-if (NOT BUILD_PYTHON_BINDINGS)
+if (ZONOOPT_BUILD_EXAMPLE)
     # build test executable
     add_subdirectory(test)
+endif()
+
+if (ZONOOPT_INSTALL_BUILD)
+    include(CMakePackageConfigHelpers)
+
+    # Install the target
+    install(TARGETS Eigen_Headers EXPORT ZonoOptTargets)
+    install(TARGETS ${TARGET_VAR}
+            EXPORT ZonoOptTargets
+            ARCHIVE DESTINATION lib
+            LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin
+            INCLUDES DESTINATION include
+    )
+
+    # Install headers
+    install(DIRECTORY include/ DESTINATION include)
+    install(DIRECTORY extern/eigen/ DESTINATION include/extern/eigen)
+
+    # Export the targets
+    install(EXPORT ZonoOptTargets
+            FILE ZonoOptTargets.cmake
+            DESTINATION lib/cmake/ZonoOpt
+    )
+
+    # Create and install the config files
+    configure_package_config_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/ZonoOptConfig.cmake.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfig.cmake"
+            INSTALL_DESTINATION lib/cmake/ZonoOpt
+    )
+
+    write_basic_package_version_file(
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfigVersion.cmake"
+            VERSION ${PROJECT_VERSION}
+            COMPATIBILITY SameMajorVersion
+    )
+
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfig.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfigVersion.cmake"
+            DESTINATION lib/cmake/ZonoOpt
+    )
 endif()

@@ -48,4 +48,4 @@ build-frontend = "build[uv]"
 build-verbosity = 1
 
 [tool.scikit-build]
-cmake.args = ["-DBUILD_PYTHON_BINDINGS=ON"]
+cmake.args = ["-DZONOOPT_BUILD_PYTHON_BINDINGS=ON"]
