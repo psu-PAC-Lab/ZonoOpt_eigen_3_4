@@ -14,6 +14,12 @@ message(STATUS "ZONO_FLOAT set to: ${ZONO_FLOAT}")
 set(ZONO_EPS "1e-12" CACHE STRING "Numerical precision for floating point comparisons in ZonoOpt.")
 message(STATUS "ZONO_EPS set to: ${ZONO_EPS}")
 
+option(ZONOOPT_USE_NATIVE "Enable native vectorization (march=native)" ON)
+message(STATUS "ZONOOPT_USE_NATIVE set to: ${ZONOOPT_USE_NATIVE}")
+
+option(ZONOOPT_INSTALL_BUILD "Build with install rules" OFF)
+message(STATUS "ZONOOPT_INSTALL_BUILD set to: ${ZONOOPT_INSTALL_BUILD}")
+
 # project name
 if (BUILD_PYTHON_BINDINGS)
     # Scikit-build-core sets these values for you, or you can just hard-code the
@@ -26,7 +32,10 @@ if (BUILD_PYTHON_BINDINGS)
     
     set(TARGET_VAR _core)
 else()
-    project(ZonoOpt LANGUAGES CXX)
+    project(ZonoOpt
+        VERSION 2.0.1
+        LANGUAGES CXX
+    )
     set(TARGET_VAR ZonoOpt)
 endif()
 
@@ -100,19 +109,23 @@ if (BUILD_PYTHON_BINDINGS)
     # The install directory is the output (wheel) directory
     install(TARGETS ${TARGET_VAR} DESTINATION zonoopt)
 else()
-    add_library(${TARGET_VAR} STATIC
+    add_library(${TARGET_VAR} SHARED
         ${SOURCE_FILES}
     )
 endif()
 
+
 target_include_directories(${TARGET_VAR} PUBLIC
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    SYSTEM $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+target_include_directories(${TARGET_VAR} PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen>
 )
 
 # preprocessor definitions
-target_compile_definitions(${TARGET_VAR} PUBLIC
+target_compile_definitions(${TARGET_VAR} PRIVATE
     zono_float=${ZONO_FLOAT}
     zono_eps=${ZONO_EPS}
 )
@@ -125,14 +138,57 @@ else()
 endif()
 
 # march native
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(${TARGET_VAR} PUBLIC -march=native)
-elseif(MSVC)
-    target_compile_options(${TARGET_VAR} PUBLIC /arch:AVX2)
+if (ZONOOPT_USE_NATIVE AND NOT ZONOOPT_INSTALL_BUILD)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(${TARGET_VAR} PUBLIC -march=native)
+    elseif(MSVC)
+        target_compile_options(${TARGET_VAR} PUBLIC /arch:AVX2)
+    endif()
 endif()
 
 # C++ example
 if (NOT BUILD_PYTHON_BINDINGS)
     # build test executable
     add_subdirectory(test)
+endif()
+
+if (ZONOOPT_INSTALL_BUILD AND NOT BUILD_PYTHON_BINDINGS)
+    include(CMakePackageConfigHelpers)
+
+    # Install the target
+    install(TARGETS ${TARGET_VAR}
+            EXPORT ZonoOptTargets
+            ARCHIVE DESTINATION lib
+            LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin
+            INCLUDES DESTINATION include
+    )
+
+    # Install headers
+    install(DIRECTORY include/ DESTINATION include)
+
+    # Export the targets
+    install(EXPORT ZonoOptTargets
+            FILE ZonoOptTargets.cmake
+            DESTINATION lib/cmake/ZonoOpt
+    )
+
+    # Create and install the config files
+    configure_package_config_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/ZonoOptConfig.cmake.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfig.cmake"
+            INSTALL_DESTINATION lib/cmake/ZonoOpt
+    )
+
+    write_basic_package_version_file(
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfigVersion.cmake"
+            VERSION ${PROJECT_VERSION}
+            COMPATIBILITY SameMajorVersion
+    )
+
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfig.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/ZonoOptConfigVersion.cmake"
+            DESTINATION lib/cmake/ZonoOpt
+    )
 endif()
