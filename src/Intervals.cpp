@@ -309,7 +309,8 @@ namespace ZonoOpt
                     }
 
                     // update interval
-                    (*this)[col].intersect_assign((*this)[col], (x * (one/a_col)).as_view());
+                    if (std::abs(a_col) > zono_eps) // divide by zero protection
+                        (*this)[col].intersect_assign((*this)[col], (x * (one/a_col)).as_view());
                 }
             }
         }
