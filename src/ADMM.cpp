@@ -220,7 +220,7 @@ namespace ZonoOpt
         }
         else
         {
-            xk = 0.5*(x_box.lower() + x_box.upper());
+            xk = 0.5 * (x_box.lower() + x_box.upper());
             uk = Eigen::Vector<zono_float, -1>::Zero(this->data->n_x);
         }
         zk = xk;
@@ -229,7 +229,8 @@ namespace ZonoOpt
         zkm1 = zk;
 
         // init residuals
-        zono_float rp_k=std::numeric_limits<zono_float>::infinity(), rd_k=std::numeric_limits<zono_float>::infinity();
+        zono_float rp_k = std::numeric_limits<zono_float>::infinity(), rd_k = std::numeric_limits<
+                       zono_float>::infinity();
 
         // init loop
         int k = 0;
@@ -237,11 +238,12 @@ namespace ZonoOpt
             std::chrono::high_resolution_clock::now() - start).count());
         bool converged = false, infeasible = false;
 
-        while ((k < this->data->settings.k_max_admm) && (run_time+solution.startup_time < this->data->settings.t_max) && !converged && !infeasible
+        while ((k < this->data->settings.k_max_admm) && (run_time + solution.startup_time < this->data->settings.t_max)
+            && !converged && !infeasible
             && !(stop && (*stop)))
         {
             // x update
-            rhs.segment(0, this->data->n_x) = -this->data->q + this->data->settings.rho*(zk - uk);
+            rhs.segment(0, this->data->n_x) = -this->data->q + this->data->settings.rho * (zk - uk);
             x_nu = solve_LDLT(this->data->ldlt_data_M, rhs);
             xk = x_nu.segment(0, this->data->n_x);
 
@@ -267,14 +269,15 @@ namespace ZonoOpt
             if (this->data->settings.inf_norm_conv)
             {
                 rp_k = (xk - zk).cwiseAbs().maxCoeff();
-                rd_k = this->data->settings.rho*(zk - zkm1).cwiseAbs().maxCoeff();
+                rd_k = this->data->settings.rho * (zk - zkm1).cwiseAbs().maxCoeff();
                 converged = (rp_k < this->eps_prim && rd_k < this->eps_dual);
             }
             else
             {
                 rp_k = (xk - zk).norm();
-                rd_k = this->data->settings.rho*(zk - zkm1).norm();
-                converged = (rp_k < this->data->sqrt_n_x*this->eps_prim && rd_k < this->data->sqrt_n_x*this->eps_dual);
+                rd_k = this->data->settings.rho * (zk - zkm1).norm();
+                converged = (rp_k < this->data->sqrt_n_x * this->eps_prim && rd_k < this->data->sqrt_n_x * this->
+                    eps_dual);
             }
 
             // increment
@@ -321,10 +324,10 @@ namespace ZonoOpt
         solution.x = xk;
         solution.z = zk;
         solution.u = uk;
-        solution.J = (0.5*zk.transpose()*this->data->P*zk + this->data->q.transpose()*zk + this->data->c)(0);
+        solution.J = (0.5 * zk.transpose() * this->data->P * zk + this->data->q.transpose() * zk + this->data->c)(0);
         solution.primal_residual = rp_k;
         solution.dual_residual = rd_k;
-        solution.run_time = run_time+solution.startup_time;
+        solution.run_time = run_time + solution.startup_time;
         solution.iter = k;
         solution.converged = converged;
         solution.infeasible = infeasible;
@@ -333,11 +336,11 @@ namespace ZonoOpt
     void ADMM_solver::factorize_M() const
     {
         // system matrix
-        Eigen::SparseMatrix<zono_float> M (this->data->n_x + this->data->n_cons, this->data->n_x + this->data->n_cons);
+        Eigen::SparseMatrix<zono_float> M(this->data->n_x + this->data->n_cons, this->data->n_x + this->data->n_cons);
 
-        Eigen::SparseMatrix<zono_float> I (this->data->n_x, this->data->n_x);
+        Eigen::SparseMatrix<zono_float> I(this->data->n_x, this->data->n_x);
         I.setIdentity();
-        Eigen::SparseMatrix<zono_float> Phi = this->data->P + this->data->settings.rho*I;
+        Eigen::SparseMatrix<zono_float> Phi = this->data->P + this->data->settings.rho * I;
 
         std::vector<Eigen::Triplet<zono_float>> triplets;
         get_triplets_offset<zono_float>(Phi, triplets, 0, 0);
@@ -357,7 +360,7 @@ namespace ZonoOpt
     void ADMM_solver::factorize_AAT() const
     {
         // factorize A*AT
-        const Eigen::SparseMatrix<zono_float> AAT = this->data->A*this->data->AT;
+        const Eigen::SparseMatrix<zono_float> AAT = this->data->A * this->data->AT;
         Eigen::SimplicialLDLT<Eigen::SparseMatrix<zono_float>> ldlt_solver_AAT;
         ldlt_solver_AAT.compute(AAT);
         if (ldlt_solver_AAT.info() != Eigen::Success)
@@ -366,12 +369,12 @@ namespace ZonoOpt
     }
 
     bool ADMM_solver::is_infeasibility_certificate(const Eigen::Vector<zono_float, -1>& ek,
-            const Eigen::Vector<zono_float, -1>& xk, const Box& x_box) const
+                                                   const Eigen::Vector<zono_float, -1>& xk, const Box& x_box) const
     {
         // project ek onto row space of A (i.e. column space of AT)
-        Eigen::Vector<zono_float, -1> A_e = this->data->A*ek;
+        Eigen::Vector<zono_float, -1> A_e = this->data->A * ek;
         Eigen::Vector<zono_float, -1> AAT_inv_A_e = solve_LDLT(this->data->ldlt_data_AAT, A_e);
-        Eigen::Vector<zono_float, -1> ek_proj = this->data->AT*AAT_inv_A_e;
+        Eigen::Vector<zono_float, -1> ek_proj = this->data->AT * AAT_inv_A_e;
 
         // check if this is an infeasibility certificate
         const zono_float e_x = ek_proj.dot(xk);
@@ -381,7 +384,8 @@ namespace ZonoOpt
 
     bool ADMM_solver::check_problem_dimensions() const
     {
-        const bool prob_data_consistent = (this->data->P.rows() == this->data->n_x && this->data->P.cols() == this->data->n_x &&
+        const bool prob_data_consistent = (this->data->P.rows() == this->data->n_x && this->data->P.cols() == this->data
+            ->n_x &&
             this->data->q.size() == this->data->n_x && this->data->A.rows() == this->data->n_cons &&
             this->data->A.cols() == this->data->n_x && this->data->b.size() == this->data->n_cons &&
             this->data->x_box->size() == static_cast<size_t>(this->data->n_x));
@@ -397,6 +401,4 @@ namespace ZonoOpt
 
         return prob_data_consistent && warm_start_consistent;
     }
-
-
 }
