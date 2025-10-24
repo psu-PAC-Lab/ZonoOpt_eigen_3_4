@@ -11,7 +11,7 @@ namespace ZonoOpt
         // hybzono parameters
         this->c.resize(this->n);
         this->c.setConstant(std::numeric_limits<zono_float>::quiet_NaN());
-        this->G.resize(this->n,0);
+        this->G.resize(this->n, 0);
         this->nG = 0;
         this->nGc = this->nG;
         this->nGb = 0;
@@ -39,8 +39,8 @@ namespace ZonoOpt
     }
 
     Eigen::Vector<zono_float, -1> EmptySet::do_optimize_over(
-            const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
-            const OptSettings&, OptSolution* solution) const
+        const Eigen::SparseMatrix<zono_float>&, const Eigen::Vector<zono_float, -1>&, zono_float,
+        const OptSettings&, OptSolution* solution) const
     {
         if (solution)
         {
@@ -49,7 +49,8 @@ namespace ZonoOpt
         return Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::quiet_NaN());
     }
 
-    Eigen::Vector<zono_float, -1> EmptySet::do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&, OptSolution* solution) const
+    Eigen::Vector<zono_float, -1> EmptySet::do_project_point(const Eigen::Vector<zono_float, -1>&, const OptSettings&,
+                                                             OptSolution* solution) const
     {
         if (solution)
         {
@@ -74,8 +75,10 @@ namespace ZonoOpt
 
     Box EmptySet::do_bounding_box(const OptSettings&, OptSolution*)
     {
-        const Eigen::Vector<zono_float, -1> x_l = Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
-        const Eigen::Vector<zono_float, -1> x_u = -Eigen::Vector<zono_float, -1>::Constant(this->n, std::numeric_limits<zono_float>::infinity());
+        const Eigen::Vector<zono_float, -1> x_l = Eigen::Vector<zono_float, -1>::Constant(
+            this->n, std::numeric_limits<zono_float>::infinity());
+        const Eigen::Vector<zono_float, -1> x_u = -Eigen::Vector<zono_float, -1>::Constant(
+            this->n, std::numeric_limits<zono_float>::infinity());
         return {x_l, x_u};
     }
 
@@ -84,7 +87,8 @@ namespace ZonoOpt
         return true;
     }
 
-    std::unique_ptr<HybZono> EmptySet::do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int, int)
+    std::unique_ptr<HybZono> EmptySet::do_complement(zono_float delta_m, bool, const OptSettings&, OptSolution*, int,
+                                                     int)
     {
         const zono_float m = delta_m + 1; // box width
         const Eigen::Vector<zono_float, -1> x_l = -Eigen::Vector<zono_float, -1>::Constant(this->n, m);
